@@ -1,5 +1,7 @@
 # ICJIA Accessibility Status
 
+> **Last Updated**: November 11, 2025
+
 A comprehensive web accessibility tracking system for the Illinois Criminal Justice Information Authority, designed to monitor progress toward April 2026 compliance goals across all ICJIA web properties.
 
 > 📚 **[Complete Documentation](https://accessibility.icjia.app/docs)** | **[Local Docs](http://localhost:3002)** (when running `yarn dev`)
@@ -109,3 +111,7 @@ The documentation includes:
 ## License
 
 See LICENSE file for details.
+
+---
+
+© 2025 Illinois Criminal Justice Information Authority (ICJIA). All rights reserved.
