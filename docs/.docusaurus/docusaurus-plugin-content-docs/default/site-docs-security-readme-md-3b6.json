@@ -1,0 +1,19 @@
+{
+  "id": "security/README",
+  "title": "Security & Audits",
+  "description": "Welcome to the Security & Audits section of the ICJIA Accessibility Status Portal documentation.",
+  "source": "@site/docs/security/README.md",
+  "sourceDirName": "security",
+  "slug": "/security/",
+  "permalink": "/docs/security/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/README.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0,
+    "title": "Security & Audits"
+  }
+}

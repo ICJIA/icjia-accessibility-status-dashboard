@@ -42,17 +42,17 @@
       "plugin": "plugin---docusaurus-debugb-38-ad3"
     }
   },
-  "/docs-677": {
+  "/docs-725": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-d3e": {
+  "/docs-54d": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-be6": {
+  "/docs-8c3": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/api/api-keys-a89": {
@@ -206,6 +206,10 @@
   "/docs/reset-scripts-299": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-reset-scripts-2-c-8-a78"
+  },
+  "/docs/security/-bdd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-security-3-b-6-9b0"
   },
   "/docs/security/audit-overview-365": {
     "__comp": "__comp---theme-doc-item-178-a40",

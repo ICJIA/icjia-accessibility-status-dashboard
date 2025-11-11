@@ -1,0 +1,27 @@
+.navbarWrapper {
+  position: relative;
+}
+
+.healthIndicatorContainer {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .healthIndicatorContainer {
+    right: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .healthIndicatorContainer {
+    right: 0.5rem;
+  }
+}
+

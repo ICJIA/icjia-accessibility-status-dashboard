@@ -218,6 +218,10 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "security/README",
+              "path": "/docs/security/"
+            },
+            {
               "id": "security/security-findings",
               "path": "/docs/security/security-findings",
               "sidebar": "tutorialSidebar"

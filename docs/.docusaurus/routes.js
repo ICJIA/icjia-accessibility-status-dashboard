@@ -39,15 +39,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '677'),
+    component: ComponentCreator('/docs', '725'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'd3e'),
+        component: ComponentCreator('/docs', '54d'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'be6'),
+            component: ComponentCreator('/docs', '8c3'),
             routes: [
               {
                 path: '/docs/api/api-keys',
@@ -273,6 +273,11 @@ export default [
                 component: ComponentCreator('/docs/reset-scripts', '299'),
                 exact: true,
                 sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/security/',
+                component: ComponentCreator('/docs/security/', 'bdd'),
+                exact: true
               },
               {
                 path: '/docs/security/audit-overview',
