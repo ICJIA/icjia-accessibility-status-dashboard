@@ -1,0 +1,28 @@
+{
+  "id": "security/critical-issues-fixed",
+  "title": "Critical Issues Fixed",
+  "description": "Date: November 11, 2024",
+  "source": "@site/docs/security/critical-issues-fixed.md",
+  "sourceDirName": "security",
+  "slug": "/security/critical-issues-fixed",
+  "permalink": "/docs/security/critical-issues-fixed",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/critical-issues-fixed.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5,
+    "title": "Critical Issues Fixed"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Security Findings",
+    "permalink": "/docs/security/security-findings"
+  },
+  "next": {
+    "title": "Minor Issues Fixed",
+    "permalink": "/docs/security/minor-issues-fixed"
+  }
+}

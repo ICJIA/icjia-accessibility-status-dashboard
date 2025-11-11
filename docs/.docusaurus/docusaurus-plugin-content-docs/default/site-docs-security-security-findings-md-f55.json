@@ -1,0 +1,28 @@
+{
+  "id": "security/security-findings",
+  "title": "Security Findings",
+  "description": "Comprehensive Application Audit",
+  "source": "@site/docs/security/security-findings.md",
+  "sourceDirName": "security",
+  "slug": "/security/security-findings",
+  "permalink": "/docs/security/security-findings",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/security-findings.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3,
+    "title": "Security Findings"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Complete Audit Report",
+    "permalink": "/docs/security/complete-audit-report"
+  },
+  "next": {
+    "title": "Critical Issues Fixed",
+    "permalink": "/docs/security/critical-issues-fixed"
+  }
+}

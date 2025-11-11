@@ -1,0 +1,28 @@
+{
+  "id": "security/minor-issues-fixed",
+  "title": "Minor Issues Fixed",
+  "description": "Date: November 11, 2024",
+  "source": "@site/docs/security/minor-issues-fixed.md",
+  "sourceDirName": "security",
+  "slug": "/security/minor-issues-fixed",
+  "permalink": "/docs/security/minor-issues-fixed",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/minor-issues-fixed.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4,
+    "title": "Minor Issues Fixed"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Critical Issues Fixed",
+    "permalink": "/docs/security/critical-issues-fixed"
+  },
+  "next": {
+    "title": "Common Issues and Solutions",
+    "permalink": "/docs/troubleshooting/common-issues"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "security/complete-audit-report",
+  "title": "Complete Audit Report",
+  "description": "ICJIA Accessibility Status Portal",
+  "source": "@site/docs/security/complete-audit-report.md",
+  "sourceDirName": "security",
+  "slug": "/security/complete-audit-report",
+  "permalink": "/docs/security/complete-audit-report",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/complete-audit-report.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2,
+    "title": "Complete Audit Report"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Audit Overview",
+    "permalink": "/docs/security/audit-overview"
+  },
+  "next": {
+    "title": "Security Findings",
+    "permalink": "/docs/security/security-findings"
+  }
+}

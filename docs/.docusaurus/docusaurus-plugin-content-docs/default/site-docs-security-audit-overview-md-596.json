@@ -1,0 +1,28 @@
+{
+  "id": "security/audit-overview",
+  "title": "Audit Overview",
+  "description": "Date: November 11, 2024",
+  "source": "@site/docs/security/audit-overview.md",
+  "sourceDirName": "security",
+  "slug": "/security/audit-overview",
+  "permalink": "/docs/security/audit-overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/audit-overview.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1,
+    "title": "Audit Overview"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Verification Report",
+    "permalink": "/docs/deployment/verification-report"
+  },
+  "next": {
+    "title": "Complete Audit Report",
+    "permalink": "/docs/security/complete-audit-report"
+  }
+}

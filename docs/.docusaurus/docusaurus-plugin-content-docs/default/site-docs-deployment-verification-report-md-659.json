@@ -1,0 +1,29 @@
+{
+  "id": "deployment/verification-report",
+  "title": "Verification Report",
+  "description": "General verification report for deployment",
+  "source": "@site/docs/deployment/verification-report.md",
+  "sourceDirName": "deployment",
+  "slug": "/deployment/verification-report",
+  "permalink": "/docs/deployment/verification-report",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/verification-report.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 14,
+  "frontMatter": {
+    "title": "Verification Report",
+    "sidebar_position": 14,
+    "description": "General verification report for deployment"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Forge Script Setup",
+    "permalink": "/docs/deployment/forge-script-setup"
+  },
+  "next": {
+    "title": "Audit Overview",
+    "permalink": "/docs/security/audit-overview"
+  }
+}
