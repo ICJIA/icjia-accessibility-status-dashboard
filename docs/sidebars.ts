@@ -66,6 +66,7 @@ const sidebars: SidebarsConfig = {
         "deployment/docusaurus-deployment",
         "deployment/forge-script-setup",
         "deployment/verification-report",
+        "deployment/docker-audit-report",
       ],
     },
     {
