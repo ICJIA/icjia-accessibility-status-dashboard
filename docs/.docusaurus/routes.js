@@ -39,15 +39,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '725'),
+    component: ComponentCreator('/docs', '08d'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '54d'),
+        component: ComponentCreator('/docs', '040'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '8c3'),
+            component: ComponentCreator('/docs', 'f1c'),
             routes: [
               {
                 path: '/docs/api/api-keys',
@@ -152,6 +152,12 @@ export default [
               {
                 path: '/docs/deployment/deployment-verification',
                 component: ComponentCreator('/docs/deployment/deployment-verification', 'e49'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/deployment/docker-audit-report',
+                component: ComponentCreator('/docs/deployment/docker-audit-report', 'fc2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

@@ -99,6 +99,11 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "deployment/docker-audit-report",
+              "path": "/docs/deployment/docker-audit-report",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "deployment/docusaurus-deployment",
               "path": "/docs/deployment/docusaurus-deployment",
               "sidebar": "tutorialSidebar"

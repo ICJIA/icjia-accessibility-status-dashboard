@@ -18,8 +18,8 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Verification Report",
-    "permalink": "/docs/deployment/verification-report"
+    "title": "🐳 Docker Comprehensive Audit Report",
+    "permalink": "/docs/deployment/docker-audit-report"
   },
   "next": {
     "title": "Complete Audit Report",

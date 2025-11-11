@@ -23,7 +23,7 @@
     "permalink": "/docs/deployment/forge-script-setup"
   },
   "next": {
-    "title": "Audit Overview",
-    "permalink": "/docs/security/audit-overview"
+    "title": "🐳 Docker Comprehensive Audit Report",
+    "permalink": "/docs/deployment/docker-audit-report"
   }
 }

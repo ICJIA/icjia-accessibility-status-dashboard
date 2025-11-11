@@ -42,17 +42,17 @@
       "plugin": "plugin---docusaurus-debugb-38-ad3"
     }
   },
-  "/docs-725": {
+  "/docs-08d": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-54d": {
+  "/docs-040": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-8c3": {
+  "/docs-f1c": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/api/api-keys-a89": {
@@ -126,6 +126,10 @@
   "/docs/deployment/deployment-verification-e49": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-deployment-deployment-verification-2-ec-e09"
+  },
+  "/docs/deployment/docker-audit-report-fc2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-deployment-docker-audit-report-948-5d0"
   },
   "/docs/deployment/docusaurus-deployment-870": {
     "__comp": "__comp---theme-doc-item-178-a40",
