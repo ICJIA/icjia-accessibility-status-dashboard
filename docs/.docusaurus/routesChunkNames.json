@@ -1,273 +1,230 @@
 {
-  "/__docusaurus/debug-5ff": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
+  "/docs/docs-316": {
+    "__comp": "5e95c892",
     "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
+      "plugin": "aba21aa0"
     }
   },
-  "/__docusaurus/debug/config-5ba": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
+  "/docs/docs-33b": {
+    "__comp": "a7bd4aaa",
+    "__props": "a2065270"
   },
-  "/__docusaurus/debug/content-a2b": {
-    "__comp": "__comp---theme-debug-contentba-8-ce7",
+  "/docs/docs-efb": {
+    "__comp": "a94703ab"
+  },
+  "/docs/docs/api/api-keys-47a": {
+    "__comp": "17896441",
+    "content": "12197015"
+  },
+  "/docs/docs/api/authentication-13e": {
+    "__comp": "17896441",
+    "content": "baeff1df"
+  },
+  "/docs/docs/api/overview-0ca": {
+    "__comp": "17896441",
+    "content": "65df3d35"
+  },
+  "/docs/docs/api/sites-6a1": {
+    "__comp": "17896441",
+    "content": "dd11f085"
+  },
+  "/docs/docs/architecture-e8e": {
+    "__comp": "17896441",
+    "content": "5281b7a2"
+  },
+  "/docs/docs/authentication-8bd": {
+    "__comp": "17896441",
+    "content": "625b1ed7"
+  },
+  "/docs/docs/configuration/env-configuration-701": {
+    "__comp": "17896441",
+    "content": "91e90750"
+  },
+  "/docs/docs/configuration/env-sample-audit-3a8": {
+    "__comp": "17896441",
+    "content": "d31e825d"
+  },
+  "/docs/docs/database-schema-4ee": {
+    "__comp": "17896441",
+    "content": "dbec3532"
+  },
+  "/docs/docs/deployment/automated-deployment-b5a": {
+    "__comp": "17896441",
+    "content": "8f470869"
+  },
+  "/docs/docs/deployment/automated-deployment-complete-c26": {
+    "__comp": "17896441",
+    "content": "c10930a6"
+  },
+  "/docs/docs/deployment/automated-deployment-setup-b41": {
+    "__comp": "17896441",
+    "content": "86862238"
+  },
+  "/docs/docs/deployment/coolify-deployment-012": {
+    "__comp": "17896441",
+    "content": "a5243f67"
+  },
+  "/docs/docs/deployment/database-backups-598": {
+    "__comp": "17896441",
+    "content": "2e731428"
+  },
+  "/docs/docs/deployment/deployment-complete-3f1": {
+    "__comp": "17896441",
+    "content": "5effefc4"
+  },
+  "/docs/docs/deployment/deployment-flow-5e2": {
+    "__comp": "17896441",
+    "content": "d4a754b9"
+  },
+  "/docs/docs/deployment/deployment-scripts-reference-92f": {
+    "__comp": "17896441",
+    "content": "f7514b23"
+  },
+  "/docs/docs/deployment/deployment-verification-88f": {
+    "__comp": "17896441",
+    "content": "2ec95c7d"
+  },
+  "/docs/docs/deployment/docker-audit-report-e85": {
+    "__comp": "17896441",
+    "content": "948f40f6"
+  },
+  "/docs/docs/deployment/docusaurus-deployment-018": {
+    "__comp": "17896441",
+    "content": "5e21bd11"
+  },
+  "/docs/docs/deployment/environment-verification-561": {
+    "__comp": "17896441",
+    "content": "b695b040"
+  },
+  "/docs/docs/deployment/forge-checklist-325": {
+    "__comp": "17896441",
+    "content": "26b1b37b"
+  },
+  "/docs/docs/deployment/forge-deployment-script-204": {
+    "__comp": "17896441",
+    "content": "864693ba"
+  },
+  "/docs/docs/deployment/forge-quick-start-61d": {
+    "__comp": "17896441",
+    "content": "7476b172"
+  },
+  "/docs/docs/deployment/forge-script-setup-fd9": {
+    "__comp": "17896441",
+    "content": "1ab0aba6"
+  },
+  "/docs/docs/deployment/health-check-monitoring-f94": {
+    "__comp": "17896441",
+    "content": "ce5a4346"
+  },
+  "/docs/docs/deployment/laravel-forge-fbc": {
+    "__comp": "17896441",
+    "content": "d5e74407"
+  },
+  "/docs/docs/deployment/nginx-70d": {
+    "__comp": "17896441",
+    "content": "88be717f"
+  },
+  "/docs/docs/deployment/overview-fb0": {
+    "__comp": "17896441",
+    "content": "69425d0e"
+  },
+  "/docs/docs/deployment/pm2-9b7": {
+    "__comp": "17896441",
+    "content": "0f162d8c"
+  },
+  "/docs/docs/deployment/pm2-ecosystem-config-9c2": {
+    "__comp": "17896441",
+    "content": "6e732d94"
+  },
+  "/docs/docs/deployment/pm2-environment-variables-507": {
+    "__comp": "17896441",
+    "content": "bac2b4fb"
+  },
+  "/docs/docs/deployment/pm2-verification-516": {
+    "__comp": "17896441",
+    "content": "620f8db4"
+  },
+  "/docs/docs/deployment/production-a6f": {
+    "__comp": "17896441",
+    "content": "1973956f"
+  },
+  "/docs/docs/deployment/verification-report-879": {
+    "__comp": "17896441",
+    "content": "659cfa89"
+  },
+  "/docs/docs/development-setup-111": {
+    "__comp": "17896441",
+    "content": "a9670040"
+  },
+  "/docs/docs/intro-2ea": {
+    "__comp": "17896441",
+    "content": "0e384e19"
+  },
+  "/docs/docs/pm2-36d": {
+    "__comp": "17896441",
+    "content": "494f0fe6"
+  },
+  "/docs/docs/quick-start-2bf": {
+    "__comp": "17896441",
+    "content": "72e14192"
+  },
+  "/docs/docs/reset-scripts-6bc": {
+    "__comp": "17896441",
+    "content": "2c810f26"
+  },
+  "/docs/docs/security/-ea3": {
+    "__comp": "17896441",
+    "content": "3b63cfa6"
+  },
+  "/docs/docs/security/audit-overview-dc4": {
+    "__comp": "17896441",
+    "content": "596a07ca"
+  },
+  "/docs/docs/security/complete-audit-report-e59": {
+    "__comp": "17896441",
+    "content": "6539199b"
+  },
+  "/docs/docs/security/critical-issues-fixed-a55": {
+    "__comp": "17896441",
+    "content": "f51caa3c"
+  },
+  "/docs/docs/security/minor-issues-fixed-c4c": {
+    "__comp": "17896441",
+    "content": "a7ce523d"
+  },
+  "/docs/docs/security/security-findings-1c2": {
+    "__comp": "17896441",
+    "content": "f559584c"
+  },
+  "/docs/docs/setup-guide-be6": {
+    "__comp": "17896441",
+    "content": "a1ad2b8b"
+  },
+  "/docs/docs/setup/monorepo-setup-a24": {
+    "__comp": "17896441",
+    "content": "b781c258"
+  },
+  "/docs/docs/testing-17a": {
+    "__comp": "17896441",
+    "content": "fbe93038"
+  },
+  "/docs/docs/troubleshooting/authentication-errors-1c7": {
+    "__comp": "17896441",
+    "content": "33638c7e"
+  },
+  "/docs/docs/troubleshooting/common-issues-1d2": {
+    "__comp": "17896441",
+    "content": "5133d60e"
+  },
+  "/docs/docs/troubleshooting/database-errors-4e0": {
+    "__comp": "17896441",
+    "content": "4bb376f0"
+  },
+  "/docs/-2a6": {
+    "__comp": "1df93b7f",
     "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
+      "plugin": "a7456010"
     },
-    "__props": "__props---docusaurus-debug-content-3-c-0-be2"
-  },
-  "/__docusaurus/debug/globalData-c3c": {
-    "__comp": "__comp---theme-debug-global-dataede-0fa",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/metadata-156": {
-    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/registry-88c": {
-    "__comp": "__comp---theme-debug-registry-679-501",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/routes-000": {
-    "__comp": "__comp---theme-debug-routes-946-699",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/docs-b0e": {
-    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
-    "__context": {
-      "plugin": "plugin---docsaba-d7c"
-    }
-  },
-  "/docs-c6f": {
-    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---docs-005-788"
-  },
-  "/docs-d6c": {
-    "__comp": "__comp---theme-doc-roota-94-67a"
-  },
-  "/docs/api/api-keys-a89": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-api-keys-121-415"
-  },
-  "/docs/api/authentication-733": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-authenticationbae-2fb"
-  },
-  "/docs/api/overview-211": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-overview-65-d-0e3"
-  },
-  "/docs/api/sites-d6c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-sitesdd-1-7f0"
-  },
-  "/docs/architecture-4b2": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-architecture-528-86f"
-  },
-  "/docs/authentication-938": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-authentication-625-36c"
-  },
-  "/docs/configuration/env-configuration-513": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-configuration-env-configuration-91-e-4e1"
-  },
-  "/docs/configuration/env-sample-audit-af1": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-configuration-env-sample-auditd-31-19c"
-  },
-  "/docs/database-schema-1d7": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-database-schemadbe-df1"
-  },
-  "/docs/deployment/automated-deployment-662": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-automated-deployment-8-f-4-207"
-  },
-  "/docs/deployment/automated-deployment-complete-c6e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-automated-deployment-completec-10-d12"
-  },
-  "/docs/deployment/automated-deployment-setup-c67": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-automated-deployment-setup-868-25e"
-  },
-  "/docs/deployment/coolify-deployment-20a": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-coolify-deploymenta-52-d02"
-  },
-  "/docs/deployment/database-backups-8e1": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-database-backups-2-e-7-a2a"
-  },
-  "/docs/deployment/deployment-complete-f79": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-deployment-complete-5-ef-85e"
-  },
-  "/docs/deployment/deployment-flow-26b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-deployment-flowd-4-a-0d2"
-  },
-  "/docs/deployment/deployment-scripts-reference-1d9": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-deployment-scripts-referencef-75-e35"
-  },
-  "/docs/deployment/deployment-verification-e49": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-deployment-verification-2-ec-e09"
-  },
-  "/docs/deployment/docker-audit-report-fc2": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-docker-audit-report-948-5d0"
-  },
-  "/docs/deployment/docusaurus-deployment-870": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-docusaurus-deployment-5-e-2-ebd"
-  },
-  "/docs/deployment/environment-verification-057": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-environment-verificationb-69-2e6"
-  },
-  "/docs/deployment/forge-checklist-4ed": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-forge-checklist-26-b-fb2"
-  },
-  "/docs/deployment/forge-deployment-script-9f8": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-forge-deployment-script-864-6e2"
-  },
-  "/docs/deployment/forge-quick-start-364": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-forge-quick-start-747-b51"
-  },
-  "/docs/deployment/forge-script-setup-629": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-forge-script-setup-1-ab-8eb"
-  },
-  "/docs/deployment/health-check-monitoring-4f3": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-health-check-monitoringce-5-f10"
-  },
-  "/docs/deployment/laravel-forge-2e5": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-laravel-forged-5-e-4c2"
-  },
-  "/docs/deployment/nginx-361": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-nginx-88-b-677"
-  },
-  "/docs/deployment/overview-ac9": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-overview-694-a6a"
-  },
-  "/docs/deployment/pm2-fad": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-pm-20-f-1-678"
-  },
-  "/docs/deployment/pm2-ecosystem-config-56b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-pm-2-ecosystem-config-6-e-7-074"
-  },
-  "/docs/deployment/pm2-environment-variables-fdf": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-pm-2-environment-variablesbac-c2e"
-  },
-  "/docs/deployment/pm2-verification-583": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-pm-2-verification-620-9f0"
-  },
-  "/docs/deployment/production-b2b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-production-197-2a5"
-  },
-  "/docs/deployment/verification-report-6f7": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-deployment-verification-report-659-e37"
-  },
-  "/docs/development-setup-457": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-development-setupa-96-5be"
-  },
-  "/docs/intro-61d": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-intro-0-e-3-be1"
-  },
-  "/docs/pm2-433": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-pm-2494-b44"
-  },
-  "/docs/quick-start-b74": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-quick-start-72-e-2df"
-  },
-  "/docs/reset-scripts-299": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-reset-scripts-2-c-8-a78"
-  },
-  "/docs/security/-bdd": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-3-b-6-9b0"
-  },
-  "/docs/security/audit-overview-365": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-audit-overview-596-f52"
-  },
-  "/docs/security/complete-audit-report-e46": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-complete-audit-report-653-59f"
-  },
-  "/docs/security/critical-issues-fixed-9df": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-critical-issues-fixedf-51-bc0"
-  },
-  "/docs/security/minor-issues-fixed-d1a": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-minor-issues-fixeda-7-c-c97"
-  },
-  "/docs/security/security-findings-f93": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-security-security-findingsf-55-252"
-  },
-  "/docs/setup-guide-419": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-setup-guidea-1-a-155"
-  },
-  "/docs/setup/monorepo-setup-16e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-setup-monorepo-setupb-78-737"
-  },
-  "/docs/testing-f86": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-testingfbe-029"
-  },
-  "/docs/troubleshooting/authentication-errors-586": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-troubleshooting-authentication-errors-336-16d"
-  },
-  "/docs/troubleshooting/common-issues-944": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-troubleshooting-common-issues-513-ef6"
-  },
-  "/docs/troubleshooting/database-errors-b8e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-troubleshooting-database-errors-4-bb-22d"
-  },
-  "/-e5f": {
-    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
-    "__context": {
-      "plugin": "plugin---a-74-9d6"
-    },
-    "config": "config---5-e-9-4f3"
+    "config": "5e9f5e1a"
   }
 }

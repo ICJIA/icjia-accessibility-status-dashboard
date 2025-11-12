@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/automated-deployment.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/automated-deployment",
-  "permalink": "/docs/deployment/automated-deployment",
+  "permalink": "/docs/docs/deployment/automated-deployment",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/automated-deployment.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "PM2 Verification Report",
-    "permalink": "/docs/deployment/pm2-verification"
+    "permalink": "/docs/docs/deployment/pm2-verification"
   },
   "next": {
     "title": "Automated Deployment Complete",
-    "permalink": "/docs/deployment/automated-deployment-complete"
+    "permalink": "/docs/docs/deployment/automated-deployment-complete"
   }
 }

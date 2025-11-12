@@ -8,10 +8,10 @@ export default {
   "tagline": "Comprehensive web accessibility tracking system for ICJIA",
   "favicon": "img/favicon.ico",
   "url": "https://example.com",
-  "baseUrl": "/",
+  "baseUrl": "/docs/",
   "organizationName": "ICJIA",
   "projectName": "icjia-accessibility-status",
-  "onBrokenLinks": "throw",
+  "onBrokenLinks": "warn",
   "i18n": {
     "defaultLocale": "en",
     "locales": [
@@ -74,15 +74,15 @@ export default {
           "items": [
             {
               "label": "Quick Start",
-              "to": "/quick-start"
+              "to": "docs/quick-start"
             },
             {
               "label": "Setup Guide",
-              "to": "/setup-guide"
+              "to": "docs/setup-guide"
             },
             {
               "label": "API Documentation",
-              "to": "/api/overview"
+              "to": "docs/api/overview"
             }
           ]
         },

@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/deployment-complete.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/deployment-complete",
-  "permalink": "/docs/deployment/deployment-complete",
+  "permalink": "/docs/docs/deployment/deployment-complete",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/deployment-complete.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Forge Deployment Checklist",
-    "permalink": "/docs/deployment/forge-checklist"
+    "permalink": "/docs/docs/deployment/forge-checklist"
   },
   "next": {
     "title": "Deployment Flow Diagram",
-    "permalink": "/docs/deployment/deployment-flow"
+    "permalink": "/docs/docs/deployment/deployment-flow"
   }
 }

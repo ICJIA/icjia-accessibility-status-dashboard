@@ -5,7 +5,7 @@
   "source": "@site/docs/setup-guide.md",
   "sourceDirName": ".",
   "slug": "/setup-guide",
-  "permalink": "/docs/setup-guide",
+  "permalink": "/docs/docs/setup-guide",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/setup-guide.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Quick Start (5 Minutes)",
-    "permalink": "/docs/quick-start"
+    "permalink": "/docs/docs/quick-start"
   },
   "next": {
     "title": "Authentication System",
-    "permalink": "/docs/authentication"
+    "permalink": "/docs/docs/authentication"
   }
 }

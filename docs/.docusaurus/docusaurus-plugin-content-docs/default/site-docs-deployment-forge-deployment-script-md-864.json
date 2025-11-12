@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/forge-deployment-script.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/forge-deployment-script",
-  "permalink": "/docs/deployment/forge-deployment-script",
+  "permalink": "/docs/docs/deployment/forge-deployment-script",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/forge-deployment-script.md",
@@ -18,10 +18,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Automated Deployment Setup",
-    "permalink": "/docs/deployment/automated-deployment-setup"
+    "permalink": "/docs/docs/deployment/automated-deployment-setup"
   },
   "next": {
     "title": "Deployment Scripts Reference",
-    "permalink": "/docs/deployment/deployment-scripts-reference"
+    "permalink": "/docs/docs/deployment/deployment-scripts-reference"
   }
 }

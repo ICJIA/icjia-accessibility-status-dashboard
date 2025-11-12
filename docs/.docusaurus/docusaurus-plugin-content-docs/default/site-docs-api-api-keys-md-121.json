@@ -5,7 +5,7 @@
   "source": "@site/docs/api/api-keys.md",
   "sourceDirName": "api",
   "slug": "/api/api-keys",
-  "permalink": "/docs/api/api-keys",
+  "permalink": "/docs/docs/api/api-keys",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/api/api-keys.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Sites API",
-    "permalink": "/docs/api/sites"
+    "permalink": "/docs/docs/api/sites"
   },
   "next": {
     "title": "Monorepo Setup",
-    "permalink": "/docs/setup/monorepo-setup"
+    "permalink": "/docs/docs/setup/monorepo-setup"
   }
 }

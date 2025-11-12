@@ -5,7 +5,7 @@
   "source": "@site/docs/reset-scripts.md",
   "sourceDirName": ".",
   "slug": "/reset-scripts",
-  "permalink": "/docs/reset-scripts",
+  "permalink": "/docs/docs/reset-scripts",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/reset-scripts.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Development Setup",
-    "permalink": "/docs/development-setup"
+    "permalink": "/docs/docs/development-setup"
   },
   "next": {
     "title": "Testing Guide",
-    "permalink": "/docs/testing"
+    "permalink": "/docs/docs/testing"
   }
 }

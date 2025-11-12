@@ -5,7 +5,7 @@
   "source": "@site/docs/security/README.md",
   "sourceDirName": "security",
   "slug": "/security/",
-  "permalink": "/docs/security/",
+  "permalink": "/docs/docs/security/",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/README.md",

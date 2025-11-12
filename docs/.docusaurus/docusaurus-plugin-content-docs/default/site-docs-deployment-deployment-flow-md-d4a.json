@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/deployment-flow.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/deployment-flow",
-  "permalink": "/docs/deployment/deployment-flow",
+  "permalink": "/docs/docs/deployment/deployment-flow",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/deployment-flow.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Deployment Complete",
-    "permalink": "/docs/deployment/deployment-complete"
+    "permalink": "/docs/docs/deployment/deployment-complete"
   },
   "next": {
     "title": "Docusaurus Deployment",
-    "permalink": "/docs/deployment/docusaurus-deployment"
+    "permalink": "/docs/docs/deployment/docusaurus-deployment"
   }
 }

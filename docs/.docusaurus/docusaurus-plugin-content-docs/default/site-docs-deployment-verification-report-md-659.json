@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/verification-report.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/verification-report",
-  "permalink": "/docs/deployment/verification-report",
+  "permalink": "/docs/docs/deployment/verification-report",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/verification-report.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Forge Script Setup",
-    "permalink": "/docs/deployment/forge-script-setup"
+    "permalink": "/docs/docs/deployment/forge-script-setup"
   },
   "next": {
     "title": "🐳 Docker Comprehensive Audit Report",
-    "permalink": "/docs/deployment/docker-audit-report"
+    "permalink": "/docs/docs/deployment/docker-audit-report"
   }
 }

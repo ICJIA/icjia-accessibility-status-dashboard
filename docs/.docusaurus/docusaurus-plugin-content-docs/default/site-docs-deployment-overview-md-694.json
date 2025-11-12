@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/overview.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/overview",
-  "permalink": "/docs/deployment/overview",
+  "permalink": "/docs/docs/deployment/overview",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/overview.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Monorepo Setup",
-    "permalink": "/docs/setup/monorepo-setup"
+    "permalink": "/docs/docs/setup/monorepo-setup"
   },
   "next": {
     "title": "Environment Verification",
-    "permalink": "/docs/deployment/environment-verification"
+    "permalink": "/docs/docs/deployment/environment-verification"
   }
 }

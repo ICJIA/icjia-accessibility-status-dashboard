@@ -5,7 +5,7 @@
   "source": "@site/docs/security/minor-issues-fixed.md",
   "sourceDirName": "security",
   "slug": "/security/minor-issues-fixed",
-  "permalink": "/docs/security/minor-issues-fixed",
+  "permalink": "/docs/docs/security/minor-issues-fixed",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/minor-issues-fixed.md",
@@ -19,10 +19,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Critical Issues Fixed",
-    "permalink": "/docs/security/critical-issues-fixed"
+    "permalink": "/docs/docs/security/critical-issues-fixed"
   },
   "next": {
     "title": "Common Issues and Solutions",
-    "permalink": "/docs/troubleshooting/common-issues"
+    "permalink": "/docs/docs/troubleshooting/common-issues"
   }
 }

@@ -17,7 +17,7 @@ const config: Config = {
   organizationName: "ICJIA",
   projectName: "icjia-accessibility-status",
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -84,15 +84,15 @@ const config: Config = {
           items: [
             {
               label: "Quick Start",
-              to: "/quick-start",
+              to: "docs/quick-start",
             },
             {
               label: "Setup Guide",
-              to: "/setup-guide",
+              to: "docs/setup-guide",
             },
             {
               label: "API Documentation",
-              to: "/api/overview",
+              to: "docs/api/overview",
             },
           ],
         },

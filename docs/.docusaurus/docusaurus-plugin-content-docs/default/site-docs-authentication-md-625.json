@@ -5,7 +5,7 @@
   "source": "@site/docs/authentication.md",
   "sourceDirName": ".",
   "slug": "/authentication",
-  "permalink": "/docs/authentication",
+  "permalink": "/docs/docs/authentication",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/authentication.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Complete Setup Guide",
-    "permalink": "/docs/setup-guide"
+    "permalink": "/docs/docs/setup-guide"
   },
   "next": {
     "title": "Database Schema",
-    "permalink": "/docs/database-schema"
+    "permalink": "/docs/docs/database-schema"
   }
 }

@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/production.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/production",
-  "permalink": "/docs/deployment/production",
+  "permalink": "/docs/docs/deployment/production",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/production.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Deployment Scripts Reference",
-    "permalink": "/docs/deployment/deployment-scripts-reference"
+    "permalink": "/docs/docs/deployment/deployment-scripts-reference"
   },
   "next": {
     "title": "Nginx Configuration",
-    "permalink": "/docs/deployment/nginx"
+    "permalink": "/docs/docs/deployment/nginx"
   }
 }

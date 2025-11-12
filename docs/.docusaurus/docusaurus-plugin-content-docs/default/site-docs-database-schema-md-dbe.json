@@ -5,7 +5,7 @@
   "source": "@site/docs/database-schema.md",
   "sourceDirName": ".",
   "slug": "/database-schema",
-  "permalink": "/docs/database-schema",
+  "permalink": "/docs/docs/database-schema",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/database-schema.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Authentication System",
-    "permalink": "/docs/authentication"
+    "permalink": "/docs/docs/authentication"
   },
   "next": {
     "title": "System Architecture",
-    "permalink": "/docs/architecture"
+    "permalink": "/docs/docs/architecture"
   }
 }

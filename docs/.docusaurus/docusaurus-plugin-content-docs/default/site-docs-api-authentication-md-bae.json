@@ -5,7 +5,7 @@
   "source": "@site/docs/api/authentication.md",
   "sourceDirName": "api",
   "slug": "/api/authentication",
-  "permalink": "/docs/api/authentication",
+  "permalink": "/docs/docs/api/authentication",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/api/authentication.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "API Overview",
-    "permalink": "/docs/api/overview"
+    "permalink": "/docs/docs/api/overview"
   },
   "next": {
     "title": "Sites API",
-    "permalink": "/docs/api/sites"
+    "permalink": "/docs/docs/api/sites"
   }
 }

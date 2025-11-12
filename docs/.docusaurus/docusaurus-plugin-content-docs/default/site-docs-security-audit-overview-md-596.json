@@ -5,7 +5,7 @@
   "source": "@site/docs/security/audit-overview.md",
   "sourceDirName": "security",
   "slug": "/security/audit-overview",
-  "permalink": "/docs/security/audit-overview",
+  "permalink": "/docs/docs/security/audit-overview",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/security/audit-overview.md",
@@ -19,10 +19,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "🐳 Docker Comprehensive Audit Report",
-    "permalink": "/docs/deployment/docker-audit-report"
+    "permalink": "/docs/docs/deployment/docker-audit-report"
   },
   "next": {
     "title": "Complete Audit Report",
-    "permalink": "/docs/security/complete-audit-report"
+    "permalink": "/docs/docs/security/complete-audit-report"
   }
 }

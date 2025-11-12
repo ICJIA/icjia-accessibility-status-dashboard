@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/forge-quick-start.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/forge-quick-start",
-  "permalink": "/docs/deployment/forge-quick-start",
+  "permalink": "/docs/docs/deployment/forge-quick-start",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/forge-quick-start.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Deployment Verification",
-    "permalink": "/docs/deployment/deployment-verification"
+    "permalink": "/docs/docs/deployment/deployment-verification"
   },
   "next": {
     "title": "Forge Deployment Checklist",
-    "permalink": "/docs/deployment/forge-checklist"
+    "permalink": "/docs/docs/deployment/forge-checklist"
   }
 }

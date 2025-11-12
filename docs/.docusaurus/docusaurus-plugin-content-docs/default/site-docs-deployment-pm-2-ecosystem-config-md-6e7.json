@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/pm2-ecosystem-config.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/pm2-ecosystem-config",
-  "permalink": "/docs/deployment/pm2-ecosystem-config",
+  "permalink": "/docs/docs/deployment/pm2-ecosystem-config",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/pm2-ecosystem-config.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "PM2 Environment Variables",
-    "permalink": "/docs/deployment/pm2-environment-variables"
+    "permalink": "/docs/docs/deployment/pm2-environment-variables"
   },
   "next": {
     "title": "PM2 Verification Report",
-    "permalink": "/docs/deployment/pm2-verification"
+    "permalink": "/docs/docs/deployment/pm2-verification"
   }
 }

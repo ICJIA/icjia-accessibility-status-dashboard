@@ -5,7 +5,7 @@
   "source": "@site/docs/troubleshooting/common-issues.md",
   "sourceDirName": "troubleshooting",
   "slug": "/troubleshooting/common-issues",
-  "permalink": "/docs/troubleshooting/common-issues",
+  "permalink": "/docs/docs/troubleshooting/common-issues",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/troubleshooting/common-issues.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Minor Issues Fixed",
-    "permalink": "/docs/security/minor-issues-fixed"
+    "permalink": "/docs/docs/security/minor-issues-fixed"
   },
   "next": {
     "title": "Authentication Errors",
-    "permalink": "/docs/troubleshooting/authentication-errors"
+    "permalink": "/docs/docs/troubleshooting/authentication-errors"
   }
 }

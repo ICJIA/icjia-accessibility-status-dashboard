@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/nginx.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/nginx",
-  "permalink": "/docs/deployment/nginx",
+  "permalink": "/docs/docs/deployment/nginx",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/nginx.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Production Deployment",
-    "permalink": "/docs/deployment/production"
+    "permalink": "/docs/docs/deployment/production"
   },
   "next": {
     "title": "PM2 Configuration",
-    "permalink": "/docs/deployment/pm2"
+    "permalink": "/docs/docs/deployment/pm2"
   }
 }

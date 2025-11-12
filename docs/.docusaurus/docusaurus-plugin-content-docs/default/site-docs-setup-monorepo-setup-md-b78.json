@@ -5,7 +5,7 @@
   "source": "@site/docs/setup/monorepo-setup.md",
   "sourceDirName": "setup",
   "slug": "/setup/monorepo-setup",
-  "permalink": "/docs/setup/monorepo-setup",
+  "permalink": "/docs/docs/setup/monorepo-setup",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/setup/monorepo-setup.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "API Keys",
-    "permalink": "/docs/api/api-keys"
+    "permalink": "/docs/docs/api/api-keys"
   },
   "next": {
     "title": "Deployment Overview",
-    "permalink": "/docs/deployment/overview"
+    "permalink": "/docs/docs/deployment/overview"
   }
 }

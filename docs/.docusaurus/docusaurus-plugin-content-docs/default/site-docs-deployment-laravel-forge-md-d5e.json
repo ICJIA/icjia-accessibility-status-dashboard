@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/laravel-forge.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/laravel-forge",
-  "permalink": "/docs/deployment/laravel-forge",
+  "permalink": "/docs/docs/deployment/laravel-forge",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/laravel-forge.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Environment Verification",
-    "permalink": "/docs/deployment/environment-verification"
+    "permalink": "/docs/docs/deployment/environment-verification"
   },
   "next": {
     "title": "Automated Deployment Setup",
-    "permalink": "/docs/deployment/automated-deployment-setup"
+    "permalink": "/docs/docs/deployment/automated-deployment-setup"
   }
 }

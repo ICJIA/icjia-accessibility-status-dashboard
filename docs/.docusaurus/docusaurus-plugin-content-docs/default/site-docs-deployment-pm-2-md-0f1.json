@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/pm2.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/pm2",
-  "permalink": "/docs/deployment/pm2",
+  "permalink": "/docs/docs/deployment/pm2",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/pm2.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Nginx Configuration",
-    "permalink": "/docs/deployment/nginx"
+    "permalink": "/docs/docs/deployment/nginx"
   },
   "next": {
     "title": "PM2 Environment Variables",
-    "permalink": "/docs/deployment/pm2-environment-variables"
+    "permalink": "/docs/docs/deployment/pm2-environment-variables"
   }
 }

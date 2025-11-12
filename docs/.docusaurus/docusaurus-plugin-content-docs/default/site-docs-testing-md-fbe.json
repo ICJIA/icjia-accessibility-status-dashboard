@@ -5,7 +5,7 @@
   "source": "@site/docs/testing.md",
   "sourceDirName": ".",
   "slug": "/testing",
-  "permalink": "/docs/testing",
+  "permalink": "/docs/docs/testing",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/testing.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Database Reset Scripts",
-    "permalink": "/docs/reset-scripts"
+    "permalink": "/docs/docs/reset-scripts"
   },
   "next": {
     "title": "Environment Sample Audit",
-    "permalink": "/docs/configuration/env-sample-audit"
+    "permalink": "/docs/docs/configuration/env-sample-audit"
   }
 }

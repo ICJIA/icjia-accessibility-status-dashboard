@@ -5,7 +5,7 @@
   "source": "@site/docs/troubleshooting/database-errors.md",
   "sourceDirName": "troubleshooting",
   "slug": "/troubleshooting/database-errors",
-  "permalink": "/docs/troubleshooting/database-errors",
+  "permalink": "/docs/docs/troubleshooting/database-errors",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/troubleshooting/database-errors.md",
@@ -15,6 +15,6 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Authentication Errors",
-    "permalink": "/docs/troubleshooting/authentication-errors"
+    "permalink": "/docs/docs/troubleshooting/authentication-errors"
   }
 }

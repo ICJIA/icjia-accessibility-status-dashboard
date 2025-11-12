@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/forge-checklist.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/forge-checklist",
-  "permalink": "/docs/deployment/forge-checklist",
+  "permalink": "/docs/docs/deployment/forge-checklist",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/forge-checklist.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Laravel Forge Quick Start",
-    "permalink": "/docs/deployment/forge-quick-start"
+    "permalink": "/docs/docs/deployment/forge-quick-start"
   },
   "next": {
     "title": "Deployment Complete",
-    "permalink": "/docs/deployment/deployment-complete"
+    "permalink": "/docs/docs/deployment/deployment-complete"
   }
 }

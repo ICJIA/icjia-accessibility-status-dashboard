@@ -3,356 +3,321 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
-    path: '/__docusaurus/debug',
-    component: ComponentCreator('/__docusaurus/debug', '5ff'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/config',
-    component: ComponentCreator('/__docusaurus/debug/config', '5ba'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/content',
-    component: ComponentCreator('/__docusaurus/debug/content', 'a2b'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/globalData',
-    component: ComponentCreator('/__docusaurus/debug/globalData', 'c3c'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/metadata',
-    component: ComponentCreator('/__docusaurus/debug/metadata', '156'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/registry',
-    component: ComponentCreator('/__docusaurus/debug/registry', '88c'),
-    exact: true
-  },
-  {
-    path: '/__docusaurus/debug/routes',
-    component: ComponentCreator('/__docusaurus/debug/routes', '000'),
-    exact: true
-  },
-  {
-    path: '/docs',
-    component: ComponentCreator('/docs', 'b0e'),
+    path: '/docs/docs',
+    component: ComponentCreator('/docs/docs', '316'),
     routes: [
       {
-        path: '/docs',
-        component: ComponentCreator('/docs', 'c6f'),
+        path: '/docs/docs',
+        component: ComponentCreator('/docs/docs', '33b'),
         routes: [
           {
-            path: '/docs',
-            component: ComponentCreator('/docs', 'd6c'),
+            path: '/docs/docs',
+            component: ComponentCreator('/docs/docs', 'efb'),
             routes: [
               {
-                path: '/docs/api/api-keys',
-                component: ComponentCreator('/docs/api/api-keys', 'a89'),
+                path: '/docs/docs/api/api-keys',
+                component: ComponentCreator('/docs/docs/api/api-keys', '47a'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/api/authentication',
-                component: ComponentCreator('/docs/api/authentication', '733'),
+                path: '/docs/docs/api/authentication',
+                component: ComponentCreator('/docs/docs/api/authentication', '13e'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/api/overview',
-                component: ComponentCreator('/docs/api/overview', '211'),
+                path: '/docs/docs/api/overview',
+                component: ComponentCreator('/docs/docs/api/overview', '0ca'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/api/sites',
-                component: ComponentCreator('/docs/api/sites', 'd6c'),
+                path: '/docs/docs/api/sites',
+                component: ComponentCreator('/docs/docs/api/sites', '6a1'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/architecture',
-                component: ComponentCreator('/docs/architecture', '4b2'),
+                path: '/docs/docs/architecture',
+                component: ComponentCreator('/docs/docs/architecture', 'e8e'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/authentication',
-                component: ComponentCreator('/docs/authentication', '938'),
+                path: '/docs/docs/authentication',
+                component: ComponentCreator('/docs/docs/authentication', '8bd'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/configuration/env-configuration',
-                component: ComponentCreator('/docs/configuration/env-configuration', '513'),
+                path: '/docs/docs/configuration/env-configuration',
+                component: ComponentCreator('/docs/docs/configuration/env-configuration', '701'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/configuration/env-sample-audit',
-                component: ComponentCreator('/docs/configuration/env-sample-audit', 'af1'),
+                path: '/docs/docs/configuration/env-sample-audit',
+                component: ComponentCreator('/docs/docs/configuration/env-sample-audit', '3a8'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/database-schema',
-                component: ComponentCreator('/docs/database-schema', '1d7'),
+                path: '/docs/docs/database-schema',
+                component: ComponentCreator('/docs/docs/database-schema', '4ee'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/automated-deployment',
-                component: ComponentCreator('/docs/deployment/automated-deployment', '662'),
+                path: '/docs/docs/deployment/automated-deployment',
+                component: ComponentCreator('/docs/docs/deployment/automated-deployment', 'b5a'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/automated-deployment-complete',
-                component: ComponentCreator('/docs/deployment/automated-deployment-complete', 'c6e'),
+                path: '/docs/docs/deployment/automated-deployment-complete',
+                component: ComponentCreator('/docs/docs/deployment/automated-deployment-complete', 'c26'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/automated-deployment-setup',
-                component: ComponentCreator('/docs/deployment/automated-deployment-setup', 'c67'),
+                path: '/docs/docs/deployment/automated-deployment-setup',
+                component: ComponentCreator('/docs/docs/deployment/automated-deployment-setup', 'b41'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/coolify-deployment',
-                component: ComponentCreator('/docs/deployment/coolify-deployment', '20a'),
+                path: '/docs/docs/deployment/coolify-deployment',
+                component: ComponentCreator('/docs/docs/deployment/coolify-deployment', '012'),
                 exact: true
               },
               {
-                path: '/docs/deployment/database-backups',
-                component: ComponentCreator('/docs/deployment/database-backups', '8e1'),
+                path: '/docs/docs/deployment/database-backups',
+                component: ComponentCreator('/docs/docs/deployment/database-backups', '598'),
                 exact: true
               },
               {
-                path: '/docs/deployment/deployment-complete',
-                component: ComponentCreator('/docs/deployment/deployment-complete', 'f79'),
+                path: '/docs/docs/deployment/deployment-complete',
+                component: ComponentCreator('/docs/docs/deployment/deployment-complete', '3f1'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/deployment-flow',
-                component: ComponentCreator('/docs/deployment/deployment-flow', '26b'),
+                path: '/docs/docs/deployment/deployment-flow',
+                component: ComponentCreator('/docs/docs/deployment/deployment-flow', '5e2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/deployment-scripts-reference',
-                component: ComponentCreator('/docs/deployment/deployment-scripts-reference', '1d9'),
+                path: '/docs/docs/deployment/deployment-scripts-reference',
+                component: ComponentCreator('/docs/docs/deployment/deployment-scripts-reference', '92f'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/deployment-verification',
-                component: ComponentCreator('/docs/deployment/deployment-verification', 'e49'),
+                path: '/docs/docs/deployment/deployment-verification',
+                component: ComponentCreator('/docs/docs/deployment/deployment-verification', '88f'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/docker-audit-report',
-                component: ComponentCreator('/docs/deployment/docker-audit-report', 'fc2'),
+                path: '/docs/docs/deployment/docker-audit-report',
+                component: ComponentCreator('/docs/docs/deployment/docker-audit-report', 'e85'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/docusaurus-deployment',
-                component: ComponentCreator('/docs/deployment/docusaurus-deployment', '870'),
+                path: '/docs/docs/deployment/docusaurus-deployment',
+                component: ComponentCreator('/docs/docs/deployment/docusaurus-deployment', '018'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/environment-verification',
-                component: ComponentCreator('/docs/deployment/environment-verification', '057'),
+                path: '/docs/docs/deployment/environment-verification',
+                component: ComponentCreator('/docs/docs/deployment/environment-verification', '561'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/forge-checklist',
-                component: ComponentCreator('/docs/deployment/forge-checklist', '4ed'),
+                path: '/docs/docs/deployment/forge-checklist',
+                component: ComponentCreator('/docs/docs/deployment/forge-checklist', '325'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/forge-deployment-script',
-                component: ComponentCreator('/docs/deployment/forge-deployment-script', '9f8'),
+                path: '/docs/docs/deployment/forge-deployment-script',
+                component: ComponentCreator('/docs/docs/deployment/forge-deployment-script', '204'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/forge-quick-start',
-                component: ComponentCreator('/docs/deployment/forge-quick-start', '364'),
+                path: '/docs/docs/deployment/forge-quick-start',
+                component: ComponentCreator('/docs/docs/deployment/forge-quick-start', '61d'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/forge-script-setup',
-                component: ComponentCreator('/docs/deployment/forge-script-setup', '629'),
+                path: '/docs/docs/deployment/forge-script-setup',
+                component: ComponentCreator('/docs/docs/deployment/forge-script-setup', 'fd9'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/health-check-monitoring',
-                component: ComponentCreator('/docs/deployment/health-check-monitoring', '4f3'),
+                path: '/docs/docs/deployment/health-check-monitoring',
+                component: ComponentCreator('/docs/docs/deployment/health-check-monitoring', 'f94'),
                 exact: true
               },
               {
-                path: '/docs/deployment/laravel-forge',
-                component: ComponentCreator('/docs/deployment/laravel-forge', '2e5'),
+                path: '/docs/docs/deployment/laravel-forge',
+                component: ComponentCreator('/docs/docs/deployment/laravel-forge', 'fbc'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/nginx',
-                component: ComponentCreator('/docs/deployment/nginx', '361'),
+                path: '/docs/docs/deployment/nginx',
+                component: ComponentCreator('/docs/docs/deployment/nginx', '70d'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/overview',
-                component: ComponentCreator('/docs/deployment/overview', 'ac9'),
+                path: '/docs/docs/deployment/overview',
+                component: ComponentCreator('/docs/docs/deployment/overview', 'fb0'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/pm2',
-                component: ComponentCreator('/docs/deployment/pm2', 'fad'),
+                path: '/docs/docs/deployment/pm2',
+                component: ComponentCreator('/docs/docs/deployment/pm2', '9b7'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/pm2-ecosystem-config',
-                component: ComponentCreator('/docs/deployment/pm2-ecosystem-config', '56b'),
+                path: '/docs/docs/deployment/pm2-ecosystem-config',
+                component: ComponentCreator('/docs/docs/deployment/pm2-ecosystem-config', '9c2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/pm2-environment-variables',
-                component: ComponentCreator('/docs/deployment/pm2-environment-variables', 'fdf'),
+                path: '/docs/docs/deployment/pm2-environment-variables',
+                component: ComponentCreator('/docs/docs/deployment/pm2-environment-variables', '507'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/pm2-verification',
-                component: ComponentCreator('/docs/deployment/pm2-verification', '583'),
+                path: '/docs/docs/deployment/pm2-verification',
+                component: ComponentCreator('/docs/docs/deployment/pm2-verification', '516'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/production',
-                component: ComponentCreator('/docs/deployment/production', 'b2b'),
+                path: '/docs/docs/deployment/production',
+                component: ComponentCreator('/docs/docs/deployment/production', 'a6f'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/deployment/verification-report',
-                component: ComponentCreator('/docs/deployment/verification-report', '6f7'),
+                path: '/docs/docs/deployment/verification-report',
+                component: ComponentCreator('/docs/docs/deployment/verification-report', '879'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/development-setup',
-                component: ComponentCreator('/docs/development-setup', '457'),
+                path: '/docs/docs/development-setup',
+                component: ComponentCreator('/docs/docs/development-setup', '111'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/intro',
-                component: ComponentCreator('/docs/intro', '61d'),
+                path: '/docs/docs/intro',
+                component: ComponentCreator('/docs/docs/intro', '2ea'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/pm2',
-                component: ComponentCreator('/docs/pm2', '433'),
+                path: '/docs/docs/pm2',
+                component: ComponentCreator('/docs/docs/pm2', '36d'),
                 exact: true
               },
               {
-                path: '/docs/quick-start',
-                component: ComponentCreator('/docs/quick-start', 'b74'),
+                path: '/docs/docs/quick-start',
+                component: ComponentCreator('/docs/docs/quick-start', '2bf'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/reset-scripts',
-                component: ComponentCreator('/docs/reset-scripts', '299'),
+                path: '/docs/docs/reset-scripts',
+                component: ComponentCreator('/docs/docs/reset-scripts', '6bc'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/security/',
-                component: ComponentCreator('/docs/security/', 'bdd'),
+                path: '/docs/docs/security/',
+                component: ComponentCreator('/docs/docs/security/', 'ea3'),
                 exact: true
               },
               {
-                path: '/docs/security/audit-overview',
-                component: ComponentCreator('/docs/security/audit-overview', '365'),
+                path: '/docs/docs/security/audit-overview',
+                component: ComponentCreator('/docs/docs/security/audit-overview', 'dc4'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/security/complete-audit-report',
-                component: ComponentCreator('/docs/security/complete-audit-report', 'e46'),
+                path: '/docs/docs/security/complete-audit-report',
+                component: ComponentCreator('/docs/docs/security/complete-audit-report', 'e59'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/security/critical-issues-fixed',
-                component: ComponentCreator('/docs/security/critical-issues-fixed', '9df'),
+                path: '/docs/docs/security/critical-issues-fixed',
+                component: ComponentCreator('/docs/docs/security/critical-issues-fixed', 'a55'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/security/minor-issues-fixed',
-                component: ComponentCreator('/docs/security/minor-issues-fixed', 'd1a'),
+                path: '/docs/docs/security/minor-issues-fixed',
+                component: ComponentCreator('/docs/docs/security/minor-issues-fixed', 'c4c'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/security/security-findings',
-                component: ComponentCreator('/docs/security/security-findings', 'f93'),
+                path: '/docs/docs/security/security-findings',
+                component: ComponentCreator('/docs/docs/security/security-findings', '1c2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/setup-guide',
-                component: ComponentCreator('/docs/setup-guide', '419'),
+                path: '/docs/docs/setup-guide',
+                component: ComponentCreator('/docs/docs/setup-guide', 'be6'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/setup/monorepo-setup',
-                component: ComponentCreator('/docs/setup/monorepo-setup', '16e'),
+                path: '/docs/docs/setup/monorepo-setup',
+                component: ComponentCreator('/docs/docs/setup/monorepo-setup', 'a24'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/testing',
-                component: ComponentCreator('/docs/testing', 'f86'),
+                path: '/docs/docs/testing',
+                component: ComponentCreator('/docs/docs/testing', '17a'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/troubleshooting/authentication-errors',
-                component: ComponentCreator('/docs/troubleshooting/authentication-errors', '586'),
+                path: '/docs/docs/troubleshooting/authentication-errors',
+                component: ComponentCreator('/docs/docs/troubleshooting/authentication-errors', '1c7'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/troubleshooting/common-issues',
-                component: ComponentCreator('/docs/troubleshooting/common-issues', '944'),
+                path: '/docs/docs/troubleshooting/common-issues',
+                component: ComponentCreator('/docs/docs/troubleshooting/common-issues', '1d2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/troubleshooting/database-errors',
-                component: ComponentCreator('/docs/troubleshooting/database-errors', 'b8e'),
+                path: '/docs/docs/troubleshooting/database-errors',
+                component: ComponentCreator('/docs/docs/troubleshooting/database-errors', '4e0'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               }
@@ -363,8 +328,8 @@ export default [
     ]
   },
   {
-    path: '/',
-    component: ComponentCreator('/', 'e5f'),
+    path: '/docs/',
+    component: ComponentCreator('/docs/', '2a6'),
     exact: true
   },
   {

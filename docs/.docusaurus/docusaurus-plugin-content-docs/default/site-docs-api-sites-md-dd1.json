@@ -5,7 +5,7 @@
   "source": "@site/docs/api/sites.md",
   "sourceDirName": "api",
   "slug": "/api/sites",
-  "permalink": "/docs/api/sites",
+  "permalink": "/docs/docs/api/sites",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/api/sites.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "API Authentication",
-    "permalink": "/docs/api/authentication"
+    "permalink": "/docs/docs/api/authentication"
   },
   "next": {
     "title": "API Keys",
-    "permalink": "/docs/api/api-keys"
+    "permalink": "/docs/docs/api/api-keys"
   }
 }

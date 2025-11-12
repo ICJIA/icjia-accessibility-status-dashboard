@@ -1,268 +1,268 @@
 {
   "docusaurus-plugin-content-docs": {
     "default": {
-      "path": "/docs",
+      "path": "/docs/docs",
       "versions": [
         {
           "name": "current",
           "label": "Next",
           "isLast": true,
-          "path": "/docs",
+          "path": "/docs/docs",
           "mainDocId": "intro",
           "docs": [
             {
               "id": "api/api-keys",
-              "path": "/docs/api/api-keys",
+              "path": "/docs/docs/api/api-keys",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "api/authentication",
-              "path": "/docs/api/authentication",
+              "path": "/docs/docs/api/authentication",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "api/overview",
-              "path": "/docs/api/overview",
+              "path": "/docs/docs/api/overview",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "api/sites",
-              "path": "/docs/api/sites",
+              "path": "/docs/docs/api/sites",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "architecture",
-              "path": "/docs/architecture",
+              "path": "/docs/docs/architecture",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "authentication",
-              "path": "/docs/authentication",
+              "path": "/docs/docs/authentication",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "configuration/env-configuration",
-              "path": "/docs/configuration/env-configuration",
+              "path": "/docs/docs/configuration/env-configuration",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "configuration/env-sample-audit",
-              "path": "/docs/configuration/env-sample-audit",
+              "path": "/docs/docs/configuration/env-sample-audit",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "database-schema",
-              "path": "/docs/database-schema",
+              "path": "/docs/docs/database-schema",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/automated-deployment",
-              "path": "/docs/deployment/automated-deployment",
+              "path": "/docs/docs/deployment/automated-deployment",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/automated-deployment-complete",
-              "path": "/docs/deployment/automated-deployment-complete",
+              "path": "/docs/docs/deployment/automated-deployment-complete",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/automated-deployment-setup",
-              "path": "/docs/deployment/automated-deployment-setup",
+              "path": "/docs/docs/deployment/automated-deployment-setup",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/coolify-deployment",
-              "path": "/docs/deployment/coolify-deployment"
+              "path": "/docs/docs/deployment/coolify-deployment"
             },
             {
               "id": "deployment/database-backups",
-              "path": "/docs/deployment/database-backups"
+              "path": "/docs/docs/deployment/database-backups"
             },
             {
               "id": "deployment/deployment-complete",
-              "path": "/docs/deployment/deployment-complete",
+              "path": "/docs/docs/deployment/deployment-complete",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/deployment-flow",
-              "path": "/docs/deployment/deployment-flow",
+              "path": "/docs/docs/deployment/deployment-flow",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/deployment-scripts-reference",
-              "path": "/docs/deployment/deployment-scripts-reference",
+              "path": "/docs/docs/deployment/deployment-scripts-reference",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/deployment-verification",
-              "path": "/docs/deployment/deployment-verification",
+              "path": "/docs/docs/deployment/deployment-verification",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/docker-audit-report",
-              "path": "/docs/deployment/docker-audit-report",
+              "path": "/docs/docs/deployment/docker-audit-report",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/docusaurus-deployment",
-              "path": "/docs/deployment/docusaurus-deployment",
+              "path": "/docs/docs/deployment/docusaurus-deployment",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/environment-verification",
-              "path": "/docs/deployment/environment-verification",
+              "path": "/docs/docs/deployment/environment-verification",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/forge-checklist",
-              "path": "/docs/deployment/forge-checklist",
+              "path": "/docs/docs/deployment/forge-checklist",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/forge-deployment-script",
-              "path": "/docs/deployment/forge-deployment-script",
+              "path": "/docs/docs/deployment/forge-deployment-script",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/forge-quick-start",
-              "path": "/docs/deployment/forge-quick-start",
+              "path": "/docs/docs/deployment/forge-quick-start",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/forge-script-setup",
-              "path": "/docs/deployment/forge-script-setup",
+              "path": "/docs/docs/deployment/forge-script-setup",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/health-check-monitoring",
-              "path": "/docs/deployment/health-check-monitoring"
+              "path": "/docs/docs/deployment/health-check-monitoring"
             },
             {
               "id": "deployment/laravel-forge",
-              "path": "/docs/deployment/laravel-forge",
+              "path": "/docs/docs/deployment/laravel-forge",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/nginx",
-              "path": "/docs/deployment/nginx",
+              "path": "/docs/docs/deployment/nginx",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/overview",
-              "path": "/docs/deployment/overview",
+              "path": "/docs/docs/deployment/overview",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/pm2",
-              "path": "/docs/deployment/pm2",
+              "path": "/docs/docs/deployment/pm2",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/pm2-ecosystem-config",
-              "path": "/docs/deployment/pm2-ecosystem-config",
+              "path": "/docs/docs/deployment/pm2-ecosystem-config",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/pm2-environment-variables",
-              "path": "/docs/deployment/pm2-environment-variables",
+              "path": "/docs/docs/deployment/pm2-environment-variables",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/pm2-verification",
-              "path": "/docs/deployment/pm2-verification",
+              "path": "/docs/docs/deployment/pm2-verification",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/production",
-              "path": "/docs/deployment/production",
+              "path": "/docs/docs/deployment/production",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "deployment/verification-report",
-              "path": "/docs/deployment/verification-report",
+              "path": "/docs/docs/deployment/verification-report",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "development-setup",
-              "path": "/docs/development-setup",
+              "path": "/docs/docs/development-setup",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "intro",
-              "path": "/docs/intro",
+              "path": "/docs/docs/intro",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "pm2",
-              "path": "/docs/pm2"
+              "path": "/docs/docs/pm2"
             },
             {
               "id": "quick-start",
-              "path": "/docs/quick-start",
+              "path": "/docs/docs/quick-start",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "reset-scripts",
-              "path": "/docs/reset-scripts",
+              "path": "/docs/docs/reset-scripts",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "security/audit-overview",
-              "path": "/docs/security/audit-overview",
+              "path": "/docs/docs/security/audit-overview",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "security/complete-audit-report",
-              "path": "/docs/security/complete-audit-report",
+              "path": "/docs/docs/security/complete-audit-report",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "security/critical-issues-fixed",
-              "path": "/docs/security/critical-issues-fixed",
+              "path": "/docs/docs/security/critical-issues-fixed",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "security/minor-issues-fixed",
-              "path": "/docs/security/minor-issues-fixed",
+              "path": "/docs/docs/security/minor-issues-fixed",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "security/README",
-              "path": "/docs/security/"
+              "path": "/docs/docs/security/"
             },
             {
               "id": "security/security-findings",
-              "path": "/docs/security/security-findings",
+              "path": "/docs/docs/security/security-findings",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "setup-guide",
-              "path": "/docs/setup-guide",
+              "path": "/docs/docs/setup-guide",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "setup/monorepo-setup",
-              "path": "/docs/setup/monorepo-setup",
+              "path": "/docs/docs/setup/monorepo-setup",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "testing",
-              "path": "/docs/testing",
+              "path": "/docs/docs/testing",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "troubleshooting/authentication-errors",
-              "path": "/docs/troubleshooting/authentication-errors",
+              "path": "/docs/docs/troubleshooting/authentication-errors",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "troubleshooting/common-issues",
-              "path": "/docs/troubleshooting/common-issues",
+              "path": "/docs/docs/troubleshooting/common-issues",
               "sidebar": "tutorialSidebar"
             },
             {
               "id": "troubleshooting/database-errors",
-              "path": "/docs/troubleshooting/database-errors",
+              "path": "/docs/docs/troubleshooting/database-errors",
               "sidebar": "tutorialSidebar"
             }
           ],
@@ -270,7 +270,7 @@
           "sidebars": {
             "tutorialSidebar": {
               "link": {
-                "path": "/docs/intro",
+                "path": "/docs/docs/intro",
                 "label": "intro"
               }
             }

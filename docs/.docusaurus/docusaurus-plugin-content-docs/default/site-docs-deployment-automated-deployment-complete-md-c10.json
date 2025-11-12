@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/automated-deployment-complete.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/automated-deployment-complete",
-  "permalink": "/docs/deployment/automated-deployment-complete",
+  "permalink": "/docs/docs/deployment/automated-deployment-complete",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/automated-deployment-complete.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Automated Deployment Setup",
-    "permalink": "/docs/deployment/automated-deployment"
+    "permalink": "/docs/docs/deployment/automated-deployment"
   },
   "next": {
     "title": "Deployment Verification",
-    "permalink": "/docs/deployment/deployment-verification"
+    "permalink": "/docs/docs/deployment/deployment-verification"
   }
 }

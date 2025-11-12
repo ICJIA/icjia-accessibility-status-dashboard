@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/forge-script-setup.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/forge-script-setup",
-  "permalink": "/docs/deployment/forge-script-setup",
+  "permalink": "/docs/docs/deployment/forge-script-setup",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/forge-script-setup.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Docusaurus Deployment",
-    "permalink": "/docs/deployment/docusaurus-deployment"
+    "permalink": "/docs/docs/deployment/docusaurus-deployment"
   },
   "next": {
     "title": "Verification Report",
-    "permalink": "/docs/deployment/verification-report"
+    "permalink": "/docs/docs/deployment/verification-report"
   }
 }

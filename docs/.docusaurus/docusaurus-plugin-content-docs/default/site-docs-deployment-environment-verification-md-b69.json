@@ -5,7 +5,7 @@
   "source": "@site/docs/deployment/environment-verification.md",
   "sourceDirName": "deployment",
   "slug": "/deployment/environment-verification",
-  "permalink": "/docs/deployment/environment-verification",
+  "permalink": "/docs/docs/deployment/environment-verification",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/deployment/environment-verification.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Deployment Overview",
-    "permalink": "/docs/deployment/overview"
+    "permalink": "/docs/docs/deployment/overview"
   },
   "next": {
     "title": "Laravel Forge Deployment Guide",
-    "permalink": "/docs/deployment/laravel-forge"
+    "permalink": "/docs/docs/deployment/laravel-forge"
   }
 }

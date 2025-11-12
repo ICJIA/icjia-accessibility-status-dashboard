@@ -5,7 +5,7 @@
   "source": "@site/docs/troubleshooting/authentication-errors.md",
   "sourceDirName": "troubleshooting",
   "slug": "/troubleshooting/authentication-errors",
-  "permalink": "/docs/troubleshooting/authentication-errors",
+  "permalink": "/docs/docs/troubleshooting/authentication-errors",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/troubleshooting/authentication-errors.md",
@@ -15,10 +15,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Common Issues and Solutions",
-    "permalink": "/docs/troubleshooting/common-issues"
+    "permalink": "/docs/docs/troubleshooting/common-issues"
   },
   "next": {
     "title": "Database Errors",
-    "permalink": "/docs/troubleshooting/database-errors"
+    "permalink": "/docs/docs/troubleshooting/database-errors"
   }
 }

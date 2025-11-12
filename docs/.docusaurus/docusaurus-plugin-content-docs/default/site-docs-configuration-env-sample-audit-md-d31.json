@@ -5,7 +5,7 @@
   "source": "@site/docs/configuration/env-sample-audit.md",
   "sourceDirName": "configuration",
   "slug": "/configuration/env-sample-audit",
-  "permalink": "/docs/configuration/env-sample-audit",
+  "permalink": "/docs/docs/configuration/env-sample-audit",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/ICJIA/icjia-accessibility-status/tree/main/docs/docs/configuration/env-sample-audit.md",
@@ -20,10 +20,10 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "Testing Guide",
-    "permalink": "/docs/testing"
+    "permalink": "/docs/docs/testing"
   },
   "next": {
     "title": "Environment Configuration",
-    "permalink": "/docs/configuration/env-configuration"
+    "permalink": "/docs/docs/configuration/env-configuration"
   }
 }
