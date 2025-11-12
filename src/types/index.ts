@@ -120,3 +120,34 @@ export interface ExportFormat {
   label: string;
   value: "json" | "csv" | "markdown" | "pdf";
 }
+
+/**
+ * Accessibility scan result
+ * @typedef {Object} Scan
+ * @property {string} id - Scan identifier
+ * @property {string} site_id - Associated site ID
+ * @property {'pending'|'running'|'completed'|'failed'} status - Scan status
+ * @property {number|null} lighthouse_score - Lighthouse score (0-100)
+ * @property {number|null} axe_score - Axe score (0-100)
+ * @property {any|null} lighthouse_report - Lighthouse detailed report
+ * @property {any|null} axe_report - Axe detailed report
+ * @property {string|null} error_message - Error message if scan failed
+ * @property {string|null} started_at - When scan started
+ * @property {string|null} completed_at - When scan completed
+ * @property {string} created_at - Creation timestamp
+ * @property {string} updated_at - Last update timestamp
+ */
+export interface Scan {
+  id: string;
+  site_id: string;
+  status: "pending" | "running" | "completed" | "failed";
+  lighthouse_score: number | null;
+  axe_score: number | null;
+  lighthouse_report: any | null;
+  axe_report: any | null;
+  error_message: string | null;
+  started_at: string | null;
+  completed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}

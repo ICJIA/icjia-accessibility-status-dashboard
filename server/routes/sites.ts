@@ -121,6 +121,32 @@ router.get("/:id/payloads", requireAuth, async (req, res) => {
   }
 });
 
+/**
+ * GET /api/sites/:id/scans
+ * Get all scans for a specific site (admin-only)
+ */
+router.get("/:id/scans", requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { data: scans, error } = await supabase
+      .from("scans")
+      .select("*")
+      .eq("site_id", id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching scans:", error);
+      return res.status(500).json({ error: "Failed to fetch scans" });
+    }
+
+    return res.json({ scans });
+  } catch (error) {
+    console.error("Get scans error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.post("/", requireAuth, async (req, res) => {
   try {
     const {

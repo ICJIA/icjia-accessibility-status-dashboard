@@ -126,6 +126,7 @@ export const api = {
     get: (id: string) => fetchAPI(`/sites/${id}`),
     getHistory: (id: string) => fetchAPI(`/sites/${id}/history`),
     getPayloads: (id: string) => fetchAPI(`/sites/${id}/payloads`),
+    getScans: (id: string) => fetchAPI(`/sites/${id}/scans`),
     create: (data: any) =>
       fetchAPI("/sites", {
         method: "POST",

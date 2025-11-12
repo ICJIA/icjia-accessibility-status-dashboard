@@ -15,13 +15,14 @@ import {
   Trash2,
   TrendingUp,
 } from "lucide-react";
-import { Site, ScoreHistory } from "../types";
+import { Site, ScoreHistory, Scan } from "../types";
 import { api } from "../lib/api";
 import { useAuth } from "../contexts/AuthContext";
 import { ScoreBadge } from "../components/ScoreBadge";
 import { LineChart } from "../components/charts/LineChart";
 import { GaugeChart } from "../components/charts/GaugeChart";
 import { ScoreTrendChart } from "../components/charts/ScoreTrendChart";
+import { ScanResults } from "../components/ScanResults";
 
 /**
  * Represents an API payload
@@ -73,7 +74,9 @@ export function SiteDetail() {
   const [site, setSite] = useState<Site | null>(null);
   const [history, setHistory] = useState<ScoreHistory[]>([]);
   const [payloads, setPayloads] = useState<ApiPayload[]>([]);
+  const [scans, setScans] = useState<Scan[]>([]);
   const [loading, setLoading] = useState(true);
+  const [scansLoading, setScansLoading] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showPayloads, setShowPayloads] = useState(false);
@@ -85,6 +88,7 @@ export function SiteDetail() {
       loadSite();
       loadHistory();
       loadPayloads();
+      loadScans();
     }
   }, [id]);
 
@@ -114,6 +118,18 @@ export function SiteDetail() {
       setPayloads(response.payloads);
     } catch (error) {
       console.error("Failed to load payloads:", error);
+    }
+  };
+
+  const loadScans = async () => {
+    try {
+      setScansLoading(true);
+      const response = await api.sites.getScans(id!);
+      setScans(response.scans);
+    } catch (error) {
+      console.error("Failed to load scans:", error);
+    } finally {
+      setScansLoading(false);
     }
   };
 
@@ -410,6 +426,14 @@ export function SiteDetail() {
               </p>
             </div>
           )}
+        </div>
+
+        {/* Scan Results Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Accessibility Scans ({scans.length})
+          </h3>
+          <ScanResults scans={scans} loading={scansLoading} />
         </div>
 
         {/* API Upload History Section */}
