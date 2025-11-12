@@ -18,9 +18,9 @@
     "build:frontend": "vite build",
     "build:backend": "echo 'Backend uses tsx runtime - no build needed'",
     "build:docs": "yarn workspace icjia-accessibility-docs build",
-    "start": "pm2 start ecosystem.config.js",
-    "stop": "pm2 stop ecosystem.config.js",
-    "restart": "pm2 restart ecosystem.config.js",
+    "start": "pm2 start ecosystem.config.cjs",
+    "stop": "pm2 stop ecosystem.config.cjs",
+    "restart": "pm2 restart ecosystem.config.cjs",
     "logs": "pm2 logs icjia-accessibility-backend",
     "status": "pm2 status",
     "lint": "eslint .",
@@ -29,7 +29,7 @@
     "seed": "tsx seed.ts",
     "reset:users": "node scripts/reset-users.js",
     "reset:app": "node scripts/reset-app.js",
-    "forge": "yarn install --production && yarn build && pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js && pm2 save"
+    "forge": "yarn install && yarn build && pm2 restart ecosystem.config.cjs || pm2 start ecosystem.config.cjs && pm2 save"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

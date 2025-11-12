@@ -195,11 +195,11 @@ fi
 
 # Step 8: Restart PM2 services
 log_info "Step 8: Restarting PM2 services..."
-if pm2 restart ecosystem.config.js; then
+if pm2 restart ecosystem.config.cjs; then
     log_success "PM2 services restarted successfully"
 else
     log_warning "Services not running, starting them now..."
-    if pm2 start ecosystem.config.js; then
+    if pm2 start ecosystem.config.cjs; then
         log_success "PM2 services started successfully"
     else
         log_error "Failed to start PM2 services"

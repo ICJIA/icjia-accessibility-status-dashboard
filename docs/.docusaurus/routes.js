@@ -39,15 +39,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '08d'),
+    component: ComponentCreator('/docs', 'b0e'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '040'),
+        component: ComponentCreator('/docs', 'c6f'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'f1c'),
+            component: ComponentCreator('/docs', 'd6c'),
             routes: [
               {
                 path: '/docs/api/api-keys',
@@ -267,6 +267,11 @@ export default [
                 component: ComponentCreator('/docs/intro', '61d'),
                 exact: true,
                 sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/pm2',
+                component: ComponentCreator('/docs/pm2', '433'),
+                exact: true
               },
               {
                 path: '/docs/quick-start',

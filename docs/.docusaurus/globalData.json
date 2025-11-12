@@ -193,6 +193,10 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "pm2",
+              "path": "/docs/pm2"
+            },
+            {
               "id": "quick-start",
               "path": "/docs/quick-start",
               "sidebar": "tutorialSidebar"
