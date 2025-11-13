@@ -6,20 +6,6 @@ A comprehensive web accessibility tracking system for the Illinois Criminal Just
 
 > 📚 **[Documentation](#-documentation)** | **[GitHub Repository](https://github.com/ICJIA/icjia-accessibility-status)**
 
-## 📸 Screenshots
-
-### Dashboard Overview
-
-The main dashboard displays all websites with their accessibility scores, compliance countdown, and trend indicators.
-
-![Dashboard Overview](screenshots/dashboard-overview.png)
-
-### Export Functionality
-
-All users can export accessibility data in JSON, CSV, or Markdown formats directly from the dashboard - no authentication required.
-
-![Export Menu](screenshots/export-menu.png)
-
 ## 📥 Export Data
 
 All users can export accessibility data in multiple formats directly from the dashboard - **no authentication required**:
