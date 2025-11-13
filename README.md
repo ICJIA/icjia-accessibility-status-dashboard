@@ -1,8 +1,10 @@
 # ICJIA Accessibility Status
 
-> **Last Updated**: November 12, 2025
+> **Last Updated**: November 13, 2025
 
 A comprehensive web accessibility tracking system for the Illinois Criminal Justice Information Authority, designed to monitor progress toward April 2026 compliance goals across all ICJIA web properties.
+
+**Architecture**: React frontend (Vite) + Express backend + Supabase PostgreSQL | **No Docker** | **Yarn-based scripts**
 
 > 📚 **[Documentation](#-documentation)** | **[GitHub Repository](https://github.com/ICJIA/icjia-accessibility-status)**
 
@@ -27,57 +29,101 @@ Click the **Export** button on the dashboard to download your preferred format. 
 
 ## ⚡ Quick Start
 
+### Prerequisites
+
+- **Node.js 20+** (check with `node --version`)
+- **Yarn 1.22.22** (check with `yarn --version`)
+- **Supabase account** (free tier works fine)
+
 ### Local Development (5 Minutes)
 
 ```bash
-# 1. Clone and install
+# 1. Clone and install dependencies
 git clone https://github.com/ICJIA/icjia-accessibility-status.git
 cd icjia-accessibility-status
 yarn install
 
-# 2. Configure environment
+# 2. Configure environment variables
 cp .env.sample .env
 # Edit .env and add your Supabase credentials:
-#   VITE_SUPABASE_URL=your-project-url
-#   VITE_SUPABASE_ANON_KEY=your-anon-key
+#   VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+#   VITE_SUPABASE_ANON_KEY=your-anon-key-here
+#   FRONTEND_URL=http://localhost:5173
+#   VITE_API_URL=http://localhost:3001/api
 
-# 3. Run database migrations
+# 3. Run database migrations (one-time setup)
 # Go to Supabase Dashboard → SQL Editor → New query
-# Copy and run: supabase/migrations/01_create_initial_schema.sql
-# Then run: supabase/migrations/02_add_api_keys_and_payloads.sql
+# Copy and run each migration file in order:
+#   supabase/migrations/01_create_initial_schema.sql
+#   supabase/migrations/02_add_api_keys_and_payloads.sql
+#   supabase/migrations/03_add_scans_and_results.sql
+#   supabase/migrations/04_add_scan_violations.sql
+#   supabase/migrations/05_final_setup_and_cleanup.sql
 
-# 4. Start development server
+# 4. Start development server (frontend + backend)
 yarn dev
 
 # 5. Access the application
 # Frontend: http://localhost:5173
-# Backend: http://localhost:3001/api
-# Admin: http://localhost:5173/admin (username: admin, password: blank - set on first login)
+# Backend API: http://localhost:3001/api
+# Admin Panel: http://localhost:5173/admin (default: admin / no password)
 ```
 
-### Available Commands
+### Available Yarn Scripts
 
 ```bash
-# Development
-yarn dev              # Start frontend and backend concurrently (development mode)
-yarn dev:frontend     # Frontend only (Vite dev server on port 5173)
-yarn dev:backend      # Backend only (Express on port 3001)
+# ============================================================================
+# DEVELOPMENT
+# ============================================================================
+yarn dev              # Start frontend (Vite) + backend (Express) concurrently
+yarn dev:frontend     # Frontend only - Vite dev server on port 5173
+yarn dev:backend      # Backend only - Express server on port 3001
+yarn staging          # Staging mode - frontend dev + backend with watch
 
-# Production
-yarn build            # Build frontend for production
-yarn production:simple # Test production build without PM2 (frontend + backend)
-yarn production:pm2   # Full production deployment (build + PM2 start)
-yarn start            # Start services with PM2 (production mode)
+# ============================================================================
+# PRODUCTION BUILD & DEPLOYMENT
+# ============================================================================
+yarn build            # Build frontend for production (creates dist/ directory)
+yarn production:simple # Test production build locally (no PM2)
+                      # Runs: vite preview (port 5173) + Express (port 3001)
+yarn production:pm2   # Full production deployment with PM2
+                      # Runs: yarn install && yarn build && pm2 restart
+yarn start            # Start services with PM2 (requires PM2 installed globally)
+yarn stop             # Stop all PM2 services
+yarn restart          # Restart all PM2 services
+yarn logs             # View PM2 logs for backend service
+yarn status           # Show PM2 service status
 
-# Utilities
-yarn seed             # Populate database with sample data
-yarn lint             # Run ESLint
+# ============================================================================
+# CODE QUALITY & UTILITIES
+# ============================================================================
+yarn lint             # Run ESLint on all files
 yarn typecheck        # Run TypeScript type checking
+yarn seed             # Populate database with sample data
+yarn reset:users      # Reset all users in database
+yarn reset:app        # Reset entire application (users + sites + data)
+yarn preview          # Preview production build locally (Vite preview)
 ```
 
 ## 🚀 Production Deployment
 
-### Laravel Forge (Recommended)
+### Architecture Overview
+
+```
+User Request (port 80/443)
+    ↓
+Nginx (Reverse Proxy)
+    ├─ / → Frontend (static files from dist/)
+    └─ /api/* → Backend (port 3001, managed by PM2)
+```
+
+**Frontend**: Built to static files (`dist/`) and served by Nginx
+**Backend**: Express server on port 3001, managed by PM2
+**Database**: Supabase PostgreSQL (cloud-hosted)
+
+### Deployment Options
+
+#### Option 1: Laravel Forge (Recommended)
 
 For detailed Laravel Forge deployment instructions, see **[docs/deployment/laravel-forge.md](docs/deployment/laravel-forge.md)**.
 
@@ -89,17 +135,47 @@ For detailed Laravel Forge deployment instructions, see **[docs/deployment/larav
 4. Run database migrations (01-05 in order)
 5. Deploy using Git with PM2 process management
 
-**Deployment Methods:**
+**Deployment command:**
 
-- `yarn production:pm2` - Full production deployment with PM2 (recommended)
-- `yarn production:simple` - Test production build without PM2
+```bash
+yarn production:pm2  # Build frontend + start backend with PM2
+```
 
-### Other Deployment Options
+#### Option 2: Ubuntu Server with PM2 + Nginx
 
-For other deployment options, see **[docs/deployment/overview.md](docs/deployment/overview.md)**:
+For detailed instructions, see **[docs/deployment/overview.md](docs/deployment/overview.md)**.
 
-- Ubuntu Server with PM2 + Nginx
-- Cloud platforms (Vercel, Heroku, AWS, DigitalOcean)
+**Quick setup:**
+
+```bash
+# 1. Install PM2 globally (one-time)
+npm install -g pm2
+
+# 2. Deploy application
+git clone https://github.com/ICJIA/icjia-accessibility-status.git
+cd icjia-accessibility-status
+yarn install
+cp .env.sample .env
+# Edit .env with production values
+
+# 3. Run database migrations in Supabase
+
+# 4. Start services with PM2
+yarn production:pm2
+
+# 5. Setup auto-start on reboot
+pm2 startup
+pm2 save
+```
+
+#### Option 3: Other Cloud Platforms
+
+See **[docs/deployment/overview.md](docs/deployment/overview.md)** for:
+
+- Vercel (frontend only)
+- Heroku
+- AWS
+- DigitalOcean
 
 ## 📚 Documentation
 
@@ -161,18 +237,49 @@ All documentation is available as Markdown files in the `/docs` directory, organ
 
 ## Prerequisites
 
-- **Node.js 20+** (specified in `.nvmrc`)
-- **Yarn 1.22.22** (specified in `package.json`)
-- **Supabase account** (free tier works fine)
+- **Node.js 20+** (check with `node --version`, specified in `.nvmrc`)
+- **Yarn 1.22.22** (check with `yarn --version`, specified in `package.json`)
+- **Supabase account** (free tier works fine - https://supabase.com)
+- **PM2** (for production deployment: `npm install -g pm2`)
 
 ## Tech Stack
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Recharts
-- **Backend**: Express, Node.js, TypeScript
-- **Database**: Supabase (PostgreSQL)
-- **Authentication**: Cookie-based sessions with bcrypt
-- **Process Management**: PM2 (production)
-- **Documentation**: Markdown files in `/docs` directory
+### Frontend
+
+- **React 18** - UI framework
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **Recharts** - React charting library
+- **React Router** - Client-side routing
+
+### Backend
+
+- **Express.js** - Web framework
+- **Node.js 20+** - JavaScript runtime
+- **TypeScript** - Type-safe JavaScript
+- **tsx** - TypeScript executor (no build step needed)
+
+### Database & Authentication
+
+- **Supabase** - PostgreSQL database (cloud-hosted)
+- **Row-Level Security (RLS)** - Database-level access control
+- **Cookie-based sessions** - Session management
+- **bcrypt** - Password hashing
+
+### DevOps & Deployment
+
+- **PM2** - Process manager (production)
+- **Nginx** - Reverse proxy (production)
+- **Yarn** - Package manager
+- **Concurrently** - Run multiple processes
+
+### Development Tools
+
+- **ESLint** - Code linting
+- **TypeScript** - Type checking
+- **Nodemon** - Auto-restart on file changes
+- **Vite** - Hot module replacement (HMR)
 
 ## License
 
