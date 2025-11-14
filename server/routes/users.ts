@@ -10,6 +10,11 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth, AuthRequest } from "../middleware/auth.js";
+import {
+  logUserCreated,
+  logUserDeleted,
+  logPasswordReset,
+} from "../utils/activityLogger.js";
 
 /**
  * Express router for user management endpoints
@@ -159,20 +164,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
     );
 
     // Log the action
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "user_created",
-        event_description: `Created new admin user: ${username}`,
-        entity_type: "user",
-        entity_id: newUser.id,
-        created_by_user: req.userId,
-        severity: "info",
-        metadata: {
-          username: username,
-          email: email,
-        },
-      },
-    ]);
+    await logUserCreated(newUser.id, username, email, req.userId);
 
     return res.status(201).json({ user: newUser });
   } catch (error) {
@@ -295,19 +287,7 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
     );
 
     // Log the action
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "user_deleted",
-        event_description: `Deleted admin user: ${userToDelete?.username}`,
-        entity_type: "user",
-        entity_id: id,
-        created_by_user: req.userId,
-        severity: "warning",
-        metadata: {
-          username: userToDelete?.username,
-        },
-      },
-    ]);
+    await logUserDeleted(id, userToDelete?.username || "unknown", req.userId);
 
     return res.json({ message: "User deleted successfully" });
   } catch (error) {
@@ -376,20 +356,7 @@ router.post(
       );
 
       // Log the action
-      await supabase.from("activity_log").insert([
-        {
-          event_type: "user_password_reset",
-          event_description: `Reset password for admin user: ${user.username}`,
-          entity_type: "user",
-          entity_id: id,
-          created_by_user: req.userId,
-          severity: "info",
-          metadata: {
-            username: user.username,
-            sessions_cleared: true,
-          },
-        },
-      ]);
+      await logPasswordReset(id, user.username, req.userId);
 
       return res.json({ message: "Password reset successfully" });
     } catch (error) {

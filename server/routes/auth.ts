@@ -15,7 +15,7 @@ import { loginLimiter, sessionLimiter } from "../middleware/rateLimiter.js";
 import {
   logFailedLogin,
   logSuccessfulLogin,
-  logRateLimitViolation,
+  logLogout,
 } from "../utils/activityLogger.js";
 
 /**
@@ -74,7 +74,7 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
 
     if (error || !user) {
       console.log("User not found or error:", error);
-      await logFailedLogin(req, username, "User not found");
+      await logFailedLogin(username, "User not found");
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -100,7 +100,7 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
 
     if (!passwordMatch) {
       console.log("Password mismatch");
-      await logFailedLogin(req, username, "Invalid password");
+      await logFailedLogin(username, "Invalid password");
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -124,7 +124,7 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
     }
 
     // Log successful login
-    await logSuccessfulLogin(req, user.id, username);
+    await logSuccessfulLogin(user.id, username);
 
     console.log(
       "[Login] Setting session cookie with token:",
@@ -161,6 +161,18 @@ router.post("/logout", requireAuth, async (req: AuthRequest, res) => {
         .from("sessions")
         .delete()
         .eq("session_token", sessionToken);
+    }
+
+    // Get user info for logging
+    const { data: user } = await supabase
+      .from("admin_users")
+      .select("username")
+      .eq("id", req.userId)
+      .single();
+
+    // Log the logout
+    if (user) {
+      await logLogout(req.userId, user.username);
     }
 
     res.clearCookie("session_token");

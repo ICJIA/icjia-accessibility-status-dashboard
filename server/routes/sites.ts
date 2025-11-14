@@ -9,7 +9,12 @@
 import { Router } from "express";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth, AuthRequest } from "../middleware/auth.js";
-import { logAdminActivity } from "../utils/adminActivityLogger.js";
+import {
+  logSiteCreated,
+  logSiteUpdated,
+  logSiteDeleted,
+  logSiteDataCleared,
+} from "../utils/activityLogger.js";
 
 /**
  * Express router for site management endpoints
@@ -189,20 +194,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
     }
 
     // Log the action
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "site_created",
-        event_description: `Created new site: ${title}`,
-        entity_type: "site",
-        entity_id: newSite.id,
-        created_by_user: req.userId,
-        severity: "info",
-        metadata: {
-          site_name: title,
-          url: url,
-        },
-      },
-    ]);
+    await logSiteCreated(newSite.id, title, url, req.userId);
 
     return res.status(201).json({ site: newSite });
   } catch (error) {
@@ -296,22 +288,7 @@ router.put("/:id", requireAuth, async (req, res) => {
         `lighthouse_score: ${currentSite.lighthouse_score} → ${lighthouse_score}`
       );
 
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "site_updated",
-        event_description: `Updated site: ${title}${
-          changes.length > 0 ? ` (${changes.join(", ")})` : ""
-        }`,
-        entity_type: "site",
-        entity_id: id,
-        created_by_user: req.userId,
-        severity: "info",
-        metadata: {
-          site_name: title,
-          changes: changes,
-        },
-      },
-    ]);
+    await logSiteUpdated(id, title, changes, req.userId);
 
     return res.json({ site: updatedSite });
   } catch (error) {
@@ -343,19 +320,7 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
     }
 
     // Log the action
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "site_deleted",
-        event_description: `Deleted site: ${site.title}`,
-        entity_type: "site",
-        entity_id: id,
-        created_by_user: req.userId,
-        severity: "warning",
-        metadata: {
-          site_name: site.title,
-        },
-      },
-    ]);
+    await logSiteDeleted(id, site.title, req.userId);
 
     return res.json({ message: "Site deleted successfully" });
   } catch (error) {
@@ -423,19 +388,7 @@ router.post("/:id/clear-data", requireAuth, async (req, res) => {
     }
 
     // Log the action
-    await supabase.from("activity_log").insert([
-      {
-        event_type: "site_data_cleared",
-        event_description: `Cleared all data for site: ${site.title}`,
-        entity_type: "site",
-        entity_id: id,
-        created_by_user: req.userId,
-        severity: "warning",
-        metadata: {
-          site_name: site.title,
-        },
-      },
-    ]);
+    await logSiteDataCleared(id, site.title, req.userId);
 
     return res.json({ message: "Site data cleared successfully" });
   } catch (error) {

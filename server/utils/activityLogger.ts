@@ -1,6 +1,7 @@
 /**
- * @fileoverview Activity Logger Utility
- * Provides functions to log system events and user actions for audit trails.
+ * @fileoverview Unified Activity Logger
+ * Centralized logging utility for ALL admin actions and system events.
+ * Handles scans, sites, users, authentication, and other admin activities.
  * Automatically sanitizes sensitive data before logging.
  *
  * @module utils/activityLogger
@@ -8,34 +9,25 @@
 
 import { supabase } from "./supabase.js";
 import { Request } from "express";
-import { sanitizeObject, sanitizeHeaders } from "./sanitizer.js";
+import { sanitizeObject } from "./sanitizer.js";
 
 /**
- * Activity log entry
- * @typedef {Object} ActivityLogEntry
- * @property {string} event_type - Type of event (e.g., 'login', 'site_created')
- * @property {string} description - Human-readable description
- * @property {'info'|'warning'|'error'|'critical'} severity - Event severity level
- * @property {string} [created_by_user] - Username of user who triggered event
- * @property {string} [created_by_api_key] - API key name if triggered by API
- * @property {string} [ip_address] - IP address of request origin
- * @property {string} [user_agent] - User agent string
- * @property {Record<string, any>} [metadata] - Additional event metadata
+ * Core activity log entry interface
  */
 export interface ActivityLogEntry {
   event_type: string;
-  description: string;
-  severity: "info" | "warning" | "error" | "critical";
-  created_by_user?: string;
-  created_by_api_key?: string;
-  ip_address?: string;
-  user_agent?: string;
+  event_description: string;
+  severity: "info" | "warning" | "error";
+  entity_type?: string;
+  entity_id?: string;
+  created_by_user?: string | null;
+  created_by_api_key?: string | null;
   metadata?: Record<string, any>;
 }
 
 /**
  * Log an activity to the activity_log table
- * Automatically sanitizes sensitive data in metadata
+ * This is the core logging function used by all other logging functions
  */
 export async function logActivity(entry: ActivityLogEntry): Promise<void> {
   try {
@@ -45,168 +37,328 @@ export async function logActivity(entry: ActivityLogEntry): Promise<void> {
     const { error } = await supabase.from("activity_log").insert([
       {
         event_type: entry.event_type,
-        description: entry.description,
-        severity: entry.severity,
+        event_description: entry.event_description,
+        severity: entry.severity || "info",
+        entity_type: entry.entity_type || null,
+        entity_id: entry.entity_id || null,
         created_by_user: entry.created_by_user || null,
         created_by_api_key: entry.created_by_api_key || null,
-        ip_address: entry.ip_address || null,
-        user_agent: entry.user_agent || null,
         metadata: sanitizedMetadata,
       },
     ]);
 
     if (error) {
-      console.error("Error logging activity:", error);
+      console.error(`[Activity Log] Error logging ${entry.event_type}:`, error);
+    } else {
+      console.log(
+        `[Activity Log] ✓ ${entry.event_type}: ${entry.event_description}`
+      );
     }
   } catch (err) {
-    console.error("Activity logging error:", err);
+    console.error(`[Activity Log] Exception in logActivity:`, err);
   }
 }
 
-/**
- * Log a rate limit violation
- */
-export async function logRateLimitViolation(
-  req: Request,
-  limitType: "login" | "api_key" | "session" | "general",
-  userId?: string,
-  apiKeyId?: string
-): Promise<void> {
-  const ipAddress = req.ip || req.socket.remoteAddress || "unknown";
-  const userAgent = req.get("user-agent") || "unknown";
+// ============================================================================
+// SCAN LOGGING FUNCTIONS
+// ============================================================================
 
+/**
+ * Log scan started event
+ */
+export async function logScanStarted(
+  scanId: string,
+  siteId: string,
+  siteName: string,
+  userId?: string | null
+): Promise<void> {
   await logActivity({
-    event_type: "rate_limit_violation",
-    description: `Rate limit exceeded for ${limitType}`,
-    severity: "warning",
-    created_by_user: userId || undefined,
-    created_by_api_key: apiKeyId || undefined,
-    ip_address: ipAddress,
-    user_agent: userAgent,
+    event_type: "scan_started",
+    event_description: `Scan started for site: ${siteName}`,
+    entity_type: "scan",
+    entity_id: scanId,
+    created_by_user: userId,
+    severity: "info",
     metadata: {
-      limit_type: limitType,
-      timestamp: new Date().toISOString(),
+      site_id: siteId,
+      site_name: siteName,
     },
   });
 }
 
 /**
- * Log a failed login attempt
+ * Log scan completed event
  */
-export async function logFailedLogin(
-  req: Request,
-  username: string,
-  reason: string
+export async function logScanCompleted(
+  scanId: string,
+  siteId: string,
+  siteName: string,
+  axeScore: number | null,
+  lighthouseScore: number | null,
+  userId?: string | null
 ): Promise<void> {
-  const ipAddress = req.ip || req.socket.remoteAddress || "unknown";
-  const userAgent = req.get("user-agent") || "unknown";
-
   await logActivity({
-    event_type: "failed_login",
-    description: `Failed login attempt for user: ${username} (${reason})`,
+    event_type: "scan_completed",
+    event_description: `Scan completed for site: ${siteName} (Axe: ${axeScore}, Lighthouse: ${lighthouseScore})`,
+    entity_type: "scan",
+    entity_id: scanId,
+    created_by_user: userId,
+    severity: "info",
+    metadata: {
+      site_id: siteId,
+      site_name: siteName,
+      axe_score: axeScore,
+      lighthouse_score: lighthouseScore,
+    },
+  });
+}
+
+/**
+ * Log scan failed event
+ */
+export async function logScanFailed(
+  scanId: string,
+  siteId: string,
+  siteName: string,
+  errorMessage: string,
+  userId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "scan_failed",
+    event_description: `Scan failed for site: ${siteName} - ${errorMessage}`,
+    entity_type: "scan",
+    entity_id: scanId,
+    created_by_user: userId,
+    severity: "error",
+    metadata: {
+      site_id: siteId,
+      site_name: siteName,
+      error_message: errorMessage,
+    },
+  });
+}
+
+// ============================================================================
+// SITE MANAGEMENT LOGGING FUNCTIONS
+// ============================================================================
+
+/**
+ * Log site created event
+ */
+export async function logSiteCreated(
+  siteId: string,
+  siteName: string,
+  siteUrl: string,
+  userId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "site_created",
+    event_description: `Created new site: ${siteName}`,
+    entity_type: "site",
+    entity_id: siteId,
+    created_by_user: userId,
+    severity: "info",
+    metadata: {
+      site_name: siteName,
+      site_url: siteUrl,
+    },
+  });
+}
+
+/**
+ * Log site updated event
+ */
+export async function logSiteUpdated(
+  siteId: string,
+  siteName: string,
+  changes: string[],
+  userId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "site_updated",
+    event_description: `Updated site: ${siteName}${
+      changes.length > 0 ? ` (${changes.join(", ")})` : ""
+    }`,
+    entity_type: "site",
+    entity_id: siteId,
+    created_by_user: userId,
+    severity: "info",
+    metadata: {
+      site_name: siteName,
+      changes: changes,
+    },
+  });
+}
+
+/**
+ * Log site deleted event
+ */
+export async function logSiteDeleted(
+  siteId: string,
+  siteName: string,
+  userId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "site_deleted",
+    event_description: `Deleted site: ${siteName}`,
+    entity_type: "site",
+    entity_id: siteId,
+    created_by_user: userId,
     severity: "warning",
-    ip_address: ipAddress,
-    user_agent: userAgent,
+    metadata: {
+      site_name: siteName,
+    },
+  });
+}
+
+/**
+ * Log site data cleared event
+ */
+export async function logSiteDataCleared(
+  siteId: string,
+  siteName: string,
+  userId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "site_data_cleared",
+    event_description: `All data cleared for site: ${siteName}`,
+    entity_type: "site",
+    entity_id: siteId,
+    created_by_user: userId,
+    severity: "warning",
+    metadata: {
+      site_name: siteName,
+    },
+  });
+}
+
+// ============================================================================
+// USER MANAGEMENT LOGGING FUNCTIONS
+// ============================================================================
+
+/**
+ * Log user created event
+ */
+export async function logUserCreated(
+  userId: string,
+  username: string,
+  email: string,
+  createdByUserId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "user_created",
+    event_description: `Created new admin user: ${username}`,
+    entity_type: "user",
+    entity_id: userId,
+    created_by_user: createdByUserId,
+    severity: "info",
     metadata: {
       username,
-      reason,
-      timestamp: new Date().toISOString(),
+      email,
     },
   });
 }
 
 /**
- * Log a successful login
+ * Log user deleted event
+ */
+export async function logUserDeleted(
+  userId: string,
+  username: string,
+  deletedByUserId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "user_deleted",
+    event_description: `Deleted admin user: ${username}`,
+    entity_type: "user",
+    entity_id: userId,
+    created_by_user: deletedByUserId,
+    severity: "warning",
+    metadata: {
+      username,
+    },
+  });
+}
+
+/**
+ * Log password reset event
+ */
+export async function logPasswordReset(
+  userId: string,
+  username: string,
+  resetByUserId?: string | null
+): Promise<void> {
+  await logActivity({
+    event_type: "password_reset",
+    event_description: `Password reset for user: ${username}`,
+    entity_type: "user",
+    entity_id: userId,
+    created_by_user: resetByUserId,
+    severity: "info",
+    metadata: {
+      username,
+    },
+  });
+}
+
+// ============================================================================
+// AUTHENTICATION LOGGING FUNCTIONS
+// ============================================================================
+
+/**
+ * Log successful login
  */
 export async function logSuccessfulLogin(
-  req: Request,
   userId: string,
   username: string
 ): Promise<void> {
-  const ipAddress = req.ip || req.socket.remoteAddress || "unknown";
-  const userAgent = req.get("user-agent") || "unknown";
-
   await logActivity({
     event_type: "login",
-    description: `User logged in: ${username}`,
-    severity: "info",
+    event_description: `User logged in: ${username}`,
+    entity_type: "user",
+    entity_id: userId,
     created_by_user: userId,
-    ip_address: ipAddress,
-    user_agent: userAgent,
+    severity: "info",
     metadata: {
       username,
-      timestamp: new Date().toISOString(),
     },
   });
 }
 
 /**
- * Log API key usage
+ * Log failed login attempt
  */
-export async function logApiKeyUsage(
-  req: Request,
-  apiKeyId: string,
-  endpoint: string,
-  method: string,
-  statusCode: number
-): Promise<void> {
-  const ipAddress = req.ip || req.socket.remoteAddress || "unknown";
-  const userAgent = req.get("user-agent") || "unknown";
-
-  await logActivity({
-    event_type: "api_key_usage",
-    description: `API key used: ${method} ${endpoint}`,
-    severity: "info",
-    created_by_api_key: apiKeyId,
-    ip_address: ipAddress,
-    user_agent: userAgent,
-    metadata: {
-      endpoint,
-      method,
-      statusCode,
-      timestamp: new Date().toISOString(),
-    },
-  });
-}
-
-/**
- * Log API key rotation
- */
-export async function logApiKeyRotation(
-  userId: string,
-  oldKeyId: string,
-  newKeyId: string,
-  gracePeriodDays: number
-): Promise<void> {
-  await logActivity({
-    event_type: "api_key_rotation",
-    description: `API key rotated. Old key will expire in ${gracePeriodDays} days.`,
-    severity: "info",
-    created_by_user: userId,
-    metadata: {
-      old_key_id: oldKeyId,
-      new_key_id: newKeyId,
-      grace_period_days: gracePeriodDays,
-      timestamp: new Date().toISOString(),
-    },
-  });
-}
-
-/**
- * Log API key deactivation
- */
-export async function logApiKeyDeactivation(
-  keyId: string,
+export async function logFailedLogin(
+  username: string,
   reason: string
 ): Promise<void> {
   await logActivity({
-    event_type: "api_key_deactivation",
-    description: `API key deactivated: ${reason}`,
+    event_type: "failed_login",
+    event_description: `Failed login attempt for user: ${username} (${reason})`,
+    severity: "warning",
+    metadata: {
+      username,
+      reason,
+    },
+  });
+}
+
+/**
+ * Log user logout
+ */
+export async function logLogout(
+  userId: string,
+  username: string
+): Promise<void> {
+  await logActivity({
+    event_type: "logout",
+    event_description: `User logged out: ${username}`,
+    entity_type: "user",
+    entity_id: userId,
+    created_by_user: userId,
     severity: "info",
     metadata: {
-      key_id: keyId,
-      reason,
-      timestamp: new Date().toISOString(),
+      username,
     },
   });
 }

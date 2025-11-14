@@ -14,7 +14,7 @@ import {
   logScanStarted,
   logScanCompleted,
   logScanFailed,
-} from "../utils/scanActivityLogger.js";
+} from "../utils/activityLogger.js";
 
 const router = Router();
 
