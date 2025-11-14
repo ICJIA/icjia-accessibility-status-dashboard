@@ -15,6 +15,7 @@ import {
   Activity,
   Globe,
   AlertTriangle,
+  RotateCcw,
 } from "lucide-react";
 import { ActivityLog } from "../components/ActivityLog";
 import { SitesManagement } from "../components/SitesManagement";
@@ -339,7 +340,7 @@ export function AdminDashboard() {
                               : "Reset password"
                           }
                         >
-                          <KeyIcon className="h-4 w-4" />
+                          <RotateCcw className="h-4 w-4" />
                           <span className="text-xs">Reset Password</span>
                         </button>
                       </td>
