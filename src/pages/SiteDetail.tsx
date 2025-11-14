@@ -107,6 +107,10 @@ export function SiteDetail() {
           clearInterval(pollIntervalRef.current);
           pollIntervalRef.current = null;
           setIsRunningScans(false);
+
+          // Refresh site data and history when scans complete
+          await loadSite();
+          await loadHistory();
         }
       }
     } catch (error) {
