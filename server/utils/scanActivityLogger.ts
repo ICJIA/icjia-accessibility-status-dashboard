@@ -14,6 +14,7 @@ export interface ScanActivityLogEntry {
   user_id?: string | null;
   api_key_id?: string | null;
   metadata?: Record<string, any>;
+  severity?: "info" | "warning" | "error";
 }
 
 /**
@@ -33,7 +34,7 @@ export async function logScanActivity(
         created_by_user: entry.user_id || null,
         created_by_api_key: entry.api_key_id || null,
         metadata: entry.metadata || {},
-        severity: "info",
+        severity: entry.severity || "info",
       },
     ]);
 
@@ -49,6 +50,7 @@ export async function logScanActivity(
  * Log scan started event
  */
 export async function logScanStarted(
+  scanId: string,
   siteId: string,
   siteName: string,
   userId?: string | null
@@ -57,9 +59,11 @@ export async function logScanStarted(
     event_type: "scan_started",
     event_description: `Scan started for site: ${siteName}`,
     entity_type: "scan",
-    entity_id: siteId,
+    entity_id: scanId,
     user_id: userId,
+    severity: "info",
     metadata: {
+      site_id: siteId,
       site_name: siteName,
     },
   });
@@ -69,6 +73,7 @@ export async function logScanStarted(
  * Log scan completed event
  */
 export async function logScanCompleted(
+  scanId: string,
   siteId: string,
   siteName: string,
   axeScore: number | null,
@@ -79,9 +84,11 @@ export async function logScanCompleted(
     event_type: "scan_completed",
     event_description: `Scan completed for site: ${siteName} (Axe: ${axeScore}, Lighthouse: ${lighthouseScore})`,
     entity_type: "scan",
-    entity_id: siteId,
+    entity_id: scanId,
     user_id: userId,
+    severity: "info",
     metadata: {
+      site_id: siteId,
       site_name: siteName,
       axe_score: axeScore,
       lighthouse_score: lighthouseScore,
@@ -93,6 +100,7 @@ export async function logScanCompleted(
  * Log scan failed event
  */
 export async function logScanFailed(
+  scanId: string,
   siteId: string,
   siteName: string,
   errorMessage: string,
@@ -102,9 +110,11 @@ export async function logScanFailed(
     event_type: "scan_failed",
     event_description: `Scan failed for site: ${siteName} - ${errorMessage}`,
     entity_type: "scan",
-    entity_id: siteId,
+    entity_id: scanId,
     user_id: userId,
+    severity: "error",
     metadata: {
+      site_id: siteId,
       site_name: siteName,
       error_message: errorMessage,
     },

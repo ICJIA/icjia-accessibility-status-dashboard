@@ -188,7 +188,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
     addProgress(scan.id, `🚀 Scan started for ${site.url}`);
 
     // Log scan started activity
-    await logScanStarted(site_id, site.title, req.userId);
+    await logScanStarted(scan.id, site_id, site.title, req.userId);
 
     // Run scan in background
     runScanAsync(scan.id, site.id, site.url, scan_type, site.title, req.userId);
@@ -403,7 +403,14 @@ async function runScanAsync(
     addProgress(scanId, "✨ Scan complete!");
 
     // Log scan completed activity
-    await logScanCompleted(siteId, siteName, axeScore, lighthouseScore, userId);
+    await logScanCompleted(
+      scanId,
+      siteId,
+      siteName,
+      axeScore,
+      lighthouseScore,
+      userId
+    );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     addProgress(scanId, `❌ Scan error: ${errorMessage}`);
@@ -419,7 +426,7 @@ async function runScanAsync(
       .eq("id", scanId);
 
     // Log scan failed activity
-    await logScanFailed(siteId, siteName, errorMessage, userId);
+    await logScanFailed(scanId, siteId, siteName, errorMessage, userId);
   }
 }
 
