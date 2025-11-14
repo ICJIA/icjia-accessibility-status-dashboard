@@ -226,41 +226,99 @@ async function runScanAsync(
     let axeScore: number | null = null;
     let axeReport: any = null;
 
-    // Run Lighthouse if needed
-    if (scanType === "lighthouse" || scanType === "both") {
-      try {
-        addProgress(scanId, "📊 Starting Lighthouse audit...");
-        lighthouseReport = await runLighthouseAudit(siteUrl, (msg) =>
-          addProgress(scanId, msg)
-        );
-        lighthouseScore = lighthouseReport.score;
-        addProgress(scanId, `✅ Lighthouse score: ${lighthouseScore}/100`);
-      } catch (error) {
+    // Run scans in parallel if both are needed
+    if (scanType === "both") {
+      addProgress(scanId, "📊 Starting Lighthouse audit...");
+      addProgress(scanId, "🔍 Starting Axe accessibility scan...");
+
+      const [lighthouseResult, axeResult] = await Promise.allSettled([
+        runLighthouseAudit(siteUrl, (msg) => addProgress(scanId, msg)),
+        runAxeAudit(siteUrl, (msg) => addProgress(scanId, msg)),
+      ]).then((results) => [results[0], results[1]]);
+
+      // Handle Lighthouse result
+      if (lighthouseResult.status === "fulfilled") {
+        try {
+          lighthouseReport = lighthouseResult.value;
+          lighthouseScore = lighthouseReport.score;
+          addProgress(scanId, `✅ Lighthouse score: ${lighthouseScore}/100`);
+        } catch (error) {
+          addProgress(
+            scanId,
+            `❌ Lighthouse processing failed: ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
+      } else {
         addProgress(
           scanId,
           `❌ Lighthouse failed: ${
-            error instanceof Error ? error.message : String(error)
+            lighthouseResult.reason instanceof Error
+              ? lighthouseResult.reason.message
+              : String(lighthouseResult.reason)
           }`
         );
       }
-    }
 
-    // Run Axe if needed
-    if (scanType === "axe" || scanType === "both") {
-      try {
-        addProgress(scanId, "🔍 Starting Axe accessibility scan...");
-        axeReport = await runAxeAudit(siteUrl, (msg) =>
-          addProgress(scanId, msg)
-        );
-        axeScore = Math.max(0, 100 - axeReport.violations * 5);
-        addProgress(scanId, `✅ Axe score: ${axeScore}/100`);
-      } catch (error) {
+      // Handle Axe result
+      if (axeResult.status === "fulfilled") {
+        try {
+          axeReport = axeResult.value;
+          axeScore = Math.max(0, 100 - axeReport.violations * 5);
+          addProgress(scanId, `✅ Axe score: ${axeScore}/100`);
+        } catch (error) {
+          addProgress(
+            scanId,
+            `❌ Axe processing failed: ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
+      } else {
         addProgress(
           scanId,
           `❌ Axe failed: ${
-            error instanceof Error ? error.message : String(error)
+            axeResult.reason instanceof Error
+              ? axeResult.reason.message
+              : String(axeResult.reason)
           }`
         );
+      }
+    } else {
+      // Run single scan type
+      if (scanType === "lighthouse") {
+        try {
+          addProgress(scanId, "📊 Starting Lighthouse audit...");
+          lighthouseReport = await runLighthouseAudit(siteUrl, (msg) =>
+            addProgress(scanId, msg)
+          );
+          lighthouseScore = lighthouseReport.score;
+          addProgress(scanId, `✅ Lighthouse score: ${lighthouseScore}/100`);
+        } catch (error) {
+          addProgress(
+            scanId,
+            `❌ Lighthouse failed: ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
+      } else if (scanType === "axe") {
+        try {
+          addProgress(scanId, "🔍 Starting Axe accessibility scan...");
+          axeReport = await runAxeAudit(siteUrl, (msg) =>
+            addProgress(scanId, msg)
+          );
+          axeScore = Math.max(0, 100 - axeReport.violations * 5);
+          addProgress(scanId, `✅ Axe score: ${axeScore}/100`);
+        } catch (error) {
+          addProgress(
+            scanId,
+            `❌ Axe failed: ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
       }
     }
 
