@@ -31,13 +31,22 @@ export async function runAxeAudit(
   url: string,
   onProgress?: (message: string) => void
 ): Promise<AxeResult> {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
+  console.log(`[Axe] Starting Axe audit for URL: ${url}`);
+  let browser;
+  let page;
 
   try {
+    console.log("[Axe] Launching Chromium browser...");
+    browser = await chromium.launch();
+    console.log("[Axe] Browser launched successfully");
+
+    page = await browser.newPage();
+    console.log("[Axe] Page created successfully");
+
     onProgress?.("🌐 Loading page...");
     console.log(`[Axe] Loading page: ${url}`);
     await page.goto(url, { waitUntil: "networkidle" });
+    console.log("[Axe] Page loaded successfully");
 
     onProgress?.("🔍 Injecting Axe...");
     console.log("[Axe] Injecting Axe Core library");
@@ -65,11 +74,23 @@ export async function runAxeAudit(
     console.log("[Axe] Starting Axe scan");
 
     // Run Axe
+    console.log("[Axe] Evaluating Axe on page...");
     const results = await page.evaluate(() => {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
+        console.log("[Axe-Browser] Checking if axe is available...");
+        if (!(window as any).axe) {
+          reject(new Error("Axe not available on window"));
+          return;
+        }
+        console.log("[Axe-Browser] Axe found, running scan...");
         (window as any).axe.run((error: any, results: any) => {
-          if (error) throw error;
-          resolve(results);
+          if (error) {
+            console.error("[Axe-Browser] Axe error:", error);
+            reject(error);
+          } else {
+            console.log("[Axe-Browser] Axe scan completed successfully");
+            resolve(results);
+          }
         });
       });
     });
@@ -78,6 +99,11 @@ export async function runAxeAudit(
 
     onProgress?.("✅ Axe scan complete");
     console.log("[Axe] Scan complete - processing results");
+    console.log("[Axe] Results summary:", {
+      violations: axeResults.violations?.length || 0,
+      passes: axeResults.passes?.length || 0,
+      incomplete: axeResults.incomplete?.length || 0,
+    });
 
     // Calculate score (100 - violations)
     const violationCount = axeResults.violations.length;
@@ -119,10 +145,21 @@ export async function runAxeAudit(
     return result;
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : "";
     console.error("[Axe] Error:", errorMsg);
+    console.error("[Axe] Error stack:", errorStack);
+    console.error("[Axe] Full error object:", error);
     onProgress?.(`❌ Axe error: ${errorMsg}`);
     throw error;
   } finally {
-    await browser.close();
+    try {
+      if (browser) {
+        console.log("[Axe] Closing browser...");
+        await browser.close();
+        console.log("[Axe] Browser closed successfully");
+      }
+    } catch (closeError) {
+      console.error("[Axe] Error closing browser:", closeError);
+    }
   }
 }
