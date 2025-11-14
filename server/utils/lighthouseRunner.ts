@@ -80,6 +80,7 @@ export async function runLighthouseAudit(
       "[Lighthouse] Final result:",
       JSON.stringify(
         {
+          url,
           score: result.score,
           categories: result.categories,
           auditCount: Object.keys(result.audits).length,

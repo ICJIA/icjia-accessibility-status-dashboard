@@ -326,6 +326,7 @@ async function runScanAsync(
 
     // Log final scan results
     console.log(`[Scan ${scanId}] Final Results:`, {
+      url: siteUrl,
       lighthouseScore,
       axeScore,
       lighthouseReportSize: lighthouseReport

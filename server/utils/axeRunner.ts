@@ -112,7 +112,10 @@ export async function runAxeAudit(
       })),
     };
 
-    console.log("[Axe] Final result:", JSON.stringify(result, null, 2));
+    console.log(
+      "[Axe] Final result:",
+      JSON.stringify({ url, ...result }, null, 2)
+    );
     return result;
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
