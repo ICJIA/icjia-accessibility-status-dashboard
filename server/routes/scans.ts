@@ -1,7 +1,6 @@
 /**
- * @fileoverview Scan Management Routes (Mock/Dummy Implementation)
- * Handles scan triggering with mock data for UI testing.
- * This is Phase 2 development - actual Lighthouse/Axe execution comes later.
+ * @fileoverview Scan Management Routes
+ * Handles real Lighthouse and Axe accessibility scans with progress tracking.
  *
  * @module routes/scans
  */
@@ -9,143 +8,64 @@
 import { Router } from "express";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth, AuthRequest } from "../middleware/auth.js";
+import { runLighthouseAudit } from "../utils/lighthouseRunner.js";
+import { runAxeAudit } from "../utils/axeRunner.js";
 
 const router = Router();
 
+// Store progress updates for each scan
+const scanProgress = new Map<string, string[]>();
+
 /**
- * Mock Lighthouse Report
+ * Store progress message for a scan
  */
-function generateMockLighthouseReport() {
-  return {
-    score: Math.floor(Math.random() * 30) + 70, // 70-100
-    categories: {
-      performance: { score: Math.floor(Math.random() * 30) + 70 },
-      accessibility: { score: Math.floor(Math.random() * 30) + 70 },
-      "best-practices": { score: Math.floor(Math.random() * 30) + 70 },
-      seo: { score: Math.floor(Math.random() * 30) + 70 },
-    },
-    audits: {
-      "color-contrast": {
-        score: Math.random() > 0.5 ? 1 : 0,
-        displayValue: "2 elements have insufficient color contrast",
-      },
-      "image-alt-text": {
-        score: Math.random() > 0.5 ? 1 : 0,
-        displayValue: "3 images missing alt text",
-      },
-    },
-  };
+function addProgress(scanId: string, message: string) {
+  if (!scanProgress.has(scanId)) {
+    scanProgress.set(scanId, []);
+  }
+  scanProgress.get(scanId)!.push(message);
+  console.log(`[Scan ${scanId}] ${message}`);
 }
 
 /**
- * Mock Axe Report
+ * Store violations from Axe results
  */
-function generateMockAxeReport() {
-  return {
-    violations: Math.floor(Math.random() * 10),
-    passes: Math.floor(Math.random() * 50) + 40,
-    incomplete: Math.floor(Math.random() * 5),
-    inapplicable: Math.floor(Math.random() * 20) + 10,
-    summary: {
-      critical: Math.floor(Math.random() * 3),
-      serious: Math.floor(Math.random() * 5),
-      moderate: Math.floor(Math.random() * 8),
-      minor: Math.floor(Math.random() * 10),
-    },
-    violations_list: [
-      {
-        id: "color-contrast",
-        impact: "serious",
-        message: "Elements must have sufficient color contrast",
-        nodes: Math.floor(Math.random() * 5) + 1,
-      },
-      {
-        id: "image-alt",
-        impact: "critical",
-        message: "Images must have alternative text",
-        nodes: Math.floor(Math.random() * 3),
-      },
-    ],
-  };
-}
+async function storeAxeViolations(
+  scanId: string,
+  axeReport: any,
+  siteUrl: string
+) {
+  if (!axeReport || !axeReport.violations_list) return;
 
-/**
- * Generate mock violations for a scan
- */
-async function generateMockViolations(scanId: string, siteUrl: string) {
-  const mockViolations = [
-    {
-      violation_type: "axe",
-      rule_id: "color-contrast",
-      rule_name: "Color Contrast",
-      description: "Text has insufficient color contrast",
-      impact_level: "serious",
-      wcag_level: "AA",
-      page_url: siteUrl,
-      element_selector: ".header h1",
-      element_count: 1,
-      help_url: "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum",
-      suggested_fix:
-        "Increase the contrast ratio between text and background colors",
-    },
-    {
-      violation_type: "axe",
-      rule_id: "image-alt-text",
-      rule_name: "Image Alt Text",
-      description: "Images must have alternative text",
-      impact_level: "critical",
-      wcag_level: "A",
-      page_url: siteUrl,
-      element_selector: "img.logo",
-      element_count: 2,
-      help_url: "https://www.w3.org/WAI/WCAG21/Understanding/non-text-content",
-      suggested_fix: "Add descriptive alt text to all images",
-    },
-    {
-      violation_type: "lighthouse",
-      rule_id: "label",
-      rule_name: "Form Elements Missing Labels",
-      description: "Form elements should have associated labels",
-      impact_level: "moderate",
-      wcag_level: "AA",
-      page_url: siteUrl,
-      element_selector: "input#search",
-      element_count: 1,
-      help_url:
-        "https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions",
-      suggested_fix:
-        "Associate form inputs with label elements using for/id attributes",
-    },
-  ];
-
-  // Randomly select 1-3 violations
-  const numViolations = Math.floor(Math.random() * 3) + 1;
-  const selectedViolations = mockViolations
-    .sort(() => Math.random() - 0.5)
-    .slice(0, numViolations);
-
-  const violationsToInsert = selectedViolations.map((v) => ({
-    ...v,
+  const violations = axeReport.violations_list.map((v: any) => ({
     scan_id: scanId,
+    violation_type: "axe",
+    rule_id: v.id,
+    rule_name: v.id.replace(/-/g, " "),
+    description: v.message,
+    impact_level: v.impact || "minor",
+    wcag_level: "AA",
+    page_url: siteUrl,
+    element_selector: "",
+    element_count: v.nodes || 1,
+    help_url: `https://www.deque.com/axe/devtools/`,
+    suggested_fix: "Review the Axe report for detailed remediation steps",
   }));
 
-  const { error } = await supabase
-    .from("scan_violations")
-    .insert(violationsToInsert);
+  if (violations.length > 0) {
+    const { error } = await supabase.from("scan_violations").insert(violations);
 
-  if (error) {
-    console.error("Error creating mock violations:", error);
-  } else {
-    console.log(
-      `[Mock Scan] Created ${violationsToInsert.length} mock violations for scan ${scanId}`
-    );
+    if (error) {
+      console.error("Error storing Axe violations:", error);
+    } else {
+      addProgress(scanId, `✅ Stored ${violations.length} Axe violations`);
+    }
   }
 }
 
 /**
  * POST /api/scans
- * Trigger a new scan (mock implementation for UI testing)
- * Creates a scan record with status='pending', then simulates completion
+ * Trigger a new real accessibility scan
  */
 router.post("/", requireAuth, async (req: AuthRequest, res) => {
   try {
@@ -191,100 +111,177 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       return res.status(500).json({ error: "Failed to create scan" });
     }
 
-    console.log(`[Mock Scan] Created scan ${scan.id} for site ${site_id}`);
+    addProgress(scan.id, `🚀 Scan started for ${site.url}`);
 
-    // Simulate scan completion after 3-5 seconds
-    setTimeout(async () => {
-      try {
-        const lighthouseReport =
-          scan_type === "axe" ? null : generateMockLighthouseReport();
-        const axeReport =
-          scan_type === "lighthouse" ? null : generateMockAxeReport();
-
-        const lighthouseScore = lighthouseReport?.score || null;
-        const axeScore = axeReport?.violations
-          ? 100 - axeReport.violations
-          : null;
-        const completedAt = new Date().toISOString();
-
-        // Update scan with results
-        const { error: updateError } = await supabase
-          .from("scans")
-          .update({
-            status: "completed",
-            lighthouse_score: lighthouseScore,
-            axe_score: axeScore,
-            lighthouse_report: lighthouseReport,
-            axe_report: axeReport,
-            completed_at: completedAt,
-            updated_at: completedAt,
-          })
-          .eq("id", scan.id);
-
-        if (updateError) {
-          console.error("Error updating scan:", updateError);
-        } else {
-          // Create score history record linked to this scan
-          const { error: historyError } = await supabase
-            .from("score_history")
-            .insert({
-              site_id: scan.site_id,
-              scan_id: scan.id,
-              axe_score: axeScore,
-              lighthouse_score: lighthouseScore,
-              recorded_at: completedAt,
-            });
-
-          if (historyError) {
-            console.error("Error creating score history:", historyError);
-          } else {
-            console.log(
-              `[Mock Scan] Completed scan ${scan.id} - LH: ${lighthouseScore}, Axe: ${axeScore}`
-            );
-            console.log(
-              `[Mock Scan] Created score history record for site ${scan.site_id}`
-            );
-
-            // Update the site with the new scores
-            const updateData: any = {
-              updated_at: completedAt,
-            };
-
-            if (lighthouseScore !== null) {
-              updateData.lighthouse_score = lighthouseScore;
-              updateData.lighthouse_last_updated = completedAt;
-            }
-
-            if (axeScore !== null) {
-              updateData.axe_score = axeScore;
-              updateData.axe_last_updated = completedAt;
-            }
-
-            const { error: siteUpdateError } = await supabase
-              .from("sites")
-              .update(updateData)
-              .eq("id", scan.site_id);
-
-            if (siteUpdateError) {
-              console.error("Error updating site scores:", siteUpdateError);
-            } else {
-              console.log(
-                `[Mock Scan] Updated site ${scan.site_id} with new scores`
-              );
-            }
-
-            // Generate mock violations
-            await generateMockViolations(scan.id, siteUrl);
-          }
-        }
-      } catch (error) {
-        console.error("[Mock Scan] Error in completion simulation:", error);
-      }
-    }, 3000 + Math.random() * 2000); // 3-5 seconds
+    // Run scan in background
+    runScanAsync(scan.id, site.id, site.url, scan_type);
 
     return res.status(201).json({ scan });
   } catch (error) {
     console.error("Create scan error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * Run scan asynchronously
+ */
+async function runScanAsync(
+  scanId: string,
+  siteId: string,
+  siteUrl: string,
+  scanType: string
+) {
+  try {
+    // Update scan status to running
+    await supabase
+      .from("scans")
+      .update({
+        status: "running",
+        started_at: new Date().toISOString(),
+      })
+      .eq("id", scanId);
+
+    let lighthouseScore: number | null = null;
+    let lighthouseReport: any = null;
+    let axeScore: number | null = null;
+    let axeReport: any = null;
+
+    // Run Lighthouse if needed
+    if (scanType === "lighthouse" || scanType === "both") {
+      try {
+        addProgress(scanId, "📊 Starting Lighthouse audit...");
+        lighthouseReport = await runLighthouseAudit(siteUrl, (msg) =>
+          addProgress(scanId, msg)
+        );
+        lighthouseScore = lighthouseReport.score;
+        addProgress(scanId, `✅ Lighthouse score: ${lighthouseScore}/100`);
+      } catch (error) {
+        addProgress(
+          scanId,
+          `❌ Lighthouse failed: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
+    }
+
+    // Run Axe if needed
+    if (scanType === "axe" || scanType === "both") {
+      try {
+        addProgress(scanId, "🔍 Starting Axe accessibility scan...");
+        axeReport = await runAxeAudit(siteUrl, (msg) =>
+          addProgress(scanId, msg)
+        );
+        axeScore = Math.max(0, 100 - axeReport.violations * 5);
+        addProgress(scanId, `✅ Axe score: ${axeScore}/100`);
+      } catch (error) {
+        addProgress(
+          scanId,
+          `❌ Axe failed: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
+    }
+
+    const completedAt = new Date().toISOString();
+
+    // Update scan with results
+    const { error: updateError } = await supabase
+      .from("scans")
+      .update({
+        status: "completed",
+        lighthouse_score: lighthouseScore,
+        axe_score: axeScore,
+        lighthouse_report: lighthouseReport,
+        axe_report: axeReport,
+        completed_at: completedAt,
+        updated_at: completedAt,
+      })
+      .eq("id", scanId);
+
+    if (updateError) {
+      addProgress(scanId, `❌ Error updating scan: ${updateError.message}`);
+      return;
+    }
+
+    // Create score history record
+    const { error: historyError } = await supabase
+      .from("score_history")
+      .insert({
+        site_id: siteId,
+        scan_id: scanId,
+        axe_score: axeScore,
+        lighthouse_score: lighthouseScore,
+        recorded_at: completedAt,
+      });
+
+    if (historyError) {
+      addProgress(scanId, `❌ Error creating history: ${historyError.message}`);
+      return;
+    }
+
+    // Update site with new scores
+    const updateData: any = {
+      updated_at: completedAt,
+    };
+
+    if (lighthouseScore !== null) {
+      updateData.lighthouse_score = lighthouseScore;
+      updateData.lighthouse_last_updated = completedAt;
+    }
+
+    if (axeScore !== null) {
+      updateData.axe_score = axeScore;
+      updateData.axe_last_updated = completedAt;
+    }
+
+    const { error: siteUpdateError } = await supabase
+      .from("sites")
+      .update(updateData)
+      .eq("id", siteId);
+
+    if (siteUpdateError) {
+      addProgress(scanId, `❌ Error updating site: ${siteUpdateError.message}`);
+      return;
+    }
+
+    // Store violations
+    if (axeReport) {
+      await storeAxeViolations(scanId, axeReport, siteUrl);
+    }
+
+    addProgress(scanId, "✨ Scan complete!");
+  } catch (error) {
+    addProgress(
+      scanId,
+      `❌ Scan error: ${error instanceof Error ? error.message : String(error)}`
+    );
+
+    // Mark scan as failed
+    await supabase
+      .from("scans")
+      .update({
+        status: "failed",
+        error_message: error instanceof Error ? error.message : String(error),
+        completed_at: new Date().toISOString(),
+      })
+      .eq("id", scanId);
+  }
+}
+
+/**
+ * GET /api/scans/:scanId/progress
+ * Fetch progress updates for a scan
+ */
+router.get("/:scanId/progress", async (req: AuthRequest, res) => {
+  try {
+    const { scanId } = req.params;
+    const progress = scanProgress.get(scanId) || [];
+    return res.json({ progress });
+  } catch (error) {
+    console.error("Fetch progress error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });

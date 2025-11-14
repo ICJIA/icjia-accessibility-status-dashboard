@@ -180,8 +180,16 @@ router.post("/", requireAuth, async (req, res) => {
       .single();
 
     if (error) {
-      console.error("Error creating site:", error);
-      return res.status(500).json({ error: "Failed to create site" });
+      console.error("Error creating site:", {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        fullError: error,
+      });
+      return res
+        .status(500)
+        .json({ error: "Failed to create site", details: error.message });
     }
 
     return res.status(201).json({ site: newSite });

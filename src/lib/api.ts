@@ -228,6 +228,7 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ site_id, scan_type }),
       }),
+    getProgress: (scanId: string) => fetchAPI(`/scans/${scanId}/progress`),
   },
 
   health: {

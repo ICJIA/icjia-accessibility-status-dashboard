@@ -6,9 +6,11 @@
  */
 
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Scan } from "../types";
 import { ScoreBadge } from "./ScoreBadge";
 import { AlertCircle, CheckCircle, Clock, FileText } from "lucide-react";
+import { api } from "../lib/api";
 
 interface ScanResultsProps {
   scans: Scan[];
@@ -36,6 +38,33 @@ export function ScanResults({
   loading = false,
   siteId,
 }: ScanResultsProps) {
+  const [progress, setProgress] = useState<Record<string, string[]>>({});
+
+  // Poll for progress updates on running scans
+  useEffect(() => {
+    const runningScans = scans.filter(
+      (s) => s.status === "running" || s.status === "pending"
+    );
+
+    if (runningScans.length === 0) return;
+
+    const interval = setInterval(async () => {
+      for (const scan of runningScans) {
+        try {
+          const response = await api.scans.getProgress(scan.id);
+          setProgress((prev) => ({
+            ...prev,
+            [scan.id]: response.progress || [],
+          }));
+        } catch (error) {
+          console.error("Failed to fetch progress:", error);
+        }
+      }
+    }, 1000); // Poll every second
+
+    return () => clearInterval(interval);
+  }, [scans]);
+
   if (loading) {
     return (
       <div className="text-center py-8">
@@ -192,11 +221,30 @@ export function ScanResults({
 
           {/* Running/Pending state */}
           {(scan.status === "running" || scan.status === "pending") && (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {scan.status === "running"
-                ? "Scan is currently running..."
-                : "Scan is queued and will start soon..."}
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {scan.status === "running"
+                  ? "Scan is currently running..."
+                  : "Scan is queued and will start soon..."}
+              </p>
+              {progress[scan.id] && progress[scan.id].length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded p-3 border border-gray-200 dark:border-gray-700 max-h-48 overflow-y-auto">
+                  <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Progress:
+                  </p>
+                  <div className="space-y-1">
+                    {progress[scan.id].map((msg, idx) => (
+                      <p
+                        key={idx}
+                        className="text-xs text-gray-600 dark:text-gray-400 font-mono"
+                      >
+                        {msg}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
       ))}
