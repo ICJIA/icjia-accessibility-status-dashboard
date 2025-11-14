@@ -9,11 +9,6 @@
 import { Router } from "express";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth } from "../middleware/auth.js";
-import {
-  requireApiKey,
-  requireScope,
-  ApiAuthRequest,
-} from "../middleware/apiAuth.js";
 
 /**
  * Express router for site management endpoints
@@ -295,42 +290,85 @@ router.delete("/:id", requireAuth, async (req, res) => {
 });
 
 /**
- * POST /api/sites/import
- * Programmatic API endpoint for importing site data with API key authentication
- * Supports duplicate detection to prevent redundant uploads
+ * POST /api/sites/:id/clear-data
+ * Clear all scans and historical data for a site
+ * Keeps the site record but removes all associated scan data
  */
-router.post(
-  "/import",
-  requireApiKey,
-  requireScope("sites:write"),
-  async (req: ApiAuthRequest, res) => {
-    try {
-      const requestBody = req.body;
+router.post("/:id/clear-data", requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
 
-      // Extract payload description (optional commit-style message)
-      // This is separate from the site's description field
-      const payloadDescription = requestBody.payload_description || null;
+    // Verify site exists
+    const { data: site, error: siteError } = await supabase
+      .from("sites")
+      .select("id, title")
+      .eq("id", id)
+      .single();
 
-      // Support both single site and array of sites
-      let sitesArray: any[];
-      if (requestBody.sites && Array.isArray(requestBody.sites)) {
-        sitesArray = requestBody.sites;
-      } else if (Array.isArray(requestBody)) {
-        sitesArray = requestBody;
-      } else {
-        // Single site object
-        sitesArray = [requestBody];
-      }
+    if (siteError || !site) {
+      return res.status(404).json({ error: "Site not found" });
+    }
 
-      const processedSites = [];
-      const results = {
-        created: 0,
-        updated: 0,
-        skipped: 0,
-        errors: [] as string[],
-      };
+    // Delete all scans for this site
+    const { error: scansError } = await supabase
+      .from("scans")
+      .delete()
+      .eq("site_id", id);
 
-      for (const siteData of sitesArray) {
+    if (scansError) {
+      console.error("Error deleting scans:", scansError);
+      return res.status(500).json({ error: "Failed to delete scans" });
+    }
+
+    // Delete all score history for this site
+    const { error: historyError } = await supabase
+      .from("score_history")
+      .delete()
+      .eq("site_id", id);
+
+    if (historyError) {
+      console.error("Error deleting score history:", historyError);
+      return res.status(500).json({ error: "Failed to delete score history" });
+    }
+
+    // Reset site scores to 0
+    const { error: updateError } = await supabase
+      .from("sites")
+      .update({
+        axe_score: 0,
+        lighthouse_score: 0,
+        axe_last_updated: null,
+        lighthouse_last_updated: null,
+      })
+      .eq("id", id);
+
+    if (updateError) {
+      console.error("Error updating site:", updateError);
+      return res.status(500).json({ error: "Failed to update site" });
+    }
+
+    // Log the action
+    await supabase.from("activity_log").insert([
+      {
+        action: "site_data_cleared",
+        entity_type: "site",
+        entity_id: id,
+        user_id: req.userId,
+        details: {
+          site_name: site.title,
+          action_description: `Cleared all data for site: ${site.title}`,
+        },
+      },
+    ]);
+
+    return res.json({ message: "Site data cleared successfully" });
+  } catch (error) {
+    console.error("Clear site data error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+export default router;
         const {
           title,
           description,

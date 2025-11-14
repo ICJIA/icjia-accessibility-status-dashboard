@@ -10,11 +10,7 @@ import { useState, useEffect } from "react";
 import {
   Settings,
   UserPlus,
-  Key as KeyIcon,
-  GitCompare,
   Users,
-  Lock,
-  Database,
   BarChart3,
   Activity,
   Globe,
@@ -207,7 +203,7 @@ export function AdminDashboard() {
       </div>
 
       {/* Action Cards Section - Top */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Add Site Card - First */}
         <a
           href="/admin/sites/new"
@@ -241,42 +237,6 @@ export function AdminDashboard() {
           </h3>
           <p className="text-sm text-gray-700 dark:text-gray-300">
             Create, edit, and manage admin users
-          </p>
-        </a>
-
-        {/* API Keys Card */}
-        <a
-          href="/admin/api-keys"
-          className="group block p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 rounded-lg shadow hover:shadow-xl transition-all border border-purple-200 dark:border-purple-700 hover:scale-105"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div className="p-3 bg-purple-600 rounded-lg group-hover:bg-purple-700 transition-colors">
-              <Lock className="h-6 w-6 text-white" />
-            </div>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            API Keys
-          </h3>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            Manage API keys for programmatic access
-          </p>
-        </a>
-
-        {/* API Payloads Card */}
-        <a
-          href="/admin/payloads"
-          className="group block p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 rounded-lg shadow hover:shadow-xl transition-all border border-green-200 dark:border-green-700 hover:scale-105"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div className="p-3 bg-green-600 rounded-lg group-hover:bg-green-700 transition-colors">
-              <Database className="h-6 w-6 text-white" />
-            </div>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            API Payloads
-          </h3>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            View and manage all API payload uploads
           </p>
         </a>
       </div>

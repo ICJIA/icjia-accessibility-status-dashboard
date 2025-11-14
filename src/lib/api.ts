@@ -62,8 +62,6 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
  * - Authentication (login, logout, session, password change)
  * - User management (list, create, delete, reset password)
  * - Site management (list, create, update, delete)
- * - Payload management (list, get, import)
- * - API key management (list, create, delete, rotate)
  * - Activity logging (list, export)
  * - Health checks
  *
@@ -76,10 +74,6 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
  * @example
  * // Get sites
  * const { sites } = await api.sites.list();
- *
- * @example
- * // Create API key
- * const { apiKey } = await api.apiKeys.create({ key_name: "My Key" });
  */
 export const api = {
   auth: {
@@ -163,51 +157,6 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ section_name, content }),
       }),
-  },
-
-  apiKeys: {
-    list: () => fetchAPI("/api-keys"),
-    create: (
-      key_name: string,
-      scopes: string[],
-      environment: "live" | "test",
-      expires_at?: string,
-      notes?: string
-    ) =>
-      fetchAPI("/api-keys", {
-        method: "POST",
-        body: JSON.stringify({
-          key_name,
-          scopes,
-          environment,
-          expires_at,
-          notes,
-        }),
-      }),
-    update: (
-      id: string,
-      data: { key_name?: string; scopes?: string[]; notes?: string }
-    ) =>
-      fetchAPI(`/api-keys/${id}`, {
-        method: "PUT",
-        body: JSON.stringify(data),
-      }),
-    revoke: (id: string) =>
-      fetchAPI(`/api-keys/${id}/revoke`, {
-        method: "POST",
-      }),
-    delete: (id: string) => fetchAPI(`/api-keys/${id}`, { method: "DELETE" }),
-  },
-
-  payloads: {
-    get: (uuid: string) => fetchAPI(`/payloads/${uuid}`),
-    getById: (payloadId: string) => fetchAPI(`/payloads/by-id/${payloadId}`),
-    list: (limit?: number, offset?: number) => {
-      const params = new URLSearchParams();
-      if (limit) params.append("limit", limit.toString());
-      if (offset) params.append("offset", offset.toString());
-      return fetchAPI(`/payloads?${params.toString()}`);
-    },
   },
 
   activityLog: {

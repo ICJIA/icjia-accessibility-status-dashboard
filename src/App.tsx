@@ -19,9 +19,6 @@ import { ScanReport } from "./pages/ScanReport";
 import { Login } from "./pages/Login";
 import { ChangePassword } from "./pages/ChangePassword";
 import { InitialSetup } from "./pages/InitialSetup";
-import { ApiKeys } from "./pages/ApiKeys";
-import { PayloadDetail } from "./pages/PayloadDetail";
-import { Payloads } from "./pages/Payloads";
 import { Users } from "./pages/Users";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import Health from "./pages/Health";
@@ -82,34 +79,10 @@ function App() {
                   }
                 />
                 <Route
-                  path="/admin/api-keys"
-                  element={
-                    <ProtectedRoute>
-                      <ApiKeys />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
                   path="/admin/users"
                   element={
                     <ProtectedRoute>
                       <Users />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/payloads"
-                  element={
-                    <ProtectedRoute>
-                      <Payloads />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/payloads/:uuid"
-                  element={
-                    <ProtectedRoute>
-                      <PayloadDetail />
                     </ProtectedRoute>
                   }
                 />
