@@ -6,7 +6,14 @@
  */
 
 import { useState, useEffect } from "react";
-import { Edit2, Trash2, AlertCircle, Database, Play } from "lucide-react";
+import {
+  Edit2,
+  Trash2,
+  AlertCircle,
+  Database,
+  Play,
+  Loader,
+} from "lucide-react";
 import { Site } from "../types";
 import { api } from "../lib/api";
 import { ScoreBadge } from "./ScoreBadge";
@@ -155,7 +162,11 @@ export function SitesManagement({
             {sites.map((site) => (
               <tr
                 key={site.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
+                  scanningSites.has(site.id)
+                    ? "bg-blue-50 dark:bg-blue-900/20"
+                    : ""
+                }`}
               >
                 <td className="px-4 py-3 text-gray-900 dark:text-gray-100 font-medium">
                   {site.title}
@@ -177,10 +188,18 @@ export function SitesManagement({
                     <button
                       onClick={() => handleRunScan(site)}
                       disabled={scanningSites.has(site.id)}
-                      className="p-1 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
-                      title="Run both Axe and Lighthouse scans"
+                      className="p-1 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 disabled:text-blue-500 disabled:cursor-not-allowed transition-colors"
+                      title={
+                        scanningSites.has(site.id)
+                          ? "Scan in progress..."
+                          : "Run both Axe and Lighthouse scans"
+                      }
                     >
-                      <Play className="h-4 w-4" />
+                      {scanningSites.has(site.id) ? (
+                        <Loader className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Play className="h-4 w-4" />
+                      )}
                     </button>
                     <button
                       onClick={() => onEdit(site)}
