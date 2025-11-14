@@ -54,9 +54,10 @@ export async function runAxeAudit(
     // Inject Axe Core - use import.meta.url for ES modules
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
+    // Look for axe-core in the root node_modules (not server/node_modules)
     const axeCorePath = path.join(
       __dirname,
-      "../node_modules/axe-core/axe.min.js"
+      "../../node_modules/axe-core/axe.min.js"
     );
 
     if (!fs.existsSync(axeCorePath)) {
