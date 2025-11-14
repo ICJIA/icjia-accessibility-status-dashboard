@@ -26,7 +26,7 @@ router.get("/", requireAuth, async (req, res) => {
     const limit = parseInt(req.query.limit as string) || 20;
     const offset = parseInt(req.query.offset as string) || 0;
 
-    // First, fetch activity log entries
+    // First, fetch activity log entries (exclude entries with null event_type)
     const {
       data: activities,
       error,
@@ -34,6 +34,7 @@ router.get("/", requireAuth, async (req, res) => {
     } = await supabase
       .from("activity_log")
       .select("*", { count: "exact" })
+      .not("event_type", "is", null)
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
