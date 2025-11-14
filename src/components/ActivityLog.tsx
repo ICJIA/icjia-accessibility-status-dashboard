@@ -206,7 +206,7 @@ export function ActivityLog({ limit = 20, compact = false }: ActivityLogProps) {
    * @param {string} eventType - The event type
    * @returns {React.ReactElement} The icon component
    */
-  const getEventIcon = (eventType: string) => {
+  const getEventIcon = (eventType: string | undefined) => {
     switch (eventType) {
       case "site_created":
       case "site_updated":
@@ -224,7 +224,7 @@ export function ActivityLog({ limit = 20, compact = false }: ActivityLogProps) {
    * @param {string} eventType - The event type
    * @returns {string} Tailwind CSS color classes
    */
-  const getEventColor = (eventType: string) => {
+  const getEventColor = (eventType: string | undefined) => {
     switch (eventType) {
       case "site_created":
         return "text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/30";
@@ -250,7 +250,10 @@ export function ActivityLog({ limit = 20, compact = false }: ActivityLogProps) {
    * @param {string} eventType - The event type (e.g., 'site_created')
    * @returns {string} Formatted event type (e.g., 'Site Created')
    */
-  const formatEventType = (eventType: string) => {
+  const formatEventType = (eventType: string | undefined) => {
+    if (!eventType) {
+      return "Unknown Event";
+    }
     return eventType
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
