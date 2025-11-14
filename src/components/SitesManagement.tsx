@@ -84,12 +84,25 @@ export function SitesManagement({
       const scanId = response.scan.id;
 
       // Start polling for scan completion
+      let pollCount = 0;
       const pollInterval = setInterval(async () => {
         try {
           const scansResponse = await api.sites.getScans(site.id);
           const scan = scansResponse.scans?.find((s: any) => s.id === scanId);
 
           if (!scan) return;
+
+          // Update status message based on scan status
+          if (scan.status === "pending" || scan.status === "running") {
+            pollCount++;
+            // Show "Running scan..." after first poll to indicate it's actively running
+            if (pollCount > 1) {
+              setScanMessages((prev) => ({
+                ...prev,
+                [site.id]: "Running scan...",
+              }));
+            }
+          }
 
           if (scan.status === "completed") {
             clearInterval(pollInterval);
