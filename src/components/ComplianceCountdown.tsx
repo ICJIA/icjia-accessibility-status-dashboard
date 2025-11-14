@@ -2,29 +2,14 @@
  * @fileoverview ComplianceCountdown Component
  * Displays a countdown timer to the April 24, 2026 Illinois web accessibility compliance deadline.
  * Shows days, hours, minutes, and seconds remaining with a visual progress bar.
+ * Uses shared countdown utility to ensure all timers display identical numbers.
  *
  * @module components/ComplianceCountdown
  */
 
 import { useEffect, useState } from "react";
 import { Clock, CheckCircle } from "lucide-react";
-
-/**
- * Represents countdown data
- * @typedef {Object} CountdownData
- * @property {number} days - Days remaining
- * @property {number} hours - Hours remaining (0-23)
- * @property {number} minutes - Minutes remaining (0-59)
- * @property {number} seconds - Seconds remaining (0-59)
- * @property {boolean} isDeadlinePassed - Whether the deadline has passed
- */
-interface CountdownData {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  isDeadlinePassed: boolean;
-}
+import { calculateCountdown, CountdownData } from "../utils/countdownUtils";
 
 /**
  * ComplianceCountdown Component
@@ -53,45 +38,13 @@ export function ComplianceCountdown() {
   });
 
   useEffect(() => {
-    const calculateCountdown = () => {
-      // April 24, 2026 at 11:59:59 PM
-      const deadlineDate = new Date("2026-04-24T23:59:59").getTime();
-      const now = new Date().getTime();
-
-      if (now >= deadlineDate) {
-        setCountdown({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          isDeadlinePassed: true,
-        });
-        return;
-      }
-
-      const difference = deadlineDate - now;
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      setCountdown({
-        days,
-        hours,
-        minutes,
-        seconds,
-        isDeadlinePassed: false,
-      });
-    };
-
     // Calculate immediately
-    calculateCountdown();
+    setCountdown(calculateCountdown());
 
     // Update every second
-    const interval = setInterval(calculateCountdown, 1000);
+    const interval = setInterval(() => {
+      setCountdown(calculateCountdown());
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);

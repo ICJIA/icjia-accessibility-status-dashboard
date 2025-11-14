@@ -43,7 +43,7 @@ export function Dashboard() {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [timeRange, setTimeRange] = useState<
     "1h" | "6h" | "24h" | "7d" | "14d" | "30d"
-  >("7d");
+  >("24h");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -118,6 +118,18 @@ export function Dashboard() {
   ): ScoreHistory[] => {
     const cutoffDate = getTimeRangeFilter(timeRange);
     return history.filter((h) => new Date(h.recorded_at) >= cutoffDate);
+  };
+
+  const hasDataForTimeRange = (range: string): boolean => {
+    // Check if any site has data for this time range
+    for (const siteId in siteHistories) {
+      const history = siteHistories[siteId];
+      const cutoffDate = getTimeRangeFilter(range);
+      if (history.some((h) => new Date(h.recorded_at) >= cutoffDate)) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const avgAxe =
@@ -210,19 +222,25 @@ export function Dashboard() {
             All Sites
           </h2>
           <div className="flex flex-wrap gap-2">
-            {(["1h", "6h", "24h", "7d", "14d", "30d"] as const).map((range) => (
-              <button
-                key={range}
-                onClick={() => setTimeRange(range)}
-                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                  timeRange === range
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                }`}
-              >
-                {getTimeRangeLabel(range)}
-              </button>
-            ))}
+            {(["1h", "6h", "24h", "7d", "14d", "30d"] as const).map((range) => {
+              const hasData = hasDataForTimeRange(range);
+              return (
+                <button
+                  key={range}
+                  onClick={() => setTimeRange(range)}
+                  disabled={!hasData}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    timeRange === range
+                      ? "bg-blue-600 text-white"
+                      : hasData
+                      ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed opacity-50"
+                  }`}
+                >
+                  {getTimeRangeLabel(range)}
+                </button>
+              );
+            })}
           </div>
         </div>
         <div className="flex space-x-3">

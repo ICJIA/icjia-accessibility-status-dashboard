@@ -25,6 +25,7 @@ import { GaugeChart } from "../components/charts/GaugeChart";
 import { ScoreTrendChart } from "../components/charts/ScoreTrendChart";
 import { ScanResults } from "../components/ScanResults";
 import { ScanStatusIndicator } from "../components/ScanStatusIndicator";
+import { getDaysRemaining } from "../utils/countdownUtils";
 
 /**
  * SiteDetail Page Component
@@ -59,7 +60,7 @@ export function SiteDetail() {
   );
   const [timeRange, setTimeRange] = useState<
     "1h" | "6h" | "24h" | "7d" | "14d" | "30d"
-  >("7d");
+  >("24h");
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -208,8 +209,13 @@ export function SiteDetail() {
       case "30d":
         return "Last 30 Days";
       default:
-        return "Last 7 Days";
+        return "Last 24 Hours";
     }
+  };
+
+  const hasDataForTimeRange = (range: string): boolean => {
+    const cutoffDate = getTimeRangeFilter(range);
+    return history.some((h) => new Date(h.recorded_at) >= cutoffDate);
   };
 
   const filterHistoryByTimeRange = (hist: ScoreHistory[]): ScoreHistory[] => {
@@ -235,11 +241,7 @@ export function SiteDetail() {
     );
   }
 
-  const april2026 = new Date("2026-04-01");
-  const today = new Date();
-  const daysRemaining = Math.ceil(
-    (april2026.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const daysRemaining = getDaysRemaining();
 
   const filteredHistory = filterHistoryByTimeRange(history);
   const chartData = filteredHistory.map((h) => ({
@@ -418,19 +420,25 @@ export function SiteDetail() {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {(["1h", "6h", "24h", "7d", "14d", "30d"] as const).map(
-                  (range) => (
-                    <button
-                      key={range}
-                      onClick={() => setTimeRange(range)}
-                      className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                        timeRange === range
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                      }`}
-                    >
-                      {getTimeRangeLabel(range)}
-                    </button>
-                  )
+                  (range) => {
+                    const hasData = hasDataForTimeRange(range);
+                    return (
+                      <button
+                        key={range}
+                        onClick={() => setTimeRange(range)}
+                        disabled={!hasData}
+                        className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                          timeRange === range
+                            ? "bg-blue-600 text-white"
+                            : hasData
+                            ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                            : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed opacity-50"
+                        }`}
+                      >
+                        {getTimeRangeLabel(range)}
+                      </button>
+                    );
+                  }
                 )}
               </div>
             </div>
