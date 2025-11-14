@@ -187,6 +187,22 @@ router.post("/", requireAuth, async (req, res) => {
         .json({ error: "Failed to create site", details: error.message });
     }
 
+    // Log the action
+    await supabase.from("activity_log").insert([
+      {
+        event_type: "site_created",
+        event_description: `Created new site: ${title}`,
+        entity_type: "site",
+        entity_id: newSite.id,
+        created_by_user: req.userId,
+        severity: "info",
+        metadata: {
+          site_name: title,
+          url: url,
+        },
+      },
+    ]);
+
     return res.status(201).json({ site: newSite });
   } catch (error) {
     console.error("Create site error:", error);
@@ -264,6 +280,38 @@ router.put("/:id", requireAuth, async (req, res) => {
       return res.status(500).json({ error: "Failed to update site" });
     }
 
+    // Log the action
+    const changes: string[] = [];
+    if (currentSite.title !== title)
+      changes.push(`title: "${currentSite.title}" → "${title}"`);
+    if (currentSite.description !== description)
+      changes.push("description updated");
+    if (currentSite.url !== url)
+      changes.push(`url: "${currentSite.url}" → "${url}"`);
+    if (currentSite.axe_score !== axe_score)
+      changes.push(`axe_score: ${currentSite.axe_score} → ${axe_score}`);
+    if (currentSite.lighthouse_score !== lighthouse_score)
+      changes.push(
+        `lighthouse_score: ${currentSite.lighthouse_score} → ${lighthouse_score}`
+      );
+
+    await supabase.from("activity_log").insert([
+      {
+        event_type: "site_updated",
+        event_description: `Updated site: ${title}${
+          changes.length > 0 ? ` (${changes.join(", ")})` : ""
+        }`,
+        entity_type: "site",
+        entity_id: id,
+        created_by_user: req.userId,
+        severity: "info",
+        metadata: {
+          site_name: title,
+          changes: changes,
+        },
+      },
+    ]);
+
     return res.json({ site: updatedSite });
   } catch (error) {
     console.error("Update site error:", error);
@@ -271,9 +319,20 @@ router.put("/:id", requireAuth, async (req, res) => {
   }
 });
 
-router.delete("/:id", requireAuth, async (req, res) => {
+router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
   try {
     const { id } = req.params;
+
+    // Get site info before deletion for logging
+    const { data: site, error: fetchError } = await supabase
+      .from("sites")
+      .select("id, title")
+      .eq("id", id)
+      .single();
+
+    if (fetchError || !site) {
+      return res.status(404).json({ error: "Site not found" });
+    }
 
     const { error } = await supabase.from("sites").delete().eq("id", id);
 
@@ -281,6 +340,21 @@ router.delete("/:id", requireAuth, async (req, res) => {
       console.error("Error deleting site:", error);
       return res.status(500).json({ error: "Failed to delete site" });
     }
+
+    // Log the action
+    await supabase.from("activity_log").insert([
+      {
+        event_type: "site_deleted",
+        event_description: `Deleted site: ${site.title}`,
+        entity_type: "site",
+        entity_id: id,
+        created_by_user: req.userId,
+        severity: "warning",
+        metadata: {
+          site_name: site.title,
+        },
+      },
+    ]);
 
     return res.json({ message: "Site deleted successfully" });
   } catch (error) {
@@ -350,13 +424,14 @@ router.post("/:id/clear-data", requireAuth, async (req, res) => {
     // Log the action
     await supabase.from("activity_log").insert([
       {
-        action: "site_data_cleared",
+        event_type: "site_data_cleared",
+        event_description: `Cleared all data for site: ${site.title}`,
         entity_type: "site",
         entity_id: id,
-        user_id: req.userId,
-        details: {
+        created_by_user: req.userId,
+        severity: "warning",
+        metadata: {
           site_name: site.title,
-          action_description: `Cleared all data for site: ${site.title}`,
         },
       },
     ]);

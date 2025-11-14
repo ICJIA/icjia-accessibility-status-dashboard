@@ -210,12 +210,18 @@ export function ActivityLog({ limit = 20, compact = false }: ActivityLogProps) {
     switch (eventType) {
       case "site_created":
       case "site_updated":
+      case "site_deleted":
+      case "site_data_cleared":
         return <Activity className="h-3 w-3" />;
       case "api_import":
         return <Key className="h-3 w-3" />;
       case "scan_started":
       case "scan_completed":
       case "scan_failed":
+        return <Activity className="h-3 w-3" />;
+      case "user_created":
+      case "user_deleted":
+      case "user_password_reset":
         return <Activity className="h-3 w-3" />;
       default:
         return <Clock className="h-3 w-3" />;
@@ -234,12 +240,17 @@ export function ActivityLog({ limit = 20, compact = false }: ActivityLogProps) {
         return "text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/30";
       case "site_updated":
         return "text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/30";
+      case "site_deleted":
+      case "site_data_cleared":
+        return "text-orange-700 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/30";
       case "api_import":
         return "text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/30";
       case "user_created":
-      case "user_updated":
+        return "text-teal-700 dark:text-teal-300 bg-teal-100 dark:bg-teal-900/30";
       case "user_deleted":
-        return "text-orange-700 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/30";
+        return "text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/30";
+      case "user_password_reset":
+        return "text-yellow-700 dark:text-yellow-300 bg-yellow-100 dark:bg-yellow-900/30";
       case "api_key_created":
       case "api_key_deleted":
         return "text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/30";

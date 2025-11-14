@@ -158,6 +158,22 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       `New user created: ${username} by admin user ID: ${req.userId}`
     );
 
+    // Log the action
+    await supabase.from("activity_log").insert([
+      {
+        event_type: "user_created",
+        event_description: `Created new admin user: ${username}`,
+        entity_type: "user",
+        entity_id: newUser.id,
+        created_by_user: req.userId,
+        severity: "info",
+        metadata: {
+          username: username,
+          email: email,
+        },
+      },
+    ]);
+
     return res.status(201).json({ user: newUser });
   } catch (error) {
     console.error("Create user error:", error);
@@ -278,6 +294,21 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
       `User ${userToDelete?.username} (${id}) deleted by admin user ID: ${req.userId}`
     );
 
+    // Log the action
+    await supabase.from("activity_log").insert([
+      {
+        event_type: "user_deleted",
+        event_description: `Deleted admin user: ${userToDelete?.username}`,
+        entity_type: "user",
+        entity_id: id,
+        created_by_user: req.userId,
+        severity: "warning",
+        metadata: {
+          username: userToDelete?.username,
+        },
+      },
+    ]);
+
     return res.json({ message: "User deleted successfully" });
   } catch (error) {
     console.error("Delete user error:", error);
@@ -343,6 +374,22 @@ router.post(
       console.log(
         `Password reset for user ${user.username} (${id}) by admin user ID: ${req.userId}`
       );
+
+      // Log the action
+      await supabase.from("activity_log").insert([
+        {
+          event_type: "user_password_reset",
+          event_description: `Reset password for admin user: ${user.username}`,
+          entity_type: "user",
+          entity_id: id,
+          created_by_user: req.userId,
+          severity: "info",
+          metadata: {
+            username: user.username,
+            sessions_cleared: true,
+          },
+        },
+      ]);
 
       return res.json({ message: "Password reset successfully" });
     } catch (error) {
