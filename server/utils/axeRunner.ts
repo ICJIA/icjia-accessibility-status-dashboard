@@ -69,7 +69,10 @@ export async function runAxeAudit(
       `[Axe] Loaded Axe Core from ${axeCorePath} (${axeCoreContent.length} bytes)`
     );
 
-    await page.addInitScript(axeCoreContent);
+    // Use addScriptTag instead of addInitScript for better compatibility
+    await page.addScriptTag({
+      content: axeCoreContent,
+    });
 
     onProgress?.("🔎 Running Axe scan...");
     console.log("[Axe] Starting Axe scan");
