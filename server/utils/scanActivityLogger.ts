@@ -25,6 +25,11 @@ export async function logScanActivity(
   entry: ScanActivityLogEntry
 ): Promise<void> {
   try {
+    console.log(
+      `[Activity Log] Logging ${entry.event_type}:`,
+      entry.event_description
+    );
+
     const { error } = await supabase.from("activity_log").insert([
       {
         event_type: entry.event_type,
@@ -39,10 +44,12 @@ export async function logScanActivity(
     ]);
 
     if (error) {
-      console.error("Error logging scan activity:", error);
+      console.error("[Activity Log] Error logging scan activity:", error);
+    } else {
+      console.log(`[Activity Log] Successfully logged ${entry.event_type}`);
     }
   } catch (err) {
-    console.error("Error in logScanActivity:", err);
+    console.error("[Activity Log] Error in logScanActivity:", err);
   }
 }
 

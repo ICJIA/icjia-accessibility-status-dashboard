@@ -124,8 +124,25 @@ export function SitesManagement({
                 return next;
               });
             }, 5000);
-            // Refresh sites list
-            await loadSites();
+            // Update the site scores in state without full page refresh
+            setSites((prevSites) =>
+              prevSites.map((s) =>
+                s.id === site.id
+                  ? {
+                      ...s,
+                      axe_score: scan.axe_score,
+                      lighthouse_score: scan.lighthouse_score,
+                      axe_last_updated: scan.axe_last_updated,
+                      lighthouse_last_updated: scan.lighthouse_last_updated,
+                    }
+                  : s
+              )
+            );
+            // Update scan count
+            setScanCounts((prev) => ({
+              ...prev,
+              [site.id]: (prev[site.id] || 0) + 1,
+            }));
           } else if (scan.status === "failed") {
             clearInterval(pollInterval);
             delete pollIntervalsRef.current[site.id];
