@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { Edit2, Trash2, AlertCircle, Database } from "lucide-react";
+import { Edit2, Trash2, AlertCircle, Database, Play } from "lucide-react";
 import { Site } from "../types";
 import { api } from "../lib/api";
 import { ScoreBadge } from "./ScoreBadge";
@@ -28,6 +28,7 @@ export function SitesManagement({
   const [clearDataSite, setClearDataSite] = useState<Site | null>(null);
   const [clearDataConfirm, setClearDataConfirm] = useState("");
   const [clearingData, setClearingData] = useState(false);
+  const [scanningSites, setScanningSites] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadSites();
@@ -55,6 +56,23 @@ export function SitesManagement({
       console.error("Failed to load sites:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRunScan = async (site: Site) => {
+    try {
+      setScanningSites((prev) => new Set([...prev, site.id]));
+      await api.scans.trigger(site.id, "both");
+      // Scan triggered successfully, will be logged in activity log
+    } catch (error) {
+      console.error("Failed to trigger scan:", error);
+      alert("Failed to trigger scan");
+    } finally {
+      setScanningSites((prev) => {
+        const next = new Set(prev);
+        next.delete(site.id);
+        return next;
+      });
     }
   };
 
@@ -156,6 +174,14 @@ export function SitesManagement({
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleRunScan(site)}
+                      disabled={scanningSites.has(site.id)}
+                      className="p-1 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+                      title="Run both Axe and Lighthouse scans"
+                    >
+                      <Play className="h-4 w-4" />
+                    </button>
                     <button
                       onClick={() => onEdit(site)}
                       className="p-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
