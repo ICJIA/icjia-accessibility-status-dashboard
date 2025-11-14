@@ -41,9 +41,9 @@ export function Dashboard() {
   >({});
   const [loading, setLoading] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
-  const [timeRange, setTimeRange] = useState<
-    "1h" | "6h" | "24h" | "7d" | "14d" | "30d"
-  >("24h");
+  const [timeRange, setTimeRange] = useState<"24h" | "7d" | "14d" | "30d">(
+    "24h"
+  );
   const { user } = useAuth();
 
   useEffect(() => {
@@ -120,16 +120,22 @@ export function Dashboard() {
     return history.filter((h) => new Date(h.recorded_at) >= cutoffDate);
   };
 
-  const hasDataForTimeRange = (range: string): boolean => {
-    // Check if any site has data for this time range
-    for (const siteId in siteHistories) {
-      const history = siteHistories[siteId];
-      const cutoffDate = getTimeRangeFilter(range);
-      if (history.some((h) => new Date(h.recorded_at) >= cutoffDate)) {
-        return true;
-      }
-    }
-    return false;
+  const hasEnoughDataForGraphs = (history: ScoreHistory[]): boolean => {
+    // Require at least 3 days of data
+    if (history.length < 3) return false;
+
+    // Check if data spans at least 3 different days
+    const uniqueDays = new Set(
+      history.map((h) =>
+        new Date(h.recorded_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+      )
+    );
+
+    return uniqueDays.size >= 3;
   };
 
   const avgAxe =
@@ -222,25 +228,19 @@ export function Dashboard() {
             All Sites
           </h2>
           <div className="flex flex-wrap gap-2">
-            {(["1h", "6h", "24h", "7d", "14d", "30d"] as const).map((range) => {
-              const hasData = hasDataForTimeRange(range);
-              return (
-                <button
-                  key={range}
-                  onClick={() => setTimeRange(range)}
-                  disabled={!hasData}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                    timeRange === range
-                      ? "bg-blue-600 text-white"
-                      : hasData
-                      ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                      : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed opacity-50"
-                  }`}
-                >
-                  {getTimeRangeLabel(range)}
-                </button>
-              );
-            })}
+            {(["24h", "7d", "14d", "30d"] as const).map((range) => (
+              <button
+                key={range}
+                onClick={() => setTimeRange(range)}
+                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  timeRange === range
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                }`}
+              >
+                {getTimeRangeLabel(range)}
+              </button>
+            ))}
           </div>
         </div>
         <div className="flex space-x-3">
@@ -318,11 +318,13 @@ export function Dashboard() {
               {siteHistories[site.id] && siteHistories[site.id].length > 0 && (
                 <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
                   <p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
-                    Accessibility Over Time ({getTimeRangeLabel(timeRange)})
+                    Accessibility Over Time
                   </p>
-                  <MiniTrendChart
-                    data={filterHistoryByTimeRange(siteHistories[site.id]).map(
-                      (h) => ({
+                  {hasEnoughDataForGraphs(siteHistories[site.id]) ? (
+                    <MiniTrendChart
+                      data={filterHistoryByTimeRange(
+                        siteHistories[site.id]
+                      ).map((h) => ({
                         date: new Date(h.recorded_at).toLocaleDateString(
                           "en-US",
                           {
@@ -332,9 +334,15 @@ export function Dashboard() {
                         ),
                         axe: h.axe_score,
                         lighthouse: h.lighthouse_score,
-                      })
-                    )}
-                  />
+                      }))}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-[120px] bg-gray-100 dark:bg-gray-800 rounded">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Not enough data (need 3+ days)
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 

@@ -58,9 +58,9 @@ export function SiteDetail() {
   const [scanType, setScanType] = useState<"lighthouse" | "axe" | "both">(
     "both"
   );
-  const [timeRange, setTimeRange] = useState<
-    "1h" | "6h" | "24h" | "7d" | "14d" | "30d"
-  >("24h");
+  const [timeRange, setTimeRange] = useState<"24h" | "7d" | "14d" | "30d">(
+    "24h"
+  );
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -213,9 +213,22 @@ export function SiteDetail() {
     }
   };
 
-  const hasDataForTimeRange = (range: string): boolean => {
-    const cutoffDate = getTimeRangeFilter(range);
-    return history.some((h) => new Date(h.recorded_at) >= cutoffDate);
+  const hasEnoughDataForGraphs = (historyData: ScoreHistory[]): boolean => {
+    // Require at least 3 days of data
+    if (historyData.length < 3) return false;
+
+    // Check if data spans at least 3 different days
+    const uniqueDays = new Set(
+      historyData.map((h) =>
+        new Date(h.recorded_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+      )
+    );
+
+    return uniqueDays.size >= 3;
   };
 
   const filterHistoryByTimeRange = (hist: ScoreHistory[]): ScoreHistory[] => {
@@ -419,65 +432,79 @@ export function SiteDetail() {
                 Score Progression Over Time
               </h3>
               <div className="flex flex-wrap gap-2">
-                {(["1h", "6h", "24h", "7d", "14d", "30d"] as const).map(
-                  (range) => {
-                    const hasData = hasDataForTimeRange(range);
-                    return (
-                      <button
-                        key={range}
-                        onClick={() => setTimeRange(range)}
-                        disabled={!hasData}
-                        className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                          timeRange === range
-                            ? "bg-blue-600 text-white"
-                            : hasData
-                            ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                            : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed opacity-50"
-                        }`}
-                      >
-                        {getTimeRangeLabel(range)}
-                      </button>
-                    );
-                  }
-                )}
+                {(["24h", "7d", "14d", "30d"] as const).map((range) => (
+                  <button
+                    key={range}
+                    onClick={() => setTimeRange(range)}
+                    className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                      timeRange === range
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                    }`}
+                  >
+                    {getTimeRangeLabel(range)}
+                  </button>
+                ))}
               </div>
             </div>
             <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 mb-6">
-              <LineChart data={chartData} />
+              {hasEnoughDataForGraphs(history) ? (
+                <LineChart data={chartData} />
+              ) : (
+                <div className="flex items-center justify-center h-[300px]">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Not enough data (need 3+ days)
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Individual Score Trend Charts */}
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 mt-8">
               Score Improvements
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
-                <ScoreTrendChart
-                  data={filteredHistory.map((h) => ({
-                    date: new Date(h.recorded_at).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    }),
-                    score: h.axe_score,
-                  }))}
-                  label="Axe Accessibility Score"
-                  color="blue"
-                />
+            {hasEnoughDataForGraphs(history) ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+                  <ScoreTrendChart
+                    data={filteredHistory.map((h) => ({
+                      date: new Date(h.recorded_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                        }
+                      ),
+                      score: h.axe_score,
+                    }))}
+                    label="Axe Accessibility Score"
+                    color="blue"
+                  />
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+                  <ScoreTrendChart
+                    data={filteredHistory.map((h) => ({
+                      date: new Date(h.recorded_at).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                        }
+                      ),
+                      score: h.lighthouse_score,
+                    }))}
+                    label="Lighthouse Accessibility Score"
+                    color="green"
+                  />
+                </div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
-                <ScoreTrendChart
-                  data={filteredHistory.map((h) => ({
-                    date: new Date(h.recorded_at).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    }),
-                    score: h.lighthouse_score,
-                  }))}
-                  label="Lighthouse Accessibility Score"
-                  color="green"
-                />
+            ) : (
+              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 mb-6 flex items-center justify-center h-[300px]">
+                <p className="text-gray-500 dark:text-gray-400">
+                  Not enough data (need 3+ days)
+                </p>
               </div>
-            </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
