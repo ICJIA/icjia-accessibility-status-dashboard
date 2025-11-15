@@ -12,11 +12,7 @@ import bcrypt from "bcrypt";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth, AuthRequest } from "../middleware/auth.js";
 import { loginLimiter, sessionLimiter } from "../middleware/rateLimiter.js";
-import {
-  logFailedLogin,
-  logSuccessfulLogin,
-  logLogout,
-} from "../utils/activityLogger.js";
+import { logLogin, logLogout } from "../utils/auditLogger.js";
 
 /**
  * Express router for authentication endpoints
@@ -74,7 +70,6 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
 
     if (error || !user) {
       console.log("User not found or error:", error);
-      await logFailedLogin(username, "User not found");
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -100,7 +95,6 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
 
     if (!passwordMatch) {
       console.log("Password mismatch");
-      await logFailedLogin(username, "Invalid password");
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -124,7 +118,7 @@ router.post("/login", loginLimiter, sessionLimiter, async (req, res) => {
     }
 
     // Log successful login
-    await logSuccessfulLogin(user.id, username);
+    await logLogin(user.id, username);
 
     console.log(
       "[Login] Setting session cookie with token:",

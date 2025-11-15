@@ -15,8 +15,8 @@ import userRoutes from "./routes/users.js";
 import siteRoutes from "./routes/sites.js";
 import exportRoutes from "./routes/export.js";
 import documentationRoutes from "./routes/documentation.js";
-import activityLogRoutes from "./routes/activityLog.js";
 import scanRoutes from "./routes/scans.js";
+import auditLogsRoutes from "./routes/auditLogs.js";
 import { supabase } from "./utils/supabase.js";
 import { generalLimiter } from "./middleware/rateLimiter.js";
 
@@ -70,8 +70,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/sites", siteRoutes);
 app.use("/api/export", exportRoutes);
 app.use("/api/documentation", documentationRoutes);
-app.use("/api/activity-log", activityLogRoutes);
 app.use("/api/scans", scanRoutes);
+app.use("/api/audit-logs", auditLogsRoutes);
 
 /**
  * GET /api/health

@@ -14,7 +14,7 @@ import {
   logSiteUpdated,
   logSiteDeleted,
   logSiteDataCleared,
-} from "../utils/activityLogger.js";
+} from "../utils/auditLogger.js";
 
 /**
  * Express router for site management endpoints
@@ -194,7 +194,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
     }
 
     // Log the action
-    await logSiteCreated(newSite.id, title, url, req.userId);
+    await logSiteCreated(newSite.id, title, req.userId);
 
     return res.status(201).json({ site: newSite });
   } catch (error) {
@@ -274,21 +274,7 @@ router.put("/:id", requireAuth, async (req, res) => {
     }
 
     // Log the action
-    const changes: string[] = [];
-    if (currentSite.title !== title)
-      changes.push(`title: "${currentSite.title}" → "${title}"`);
-    if (currentSite.description !== description)
-      changes.push("description updated");
-    if (currentSite.url !== url)
-      changes.push(`url: "${currentSite.url}" → "${url}"`);
-    if (currentSite.axe_score !== axe_score)
-      changes.push(`axe_score: ${currentSite.axe_score} → ${axe_score}`);
-    if (currentSite.lighthouse_score !== lighthouse_score)
-      changes.push(
-        `lighthouse_score: ${currentSite.lighthouse_score} → ${lighthouse_score}`
-      );
-
-    await logSiteUpdated(id, title, changes, req.userId);
+    await logSiteUpdated(id, title, req.userId);
 
     return res.json({ site: updatedSite });
   } catch (error) {

@@ -10,11 +10,6 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { supabase } from "../utils/supabase.js";
 import { requireAuth, AuthRequest } from "../middleware/auth.js";
-import {
-  logUserCreated,
-  logUserDeleted,
-  logPasswordReset,
-} from "../utils/activityLogger.js";
 
 /**
  * Express router for user management endpoints
@@ -163,9 +158,6 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       `New user created: ${username} by admin user ID: ${req.userId}`
     );
 
-    // Log the action
-    await logUserCreated(newUser.id, username, email, req.userId);
-
     return res.status(201).json({ user: newUser });
   } catch (error) {
     console.error("Create user error:", error);
@@ -286,9 +278,6 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
       `User ${userToDelete?.username} (${id}) deleted by admin user ID: ${req.userId}`
     );
 
-    // Log the action
-    await logUserDeleted(id, userToDelete?.username || "unknown", req.userId);
-
     return res.json({ message: "User deleted successfully" });
   } catch (error) {
     console.error("Delete user error:", error);
@@ -354,9 +343,6 @@ router.post(
       console.log(
         `Password reset for user ${user.username} (${id}) by admin user ID: ${req.userId}`
       );
-
-      // Log the action
-      await logPasswordReset(id, user.username, req.userId);
 
       return res.json({ message: "Password reset successfully" });
     } catch (error) {

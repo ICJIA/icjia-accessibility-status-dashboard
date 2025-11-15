@@ -17,7 +17,7 @@ import {
   AlertTriangle,
   RotateCcw,
 } from "lucide-react";
-import { ActivityLog } from "../components/ActivityLog";
+import RecentLogs from "../components/RecentLogs";
 import { SitesManagement } from "../components/SitesManagement";
 import { api } from "../lib/api";
 import { Site } from "../types";
@@ -353,16 +353,9 @@ export function AdminDashboard() {
         </div>
       </div>
 
-      {/* Payload Comparison Section */}
-      {/* Recent Activity Section - Bottom */}
+      {/* Recent Logs Section - Bottom */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <Activity className="h-6 w-6 text-gray-900 dark:text-white" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Recent Activity
-          </h2>
-        </div>
-        <ActivityLog limit={10} compact={true} />
+        <RecentLogs />
       </div>
 
       {/* Create User Modal */}
