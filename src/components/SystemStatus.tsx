@@ -50,7 +50,8 @@ export function SystemStatus() {
 
   const checkHealth = async () => {
     try {
-      const response = await fetch("/api/health");
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await fetch(`${apiUrl}/health`);
 
       if (!response.ok) {
         throw new Error("Backend unreachable");

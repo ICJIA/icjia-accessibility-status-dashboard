@@ -98,7 +98,8 @@ export function Navigation() {
 
   const checkHealth = async () => {
     try {
-      const response = await fetch("/api/health");
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await fetch(`${apiUrl}/health`);
       if (response.ok) {
         const data = await response.json();
         setHealth(data);
