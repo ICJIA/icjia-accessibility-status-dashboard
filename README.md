@@ -8,6 +8,8 @@ A comprehensive web accessibility tracking system for the Illinois Criminal Just
 
 > 📚 **[Documentation](#-documentation)** | **[GitHub Repository](https://github.com/ICJIA/icjia-accessibility-status)**
 
+⚠️ **Scope**: This tool monitors accessibility for **ICJIA websites only**. It does not assess PDFs, Word documents, CSVs, social media postings, or Constant Contact emails. Those assets require separate accessibility reviews.
+
 ## ✨ Key Features
 
 - **Real-Time Accessibility Scanning** - Automated Axe and Lighthouse scans for comprehensive accessibility audits
