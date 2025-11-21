@@ -61,19 +61,68 @@ function checkBuildStatus() {
 }
 
 function checkPorts() {
-  section("PORTS CONFIGURATION");
+  section("PORTS & ACCESS INFORMATION");
 
-  log("Backend API:        ", "bright");
-  log("  Port: 3001", "green");
-  log("  Status: Managed by PM2", "green");
-  log("  Health Check: curl http://localhost:3001/api/health", "cyan");
-
-  console.log("");
-
-  log("Frontend:           ", "bright");
-  log("  Served by: Nginx (port 80/443)", "green");
-  log("  Static Files: dist/ directory", "green");
-  log("  Access: http://your-domain.com", "cyan");
+  log(
+    "┌─────────────────────────────────────────────────────────────────┐",
+    "cyan"
+  );
+  log(
+    "│                                                                 │",
+    "cyan"
+  );
+  log(
+    "│  BACKEND API                                                    │",
+    "bright"
+  );
+  log(
+    "│  ├─ Port: 3001                                                 │",
+    "green"
+  );
+  log(
+    "│  ├─ Status: Managed by PM2                                     │",
+    "green"
+  );
+  log(
+    "│  ├─ URL: http://localhost:3001                                 │",
+    "green"
+  );
+  log(
+    "│  └─ Health Check: curl http://localhost:3001/api/health        │",
+    "cyan"
+  );
+  log(
+    "│                                                                 │",
+    "cyan"
+  );
+  log(
+    "│  FRONTEND                                                       │",
+    "bright"
+  );
+  log(
+    "│  ├─ Development: http://localhost:5173 (Vite dev server)       │",
+    "green"
+  );
+  log(
+    "│  ├─ Production: Served by Nginx (port 80/443)                  │",
+    "green"
+  );
+  log(
+    "│  ├─ Static Files: dist/ directory                              │",
+    "green"
+  );
+  log(
+    "│  └─ Production URL: http://your-domain.com                     │",
+    "cyan"
+  );
+  log(
+    "│                                                                 │",
+    "cyan"
+  );
+  log(
+    "└─────────────────────────────────────────────────────────────────┘",
+    "cyan"
+  );
 }
 
 function checkPM2Status() {
