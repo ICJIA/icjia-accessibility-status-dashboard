@@ -11,47 +11,45 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-  console.error("Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY");
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error("Missing VITE_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
   process.exit(1);
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function resetScans() {
   try {
-    console.log("🔄 Resetting scans and site scores...\n");
+    console.log("🔄 Resetting all scan data...\n");
 
-    // Delete all scans (cascade will delete scan_results and scan_violations)
-    console.log("  Deleting all scans...");
-    const { error: scansError } = await supabase
-      .from("scans")
-      .delete()
-      .neq("id", "00000000-0000-0000-0000-000000000000");
+    // Delete in order of dependencies (child tables first)
+    const tables = [
+      "scan_violations",
+      "page_scan_results",
+      "scan_errors",
+      "scan_results",
+      "scans",
+      "score_history",
+    ];
 
-    if (scansError) {
-      console.error("  ❌ Error deleting scans:", scansError);
-      return;
+    for (const table of tables) {
+      console.log(`  Deleting ${table}...`);
+      const { error } = await supabase
+        .from(table)
+        .delete()
+        .neq("id", "00000000-0000-0000-0000-000000000000");
+
+      if (error) {
+        console.error(`  ❌ Error deleting ${table}:`, error);
+        return;
+      }
+      console.log(`  ✅ ${table} deleted`);
     }
-    console.log("  ✅ Scans deleted");
-
-    // Delete all score history
-    console.log("  Deleting score history...");
-    const { error: historyError } = await supabase
-      .from("score_history")
-      .delete()
-      .neq("id", "00000000-0000-0000-0000-000000000000");
-
-    if (historyError) {
-      console.error("  ❌ Error deleting score history:", historyError);
-      return;
-    }
-    console.log("  ✅ Score history deleted");
 
     // Reset all site scores to 0
-    console.log("  Resetting site scores to 0...");
+    console.log("\n  Resetting site scores to 0...");
     const { error: updateError } = await supabase
       .from("sites")
       .update({
@@ -69,7 +67,7 @@ async function resetScans() {
     }
     console.log("  ✅ Site scores reset to 0");
 
-    console.log("\n✨ Reset complete! All scans and scores have been cleared.");
+    console.log("\n✨ Reset complete! All scan data cleared, sites intact.");
   } catch (error) {
     console.error("❌ Error:", error);
     process.exit(1);
@@ -77,4 +75,3 @@ async function resetScans() {
 }
 
 resetScans();
-

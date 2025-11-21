@@ -9,6 +9,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Cannot log in with correct username and password
 
 **Causes:**
+
 - Admin user doesn't exist
 - Password is incorrect
 - Password hash is corrupted
@@ -17,6 +18,7 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Verify admin user exists:**
+
    ```bash
    # Check Supabase Table Editor
    # Go to admin_users table
@@ -24,6 +26,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 2. **Check password is set:**
+
    ```bash
    # Initial admin has blank password
    # Must set password on first login via /setup
@@ -31,9 +34,10 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 3. **Re-run migration:**
+
    ```bash
    # Go to Supabase SQL Editor
-   # Run: supabase/migrations/step_1_create_initial_schema.sql
+   # Run: supabase/migrations/01_create_initial_schema.sql
    ```
 
 4. **Reset admin password:**
@@ -48,6 +52,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Login fails when creating session
 
 **Causes:**
+
 - Sessions table doesn't exist
 - RLS policies are incorrect
 - Database connection issue
@@ -56,18 +61,21 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Verify sessions table exists:**
+
    ```bash
    # Check Supabase Table Editor
    # Should see sessions table
    ```
 
 2. **Check RLS policies:**
+
    ```bash
    # Go to Supabase → Authentication → Policies
    # Verify sessions table has correct policies
    ```
 
 3. **Re-run migrations:**
+
    ```bash
    # Run step_1 migration again
    # It's safe to run multiple times
@@ -86,6 +94,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Logged out after page refresh
 
 **Causes:**
+
 - Cookies not enabled
 - Cookie settings incorrect
 - Session expired
@@ -94,12 +103,14 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Enable cookies:**
+
    ```bash
    # Browser settings → Privacy → Cookies
    # Make sure cookies are enabled
    ```
 
 2. **Check cookie settings:**
+
    ```bash
    # Open DevTools → Application → Cookies
    # Look for session_token cookie
@@ -107,6 +118,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 3. **Check session expiration:**
+
    ```bash
    # Sessions expire after 15 days
    # Log out and log back in to create new session
@@ -123,6 +135,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Getting 401 errors despite being logged in
 
 **Causes:**
+
 - Session expired
 - Session deleted from database
 - Cookie not being sent
@@ -131,6 +144,7 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Check session in database:**
+
    ```bash
    # Go to Supabase Table Editor
    # Check sessions table
@@ -138,6 +152,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 2. **Check cookie is being sent:**
+
    ```bash
    # Open DevTools → Network tab
    # Click on API request
@@ -146,6 +161,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 3. **Log out and log back in:**
+
    ```bash
    # Clear session and create new one
    # Go to /logout then /login
@@ -164,6 +180,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Password rejected during setup or change
 
 **Requirements:**
+
 - ✅ Minimum 8 characters
 - ✅ At least one uppercase letter
 - ✅ At least one lowercase letter
@@ -171,6 +188,7 @@ Troubleshooting guide for authentication-related issues.
 - ✅ At least one special character
 
 **Solution:**
+
 ```bash
 # Create password meeting all requirements
 # Example: MyPassword123!
@@ -188,6 +206,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Cannot change password, current password rejected
 
 **Causes:**
+
 - Typed current password incorrectly
 - Password was changed elsewhere
 - Session is invalid
@@ -195,12 +214,14 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Verify current password:**
+
    ```bash
    # Double-check you're typing it correctly
    # Passwords are case-sensitive
    ```
 
 2. **Log out and log back in:**
+
    ```bash
    # Create new session
    # Then try changing password again
@@ -220,6 +241,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** API requests rejected with invalid key error
 
 **Causes:**
+
 - API key is incorrect
 - API key has been revoked
 - API key has expired
@@ -228,12 +250,14 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Verify API key:**
+
    ```bash
    # Copy key carefully from admin panel
    # Check for typos or extra spaces
    ```
 
 2. **Check key hasn't been revoked:**
+
    ```bash
    # Go to /admin/api-keys
    # Verify key is still listed
@@ -241,6 +265,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 3. **Check key hasn't expired:**
+
    ```bash
    # Go to /admin/api-keys
    # Check expiration date
@@ -259,6 +284,7 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** API requests rejected with 401 Unauthorized
 
 **Causes:**
+
 - Authorization header format incorrect
 - API key is invalid
 - API key doesn't have required scope
@@ -266,6 +292,7 @@ Troubleshooting guide for authentication-related issues.
 **Solutions:**
 
 1. **Check Authorization header format:**
+
    ```bash
    # Should be: Authorization: Bearer sk_live_xxxxx
    # Not: Authorization: sk_live_xxxxx
@@ -273,6 +300,7 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 2. **Verify API key is valid:**
+
    ```bash
    # Check in admin panel
    # Recreate if needed
@@ -292,11 +320,13 @@ Troubleshooting guide for authentication-related issues.
 **Problem:** Cannot delete the first admin user
 
 **Reason:**
+
 - The first admin user (oldest created_at) is protected
 - Prevents system lockout
 - At least one admin must always exist
 
 **Solution:**
+
 ```bash
 # Create another admin user first
 # Then delete the primary admin
@@ -306,16 +336,19 @@ Troubleshooting guide for authentication-related issues.
 ## Troubleshooting Steps
 
 1. **Check the logs**
+
    - Browser console for frontend errors
    - Terminal for backend errors
    - Supabase logs for database errors
 
 2. **Verify database state**
+
    - Check admin_users table
    - Check sessions table
    - Check RLS policies
 
 3. **Test with curl**
+
    ```bash
    # Test login endpoint
    curl -X POST http://localhost:3001/api/auth/login \
@@ -324,17 +357,16 @@ Troubleshooting guide for authentication-related issues.
    ```
 
 4. **Check environment variables**
+
    ```bash
    # Verify .env file has correct values
    cat .env | grep SUPABASE
    ```
 
 5. **Restart services**
+
    ```bash
-   # Restart backend
-   yarn dev:backend
-   
-   # Or restart all services
+   # Restart all services (frontend + backend)
    yarn dev
    ```
 
@@ -344,4 +376,3 @@ Troubleshooting guide for authentication-related issues.
 - [Database Errors](./database-errors) - Database-specific issues
 - [Authentication](../authentication) - How auth works
 - [Reset Scripts](../reset-scripts) - How to reset users
-

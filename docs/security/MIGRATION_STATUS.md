@@ -20,19 +20,22 @@ The new `step_5_api_key_rotation.sql` migration adds support for API key rotatio
 ### Changes Included
 
 1. **New Columns on `api_keys` Table**:
+
    - `rotation_scheduled_at` (TIMESTAMP) - For future scheduled rotations
    - `rotated_from_key_id` (UUID) - References previous key for lineage tracking
    - `grace_period_expires_at` (TIMESTAMP) - When old key will be deactivated
 
 2. **Database Indexes**:
+
    - Index on `grace_period_expires_at` for efficient querying of expired keys
    - Index on `rotation_scheduled_at` for future scheduled rotations
 
 3. **PostgreSQL Function**:
+
    - `deactivate_expired_grace_period_keys()` - Automatically deactivates old keys after grace period
 
 4. **Database Trigger**:
-   - `log_key_deactivation()` - Logs key deactivations to `activity_log` table
+   - `log_key_deactivation()` - Logs key deactivations to `audit_logs` table
 
 ---
 
@@ -47,12 +50,14 @@ The migration file has been created but **has NOT been automatically applied** t
 Supabase migrations are not automatically applied when files are added to the repository. You must:
 
 1. **Option A: Apply via Supabase Dashboard** (Recommended for development)
+
    - Go to your Supabase project dashboard
    - Navigate to SQL Editor
    - Copy and paste the contents of `supabase/migrations/step_5_api_key_rotation.sql`
    - Execute the SQL
 
 2. **Option B: Apply via Supabase CLI** (Recommended for production)
+
    ```bash
    supabase migration up
    ```
@@ -66,6 +71,7 @@ Supabase migrations are not automatically applied when files are added to the re
 ## How to Apply the Migration
 
 ### Step 1: Verify Migration File Exists
+
 ```bash
 ls -la supabase/migrations/step_5_api_key_rotation.sql
 ```
@@ -91,19 +97,19 @@ After applying, verify the changes in your database:
 
 ```sql
 -- Check if new columns exist
-SELECT column_name, data_type 
-FROM information_schema.columns 
-WHERE table_name = 'api_keys' 
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'api_keys'
 AND column_name IN ('rotation_scheduled_at', 'rotated_from_key_id', 'grace_period_expires_at');
 
 -- Check if function exists
-SELECT routine_name 
-FROM information_schema.routines 
+SELECT routine_name
+FROM information_schema.routines
 WHERE routine_name = 'deactivate_expired_grace_period_keys';
 
 -- Check if trigger exists
-SELECT trigger_name 
-FROM information_schema.triggers 
+SELECT trigger_name
+FROM information_schema.triggers
 WHERE trigger_name = 'log_key_deactivation';
 ```
 
@@ -117,7 +123,7 @@ Once the migration is applied:
 2. ✅ Automatic deactivation job can run
 3. ✅ Grace period functionality works
 4. ✅ Key lineage tracking is available
-5. ✅ All rotation events are logged to `activity_log`
+5. ✅ All rotation events are logged to `audit_logs`
 
 ---
 
@@ -167,4 +173,3 @@ If you encounter issues applying the migration:
 ---
 
 **Last Updated**: November 11, 2024
-

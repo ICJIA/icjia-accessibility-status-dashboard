@@ -91,19 +91,35 @@ export default function RecentLogs() {
                   </div>
                   <p className="text-sm text-white">{log.description}</p>
                   {log.metadata && Object.keys(log.metadata).length > 0 && (
-                    <div className="mt-1 text-xs text-gray-400">
+                    <div className="mt-1 text-xs text-gray-400 space-y-1">
                       {log.metadata.site_name && (
-                        <span>Site: {log.metadata.site_name}</span>
+                        <div>Site: {log.metadata.site_name}</div>
                       )}
                       {log.metadata.axe_score !== undefined && (
-                        <span className="ml-3">
-                          Axe: {log.metadata.axe_score}
-                        </span>
+                        <div>Axe: {log.metadata.axe_score}</div>
                       )}
                       {log.metadata.lighthouse_score !== undefined && (
-                        <span className="ml-3">
-                          Lighthouse: {log.metadata.lighthouse_score}
-                        </span>
+                        <div>Lighthouse: {log.metadata.lighthouse_score}</div>
+                      )}
+                      {log.metadata.pages_scanned !== undefined && (
+                        <div>Pages Scanned: {log.metadata.pages_scanned}</div>
+                      )}
+                      {log.metadata.total_violations !== undefined && (
+                        <div>
+                          Total Violations: {log.metadata.total_violations}
+                        </div>
+                      )}
+                      {log.metadata.worst_page_url && (
+                        <div>Worst Page: {log.metadata.worst_page_url}</div>
+                      )}
+                      {log.metadata.worst_page_violations !== undefined && (
+                        <div>
+                          Worst Page Issues:{" "}
+                          {log.metadata.worst_page_violations}
+                        </div>
+                      )}
+                      {log.metadata.duration_seconds !== undefined && (
+                        <div>Duration: {log.metadata.duration_seconds}s</div>
                       )}
                     </div>
                   )}
@@ -121,4 +137,3 @@ export default function RecentLogs() {
     </div>
   );
 }
-

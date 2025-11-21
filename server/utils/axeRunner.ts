@@ -9,6 +9,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 export interface AxeResult {
+  url: string; // Page URL that was scanned
+  score: number; // Calculated accessibility score (0-100)
   violations: number;
   passes: number;
   incomplete: number;
@@ -24,6 +26,22 @@ export interface AxeResult {
     impact: string;
     message: string;
     nodes: number;
+    url: string; // Page URL where violation was found
+  }>;
+}
+
+export interface MultiPageAxeResult {
+  totalPages: number;
+  pagesScanned: number;
+  totalViolations: number;
+  worstPageUrl: string;
+  worstPageViolationCount: number;
+  worstPageViolations: any[];
+  averageScore: number;
+  results: AxeResult[];
+  errors: Array<{
+    url: string;
+    error: string;
   }>;
 }
 
@@ -129,6 +147,8 @@ export async function runAxeAudit(
     });
 
     const result = {
+      url, // Include the page URL
+      score, // Include the calculated score
       violations: violationCount,
       passes: axeResults.passes.length,
       incomplete: axeResults.incomplete.length,
@@ -139,6 +159,7 @@ export async function runAxeAudit(
         impact: v.impact,
         message: v.help,
         nodes: v.nodes.length,
+        url, // Include page URL in each violation
       })),
     };
 
@@ -166,4 +187,102 @@ export async function runAxeAudit(
       console.error("[Axe] Error closing browser:", closeError);
     }
   }
+}
+
+/**
+ * Run Axe audit on multiple pages sequentially
+ */
+export async function runMultiPageAxeAudit(
+  urls: string[],
+  resumeFromIndex: number = 0,
+  onProgress?: (message: string) => void
+): Promise<MultiPageAxeResult> {
+  console.log(
+    `[Axe-MultiPage] Starting multi-page audit for ${urls.length} URLs, resuming from index ${resumeFromIndex}`
+  );
+
+  const results: AxeResult[] = [];
+  const errors: Array<{ url: string; error: string }> = [];
+  let worstPageUrl = "";
+  let worstPageViolationCount = 0;
+  let worstPageViolations: any[] = [];
+  let totalViolations = 0;
+
+  for (let i = resumeFromIndex; i < urls.length; i++) {
+    const url = urls[i];
+    const pageNumber = i + 1;
+
+    try {
+      onProgress?.(`📄 Scanning page ${pageNumber}/${urls.length}: ${url}`);
+      console.log(
+        `[Axe-MultiPage] Scanning page ${pageNumber}/${urls.length}: ${url}`
+      );
+
+      const result = await runAxeAudit(url, (msg) => onProgress?.(`  ${msg}`));
+
+      results.push(result);
+      totalViolations += result.violations;
+
+      // Track worst page
+      if (result.violations > worstPageViolationCount) {
+        worstPageUrl = url;
+        worstPageViolationCount = result.violations;
+        worstPageViolations = result.violations_list;
+      }
+
+      onProgress?.(
+        `✅ Page ${pageNumber}/${urls.length} complete (${result.violations} violations)`
+      );
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error(
+        `[Axe-MultiPage] Error scanning page ${pageNumber} (${url}): ${errorMsg}`
+      );
+
+      errors.push({
+        url,
+        error: errorMsg,
+      });
+
+      onProgress?.(`⚠️ Page ${pageNumber}/${urls.length} failed: ${errorMsg}`);
+    }
+  }
+
+  const averageScore =
+    results.length > 0
+      ? Math.round(
+          results.reduce((sum, r) => sum + r.score, 0) / results.length
+        )
+      : 0;
+
+  const result: MultiPageAxeResult = {
+    totalPages: urls.length,
+    pagesScanned: results.length,
+    totalViolations,
+    worstPageUrl,
+    worstPageViolationCount,
+    worstPageViolations,
+    averageScore,
+    results,
+    errors,
+  };
+
+  console.log(
+    `[Axe-MultiPage] Multi-page audit complete:`,
+    JSON.stringify(
+      {
+        totalPages: result.totalPages,
+        pagesScanned: result.pagesScanned,
+        totalViolations: result.totalViolations,
+        averageScore: result.averageScore,
+        worstPageUrl: result.worstPageUrl,
+        worstPageViolationCount: result.worstPageViolationCount,
+        errorCount: result.errors.length,
+      },
+      null,
+      2
+    )
+  );
+
+  return result;
 }

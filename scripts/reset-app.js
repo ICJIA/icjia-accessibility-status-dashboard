@@ -38,11 +38,11 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 
 // Tables to delete (in order to avoid foreign key constraint issues)
 const TABLES_TO_DELETE = [
-  "activity_log",
+  "audit_logs",
   "api_payloads",
   "api_keys",
   "sessions",
-  "app_documentation",
+  "documentation",
   "score_history",
   "sites",
   "admin_users",

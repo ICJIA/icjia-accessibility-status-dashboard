@@ -39,10 +39,10 @@ async function runSeed() {
       ];
 
       const { error: actError } = await supabase
-        .from("activity_log")
+        .from("audit_logs")
         .delete()
         .in("id", deleteIds);
-      if (actError) console.log("Activity log delete:", actError.message);
+      if (actError) console.log("Audit logs delete:", actError.message);
 
       const payloadIds = [
         "550e8400-e29b-41d4-a716-446655450001",
@@ -158,47 +158,39 @@ async function runSeed() {
       if (payloadsInsertError) throw payloadsInsertError;
       console.log(`✅ Created ${payloads.length} API payloads\n`);
 
-      // Step 4: Create activity log entries
-      console.log("📋 Step 4: Creating activity log entries...");
-      const activities = [
+      // Step 4: Create audit log entries
+      console.log("📋 Step 4: Creating audit log entries...");
+      const auditLogs = [
         {
-          event_type: "api_import",
-          event_description:
+          action: "api_import",
+          description:
             "API import: Domestic Violence Fatality Review - Initial setup",
-          entity_type: "site",
-          entity_id: "550e8400-e29b-41d4-a716-446655440001",
           metadata: {
-            action: "created",
+            site_name: "Domestic Violence Fatality Review",
             payload_uuid: "550e8400-e29b-41d4-a716-446655450001",
             axe_score: 88,
             lighthouse_score: 85,
           },
-          ip_address: "192.168.1.100",
-          user_agent: "Mozilla/5.0 (Demo)",
         },
         {
-          event_type: "api_import",
-          event_description: "API import: InfoNet - Initial setup",
-          entity_type: "site",
-          entity_id: "550e8400-e29b-41d4-a716-446655440002",
+          action: "api_import",
+          description: "API import: InfoNet - Initial setup",
           metadata: {
-            action: "created",
+            site_name: "InfoNet",
             payload_uuid: "550e8400-e29b-41d4-a716-446655450002",
             axe_score: 91,
             lighthouse_score: 89,
           },
-          ip_address: "192.168.1.100",
-          user_agent: "Mozilla/5.0 (Demo)",
         },
       ];
 
-      const { error: activitiesInsertError } = await supabase
-        .from("activity_log")
-        .insert(activities);
-      if (activitiesInsertError) throw activitiesInsertError;
-      console.log(`✅ Created ${activities.length} activity log entries\n`);
+      const { error: auditLogsInsertError } = await supabase
+        .from("audit_logs")
+        .insert(auditLogs);
+      if (auditLogsInsertError) throw auditLogsInsertError;
+      console.log(`✅ Created ${auditLogs.length} audit log entries\n`);
     } else {
-      console.log("📋 Step 3-4: Skipping API payloads and activity logs\n");
+      console.log("📋 Step 3-4: Skipping API payloads and audit logs\n");
     }
 
     // Note: Score history is now created by scans endpoint when scans complete

@@ -34,8 +34,8 @@ cp .env.sample .env
 
 1. Go to [Supabase Dashboard](https://app.supabase.com)
 2. Click **SQL Editor** → **New query**
-3. Copy and run: `supabase/migrations/step_1_create_initial_schema.sql`
-4. Copy and run: `supabase/migrations/step_2_api_keys_and_rls_fixes.sql`
+3. Copy and run: `supabase/migrations/01_create_initial_schema.sql`
+4. Copy and run: `supabase/migrations/02_add_api_keys_and_payloads.sql`
 
 ## Step 4: Start Development Servers
 
@@ -71,7 +71,7 @@ yarn dev
 
 **"Admin user NOT found" error?**
 
-- Re-run the migration file `supabase/migrations/step_1_create_initial_schema.sql`
+- Re-run the migration file `supabase/migrations/01_create_initial_schema.sql`
 
 **"Failed to create session" error?**
 

@@ -15,10 +15,7 @@ import {
   User,
   Settings,
   Users,
-  BookOpen,
   Home,
-  Key,
-  Plus,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
@@ -120,7 +117,7 @@ export function Navigation() {
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <Link
             to="/"
             className="flex items-center space-x-4 hover:opacity-80 transition-opacity"
@@ -128,7 +125,7 @@ export function Navigation() {
             <img
               src="https://icjia.illinois.gov/icjia-logo.png"
               alt="ICJIA Logo"
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
             <div className="hidden sm:block">
               <h1 className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -329,30 +326,6 @@ export function Navigation() {
                     >
                       <Users className="h-4 w-4" />
                       <span>User Management</span>
-                    </Link>
-                    <Link
-                      to="/admin/documentation"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      <BookOpen className="h-4 w-4" />
-                      <span>Documentation</span>
-                    </Link>
-                    <Link
-                      to="/admin/api-keys"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      <Key className="h-4 w-4" />
-                      <span>API Keys</span>
-                    </Link>
-                    <Link
-                      to="/admin/sites/new"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      <Plus className="h-4 w-4" />
-                      <span>Add Site</span>
                     </Link>
 
                     {/* Logout */}

@@ -9,6 +9,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Cannot connect to Supabase database
 
 **Causes:**
+
 - Incorrect Supabase credentials
 - Network connectivity issue
 - Supabase project is paused
@@ -17,24 +18,27 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Verify Supabase credentials:**
+
    ```bash
    # Check .env file
    cat .env | grep SUPABASE
-   
+
    # Should have:
    # VITE_SUPABASE_URL=https://your-project-id.supabase.co
    # VITE_SUPABASE_ANON_KEY=your-anon-key
    ```
 
 2. **Test connection:**
+
    ```bash
    # Test with curl
    curl https://your-project-id.supabase.co/rest/v1/
-   
+
    # Should return 200 OK
    ```
 
 3. **Check Supabase project status:**
+
    ```bash
    # Go to Supabase dashboard
    # Verify project is active (not paused)
@@ -42,18 +46,19 @@ Troubleshooting guide for database-related issues.
    ```
 
 4. **Check network connectivity:**
+
    ```bash
    # Test internet connection
    ping google.com
-   
+
    # Test Supabase connectivity
    ping your-project-id.supabase.co
    ```
 
-5. **Restart backend:**
+5. **Restart services:**
    ```bash
-   # Restart backend service
-   yarn dev:backend
+   # Restart all services (frontend + backend)
+   yarn dev
    ```
 
 ## Table Issues
@@ -63,6 +68,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Table not found in database
 
 **Causes:**
+
 - Migrations haven't been run
 - Table was deleted
 - Table name is incorrect
@@ -71,6 +77,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Verify migrations were run:**
+
    ```bash
    # Go to Supabase SQL Editor
    # Check if tables exist:
@@ -83,13 +90,15 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Run migrations:**
+
    ```bash
    # Go to Supabase SQL Editor
-   # Copy and run: supabase/migrations/step_1_create_initial_schema.sql
-   # Then run: supabase/migrations/step_2_api_keys_and_rls_fixes.sql
+   # Copy and run: supabase/migrations/01_create_initial_schema.sql
+   # Then run: supabase/migrations/02_add_api_keys_and_payloads.sql
    ```
 
 3. **Check table names:**
+
    ```bash
    # Verify table names in code match database
    # Check server/db/schema.ts
@@ -107,6 +116,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Column not found in table
 
 **Causes:**
+
 - Column wasn't created by migration
 - Column was deleted
 - Column name is incorrect
@@ -115,6 +125,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Check column exists:**
+
    ```bash
    # Go to Supabase Table Editor
    # Click on table
@@ -122,6 +133,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Re-run migrations:**
+
    ```bash
    # Go to Supabase SQL Editor
    # Run migration files again
@@ -142,6 +154,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Query blocked by Row Level Security (RLS) policy
 
 **Causes:**
+
 - RLS policy is too restrictive
 - User doesn't have required role
 - RLS policy is missing
@@ -150,6 +163,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Check RLS policies:**
+
    ```bash
    # Go to Supabase → Authentication → Policies
    # Verify policies exist for each table
@@ -157,6 +171,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Verify user role:**
+
    ```bash
    # Check user has correct role
    # Go to Supabase SQL Editor
@@ -164,9 +179,10 @@ Troubleshooting guide for database-related issues.
    ```
 
 3. **Re-run migrations:**
+
    ```bash
    # Go to Supabase SQL Editor
-   # Run step_2 migration to fix RLS policies
+   # Run 02_add_api_keys_and_payloads.sql migration to fix RLS policies
    ```
 
 4. **Check policy conditions:**
@@ -183,6 +199,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Trying to insert duplicate data
 
 **Causes:**
+
 - Record already exists
 - Unique constraint violation
 - Primary key conflict
@@ -190,6 +207,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Check if record exists:**
+
    ```bash
    # Go to Supabase Table Editor
    # Search for existing record
@@ -197,6 +215,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Use different value:**
+
    ```bash
    # If creating new record, use unique value
    # For example, different username or URL
@@ -214,6 +233,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Referenced record doesn't exist
 
 **Causes:**
+
 - Referenced record was deleted
 - Foreign key value is incorrect
 - Referenced table doesn't exist
@@ -221,6 +241,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Verify referenced record exists:**
+
    ```bash
    # Go to Supabase Table Editor
    # Check if referenced record exists
@@ -228,6 +249,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Check foreign key value:**
+
    ```bash
    # Verify foreign key value is correct
    # Should match primary key of referenced table
@@ -246,6 +268,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** SQL query has syntax error
 
 **Causes:**
+
 - Incorrect SQL syntax
 - Missing quotes or parentheses
 - Invalid column or table name
@@ -253,6 +276,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Check SQL syntax:**
+
    ```bash
    # Go to Supabase SQL Editor
    # Verify SQL syntax is correct
@@ -260,6 +284,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Test query:**
+
    ```bash
    # Run query in SQL Editor first
    # Fix any errors
@@ -279,6 +304,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Database queries are slow
 
 **Causes:**
+
 - Missing indexes
 - Large result sets
 - Complex joins
@@ -287,6 +313,7 @@ Troubleshooting guide for database-related issues.
 **Solutions:**
 
 1. **Add indexes:**
+
    ```bash
    # Go to Supabase SQL Editor
    # Create indexes on frequently queried columns
@@ -294,6 +321,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 2. **Use pagination:**
+
    ```bash
    # Limit result sets
    # Use LIMIT and OFFSET
@@ -301,6 +329,7 @@ Troubleshooting guide for database-related issues.
    ```
 
 3. **Optimize queries:**
+
    ```bash
    # Avoid SELECT *
    # Select only needed columns
@@ -321,6 +350,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Need to restore database from backup
 
 **Solution:**
+
 ```bash
 # Go to Supabase Dashboard
 # Click on project
@@ -334,6 +364,7 @@ Troubleshooting guide for database-related issues.
 **Problem:** Need to export database data
 
 **Solution:**
+
 ```bash
 # Go to Supabase SQL Editor
 # Run: SELECT * FROM table_name;
@@ -343,21 +374,25 @@ Troubleshooting guide for database-related issues.
 ## Troubleshooting Steps
 
 1. **Check Supabase status**
+
    - Go to Supabase dashboard
    - Verify project is active
    - Check status page
 
 2. **Verify credentials**
+
    - Check .env file
    - Verify URL and key are correct
    - Test connection with curl
 
 3. **Check database state**
+
    - Go to Supabase Table Editor
    - Verify tables exist
    - Check data is present
 
 4. **Review logs**
+
    - Go to Supabase → Logs
    - Look for error messages
    - Check query execution times
@@ -373,4 +408,3 @@ Troubleshooting guide for database-related issues.
 - [Authentication Errors](./authentication-errors) - Auth-specific issues
 - [Setup Guide](../setup-guide) - Setup instructions
 - [API Documentation](../api/overview) - API reference
-

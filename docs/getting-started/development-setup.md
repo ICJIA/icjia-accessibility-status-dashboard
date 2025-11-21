@@ -67,10 +67,9 @@ This starts:
 
 ```bash
 # Full production deployment with PM2
-yarn production:pm2
+yarn start
 
 # This will:
-# - Install dependencies
 # - Build frontend for production
 # - Start/restart services with PM2
 # - Save PM2 process list

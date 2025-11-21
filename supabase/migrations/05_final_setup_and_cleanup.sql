@@ -28,14 +28,14 @@ BEGIN
   WHERE table_schema = 'public'
   AND table_name IN (
     'admin_users', 'sessions', 'sites', 'score_history', 'documentation',
-    'api_keys', 'api_payloads', 'activity_log', 'scans', 'scan_results',
+    'api_keys', 'api_payloads', 'scans', 'scan_results',
     'scan_violations'
   );
-  
-  IF tables_count = 11 THEN
-    RAISE NOTICE 'All 11 required tables exist';
+
+  IF tables_count = 10 THEN
+    RAISE NOTICE 'All 10 required tables exist';
   ELSE
-    RAISE WARNING 'Expected 11 tables but found %', tables_count;
+    RAISE WARNING 'Expected 10 tables but found %', tables_count;
   END IF;
 END $$;
 

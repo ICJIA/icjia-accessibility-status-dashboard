@@ -25,9 +25,9 @@ export interface CountdownData {
 
 /**
  * The Illinois web accessibility compliance deadline
- * April 24, 2026 at 11:59:59 PM
+ * April 24, 2026 at 8:30:00 AM
  */
-const COMPLIANCE_DEADLINE = new Date("2026-04-24T23:59:59").getTime();
+const COMPLIANCE_DEADLINE = new Date("2026-04-24T08:30:00").getTime();
 
 /**
  * Calculates the countdown to the April 24, 2026 compliance deadline
@@ -92,4 +92,3 @@ export function getDaysRemaining(): number {
   const difference = COMPLIANCE_DEADLINE - now;
   return Math.ceil(difference / (1000 * 60 * 60 * 24));
 }
-

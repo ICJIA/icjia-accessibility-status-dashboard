@@ -18,6 +18,8 @@
  * @property {number} lighthouse_score - Current Lighthouse score (0-100)
  * @property {string} axe_last_updated - Last Axe score update timestamp
  * @property {string} lighthouse_last_updated - Last Lighthouse score update timestamp
+ * @property {number} [pages_total] - Total pages from most recent scan
+ * @property {number} [pages_scanned] - Pages scanned in most recent scan
  * @property {string} created_at - Creation timestamp
  * @property {string} updated_at - Last update timestamp
  */
@@ -32,6 +34,8 @@ export interface Site {
   lighthouse_score: number;
   axe_last_updated: string;
   lighthouse_last_updated: string;
+  pages_total?: number;
+  pages_scanned?: number;
   created_at: string;
   updated_at: string;
 }
@@ -128,7 +132,8 @@ export interface ExportFormat {
  * @typedef {Object} Scan
  * @property {string} id - Scan identifier
  * @property {string} site_id - Associated site ID
- * @property {'pending'|'running'|'completed'|'failed'} status - Scan status
+ * @property {'pending'|'running'|'in_progress'|'paused'|'completed'|'failed'|'cancelled'} status - Scan status
+ * @property {'lighthouse'|'axe'|'both'} scan_type - Type of scan
  * @property {number|null} lighthouse_score - Lighthouse score (0-100)
  * @property {number|null} axe_score - Axe score (0-100)
  * @property {any|null} lighthouse_report - Lighthouse detailed report
@@ -138,11 +143,26 @@ export interface ExportFormat {
  * @property {string|null} completed_at - When scan completed
  * @property {string} created_at - Creation timestamp
  * @property {string} updated_at - Last update timestamp
+ * @property {number|null} pages_total - Total pages to scan (multi-page)
+ * @property {number|null} pages_scanned - Pages scanned so far (multi-page)
+ * @property {string|null} worst_page_url - URL of page with most violations (multi-page)
+ * @property {number|null} worst_page_violation_count - Violation count on worst page (multi-page)
+ * @property {any|null} worst_page_violations - Violations on worst page (multi-page)
+ * @property {number|null} total_violations_sum - Total violations across all pages (multi-page)
+ * @property {number|null} last_scanned_page_index - Index of last scanned page (multi-page)
  */
 export interface Scan {
   id: string;
   site_id: string;
-  status: "pending" | "running" | "completed" | "failed";
+  status:
+    | "pending"
+    | "running"
+    | "in_progress"
+    | "paused"
+    | "completed"
+    | "failed"
+    | "cancelled";
+  scan_type: "lighthouse" | "axe" | "both";
   lighthouse_score: number | null;
   axe_score: number | null;
   lighthouse_report: any | null;
@@ -152,6 +172,13 @@ export interface Scan {
   completed_at: string | null;
   created_at: string;
   updated_at: string;
+  pages_total: number | null;
+  pages_scanned: number | null;
+  worst_page_url: string | null;
+  worst_page_violation_count: number | null;
+  worst_page_violations: any | null;
+  total_violations_sum: number | null;
+  last_scanned_page_index: number | null;
 }
 
 /**

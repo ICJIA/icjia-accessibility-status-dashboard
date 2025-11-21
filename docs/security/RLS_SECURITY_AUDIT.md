@@ -45,7 +45,7 @@ The application implements multi-layer rate limiting to prevent abuse:
 - **Limit**: 5 attempts per IP address per 10 minutes
 - **Purpose**: Prevent brute force attacks
 - **Response**: 429 (Too Many Requests) with retry-after header
-- **Logging**: All violations logged to `activity_log` table
+- **Logging**: All violations logged to `audit_logs` table
 
 #### API Key Rate Limiting
 
@@ -53,21 +53,21 @@ The application implements multi-layer rate limiting to prevent abuse:
 - **Purpose**: Prevent API abuse and resource exhaustion
 - **Tracking**: `usage_count` and `last_used_at` in `api_keys` table
 - **Response**: 429 status with retry-after header
-- **Logging**: All violations logged to `activity_log` table
+- **Logging**: All violations logged to `audit_logs` table
 
 #### Session Creation Rate Limiting
 
 - **Limit**: 10 sessions per IP address per hour
 - **Purpose**: Prevent session flooding attacks
 - **Response**: 429 status with retry-after header
-- **Logging**: All violations logged to `activity_log` table
+- **Logging**: All violations logged to `audit_logs` table
 
 #### General API Rate Limiting
 
 - **Limit**: 1000 requests per IP address per hour
 - **Purpose**: Prevent general DoS attacks
 - **Response**: 429 status with rate limit headers
-- **Logging**: All violations logged to `activity_log` table
+- **Logging**: All violations logged to `audit_logs` table
 
 **Configuration**: All limits are configurable via environment variables:
 
@@ -96,7 +96,7 @@ The application implements secure API key rotation with grace periods:
   1. Generate new API key
   2. Create new key in database with reference to old key
   3. Set grace period on old key (default: 10 days)
-  4. Log rotation to `activity_log`
+  4. Log rotation to `audit_logs`
   5. Return new key (only shown once)
 
 #### Grace Period
@@ -110,7 +110,7 @@ The application implements secure API key rotation with grace periods:
 
 - **Job**: Runs every hour (configurable via `KEY_DEACTIVATION_CHECK_INTERVAL_MS`)
 - **Process**: Finds keys with expired grace periods and deactivates them
-- **Logging**: All deactivations logged to `activity_log`
+- **Logging**: All deactivations logged to `audit_logs`
 - **Database Function**: `deactivate_expired_grace_period_keys()` in PostgreSQL
 
 #### Key Lineage Tracking
@@ -326,22 +326,23 @@ ALTER TABLE api_keys ADD COLUMN grace_period_expires_at TIMESTAMP;
 
 ---
 
-### 8. **activity_log** Table
+### 8. **audit_logs** Table
 
-**Purpose**: Tracks significant events for audit and monitoring (ADMIN-ONLY DATA)
+**Purpose**: Tracks all admin actions and system events for audit and compliance (ADMIN-ONLY DATA)
 
-**RLS Policies** (Step 3 - Optional):
+**RLS Policies**:
 | Operation | Role | Policy | Security Rationale |
 |-----------|------|--------|-------------------|
-| SELECT | anon, authenticated | Allow all | Admin panel displays activity log |
-| INSERT | anon, authenticated | Allow all | Application logs events |
+| SELECT | authenticated | Allow all | Admin panel displays audit logs |
+| INSERT | service_role | Allow all | Backend service logs events |
 
 **Security Assessment**: ✅ SECURE
 
 - Comprehensive event tracking for compliance
 - No UPDATE/DELETE policies (immutable audit trail)
-- Tracks: event_type, description, entity_type, entity_id, metadata
-- Includes: created_by_user, created_by_api_key, ip_address, user_agent
+- Tracks: action, description, user_id, metadata, created_at
+- Includes: user identification, flexible metadata for context
+- Indexed for performance: created_at, action, user_id
 
 **Audit Trail Fields**:
 
@@ -464,11 +465,11 @@ These tables are restricted to authenticated admins:
    - Upload metadata
    - Uploader information
 
-5. **activity_log** - All columns
+5. **audit_logs** - All columns
    - Event tracking
    - User actions
-   - IP addresses and user agents
-   - Metadata
+   - Metadata for context
+   - Timestamps
 
 ---
 
@@ -567,7 +568,7 @@ These tables are restricted to authenticated admins:
 **Current**: Supabase default encryption
 **Recommendation**: Consider additional encryption for:
 
-- Sensitive metadata in activity_log
+- Sensitive metadata in audit_logs
 - API key metadata
 - Session data
 
@@ -585,7 +586,7 @@ SELECT tablename, rowsecurity
 FROM pg_tables
 WHERE schemaname = 'public'
 AND tablename IN ('admin_users', 'sessions', 'sites', 'score_history',
-                   'app_documentation', 'api_keys', 'uploaded_files', 'activity_log')
+                   'documentation', 'api_keys', 'audit_logs')
 ORDER BY tablename;
 
 -- Expected: All should show rowsecurity = true
@@ -613,7 +614,7 @@ SELECT COUNT(*) FROM app_documentation;
 -- 5. Test admin-only access (should fail without session)
 SELECT COUNT(*) FROM admin_users;
 SELECT COUNT(*) FROM api_keys;
-SELECT COUNT(*) FROM activity_log;
+SELECT COUNT(*) FROM audit_logs;
 ```
 
 ### For Deployment
@@ -644,7 +645,7 @@ Before deploying to production:
 ✅ **Session Protection**: 10 sessions per IP per hour prevents session flooding
 ✅ **General Protection**: 1000 requests per IP per hour prevents DoS attacks
 ✅ **Configurable**: All limits adjustable via environment variables
-✅ **Logged**: All violations recorded in activity_log for monitoring
+✅ **Logged**: All violations recorded in audit_logs for monitoring
 
 ### API Key Rotation Features
 
@@ -652,7 +653,7 @@ Before deploying to production:
 ✅ **Grace Period**: 10-day grace period allows smooth key transition
 ✅ **Automatic Deactivation**: Old keys automatically deactivated after grace period
 ✅ **Key Lineage**: Rotation history tracked via `rotated_from_key_id`
-✅ **Audit Trail**: All rotations and deactivations logged to activity_log
+✅ **Audit Trail**: All rotations and deactivations logged to audit_logs
 ✅ **Configurable**: Grace period and check interval adjustable via environment variables
 
 ### Implementation Details

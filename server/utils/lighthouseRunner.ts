@@ -6,9 +6,23 @@ import lighthouse from "lighthouse";
 import * as chromeLauncher from "chrome-launcher";
 
 export interface LighthouseResult {
+  url: string; // Page URL that was scanned
   score: number;
   categories: Record<string, { score: number }>;
   audits: Record<string, any>;
+}
+
+export interface MultiPageLighthouseResult {
+  totalPages: number;
+  pagesScanned: number;
+  averageScore: number;
+  worstPageUrl: string;
+  worstPageScore: number;
+  results: LighthouseResult[];
+  errors: Array<{
+    url: string;
+    error: string;
+  }>;
 }
 
 export async function runLighthouseAudit(
@@ -27,12 +41,12 @@ export async function runLighthouseAudit(
     onProgress?.("📊 Running Lighthouse audit...");
     console.log("[Lighthouse] Starting Lighthouse audit");
 
-    // Run Lighthouse
+    // Run Lighthouse - ONLY accessibility audit
     const options = {
       logLevel: "error" as const,
       output: "json" as const,
       port: chrome.port,
-      onlyCategories: ["accessibility", "performance", "best-practices", "seo"],
+      onlyCategories: ["accessibility"],
     };
 
     const runnerResult = await lighthouse(url, options);
@@ -47,20 +61,12 @@ export async function runLighthouseAudit(
     console.log("[Lighthouse] Audit complete - processing results");
 
     const result = {
+      url, // Include the page URL
       score: Math.round((lhr.categories.accessibility.score || 0) * 100),
       categories: {
         accessibility: {
           score: Math.round((lhr.categories.accessibility.score || 0) * 100),
         },
-        performance: {
-          score: Math.round((lhr.categories.performance.score || 0) * 100),
-        },
-        "best-practices": {
-          score: Math.round(
-            (lhr.categories["best-practices"].score || 0) * 100
-          ),
-        },
-        seo: { score: Math.round((lhr.categories.seo.score || 0) * 100) },
       },
       audits: lhr.audits,
     };
@@ -103,4 +109,97 @@ export async function runLighthouseAudit(
       await chrome.kill();
     }
   }
+}
+
+/**
+ * Run Lighthouse audit on multiple pages sequentially
+ */
+export async function runMultiPageLighthouseAudit(
+  urls: string[],
+  resumeFromIndex: number = 0,
+  onProgress?: (message: string) => void
+): Promise<MultiPageLighthouseResult> {
+  console.log(
+    `[Lighthouse-MultiPage] Starting multi-page audit for ${urls.length} URLs, resuming from index ${resumeFromIndex}`
+  );
+
+  const results: LighthouseResult[] = [];
+  const errors: Array<{ url: string; error: string }> = [];
+  let worstPageUrl = "";
+  let worstPageScore = 100;
+
+  for (let i = resumeFromIndex; i < urls.length; i++) {
+    const url = urls[i];
+    const pageNumber = i + 1;
+
+    try {
+      onProgress?.(`📄 Auditing page ${pageNumber}/${urls.length}: ${url}`);
+      console.log(
+        `[Lighthouse-MultiPage] Auditing page ${pageNumber}/${urls.length}: ${url}`
+      );
+
+      const result = await runLighthouseAudit(url, (msg) =>
+        onProgress?.(`  ${msg}`)
+      );
+
+      results.push(result);
+
+      // Track worst page (lowest score)
+      if (result.score < worstPageScore) {
+        worstPageUrl = url;
+        worstPageScore = result.score;
+      }
+
+      onProgress?.(
+        `✅ Page ${pageNumber}/${urls.length} complete (score: ${result.score}/100)`
+      );
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error(
+        `[Lighthouse-MultiPage] Error auditing page ${pageNumber} (${url}): ${errorMsg}`
+      );
+
+      errors.push({
+        url,
+        error: errorMsg,
+      });
+
+      onProgress?.(`⚠️ Page ${pageNumber}/${urls.length} failed: ${errorMsg}`);
+    }
+  }
+
+  const averageScore =
+    results.length > 0
+      ? Math.round(
+          results.reduce((sum, r) => sum + r.score, 0) / results.length
+        )
+      : 0;
+
+  const result: MultiPageLighthouseResult = {
+    totalPages: urls.length,
+    pagesScanned: results.length,
+    averageScore,
+    worstPageUrl,
+    worstPageScore,
+    results,
+    errors,
+  };
+
+  console.log(
+    `[Lighthouse-MultiPage] Multi-page audit complete:`,
+    JSON.stringify(
+      {
+        totalPages: result.totalPages,
+        pagesScanned: result.pagesScanned,
+        averageScore: result.averageScore,
+        worstPageUrl: result.worstPageUrl,
+        worstPageScore: result.worstPageScore,
+        errorCount: result.errors.length,
+      },
+      null,
+      2
+    )
+  );
+
+  return result;
 }

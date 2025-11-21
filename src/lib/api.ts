@@ -159,16 +159,23 @@ export const api = {
       }),
   },
 
-  activityLog: {
+  auditLogs: {
     list: (limit?: number, offset?: number) => {
       const params = new URLSearchParams();
       if (limit) params.append("limit", limit.toString());
       if (offset) params.append("offset", offset.toString());
-      return fetchAPI(`/activity-log?${params.toString()}`);
+      return fetchAPI(`/audit-logs?${params.toString()}`);
     },
   },
 
   scans: {
+    list: (params?: { status?: string }) => {
+      const query = new URLSearchParams();
+      if (params?.status) query.append("status", params.status);
+      return fetchAPI(
+        `/scans${query.toString() ? `?${query.toString()}` : ""}`
+      );
+    },
     trigger: (
       site_id: string,
       scan_type: "lighthouse" | "axe" | "both" = "both"
@@ -178,6 +185,8 @@ export const api = {
         body: JSON.stringify({ site_id, scan_type }),
       }),
     getProgress: (scanId: string) => fetchAPI(`/scans/${scanId}/progress`),
+    cancel: (scanId: string) =>
+      fetchAPI(`/scans/${scanId}/cancel`, { method: "POST" }),
   },
 
   health: {

@@ -89,7 +89,7 @@ sudo lsof -i :3001
 cat .env
 
 # Run with verbose logging
-NODE_DEBUG=* yarn dev:backend
+NODE_DEBUG=* yarn dev
 ```
 
 ### API Endpoints Not Responding
@@ -150,8 +150,8 @@ cat .env | grep VITE_SUPABASE
 # Test connection
 curl https://your-project-id.supabase.co/rest/v1/
 
-# Restart backend
-yarn dev:backend
+# Restart services
+yarn dev
 ```
 
 ### "Admin user NOT found" Error
@@ -163,7 +163,7 @@ yarn dev:backend
 ```bash
 # Re-run migration file
 # Go to Supabase SQL Editor
-# Copy and run: supabase/migrations/step_1_create_initial_schema.sql
+# Copy and run: supabase/migrations/01_create_initial_schema.sql
 
 # Verify admin user was created
 # Check admin_users table in Supabase
@@ -185,7 +185,7 @@ yarn dev:backend
 # Go to Supabase → Authentication → Policies
 
 # Re-run migration files
-# Run step_1 and step_2 migrations again
+# Run 01_create_initial_schema.sql and 02_add_api_keys_and_payloads.sql again
 
 # Check database logs
 # Look for errors in Supabase logs

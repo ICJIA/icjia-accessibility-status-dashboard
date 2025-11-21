@@ -147,13 +147,23 @@ node scripts/apply-migration.js supabase/migrations/08_create_audit_logs.sql
 
 **What it does**:
 
-- Verifies all 11 tables exist
+- Verifies all 10 required tables exist (activity_log is replaced by audit_logs in migration 08)
 - Verifies all indexes exist
 - Final RLS policy adjustments
 - Ensures admin user exists
 - Ensures documentation is populated
 
 **Idempotent**: Yes - safe to run multiple times
+
+---
+
+### 07: `07_update_activity_log_for_scans.sql` (DEPRECATED)
+
+**Status**: ⚠️ **DEPRECATED** - Superseded by Migration 08
+
+This migration is kept for reference only and should **NOT** be run. It attempted to update the old `activity_log` table, but Migration 08 replaces this entire table with a new, simplified `audit_logs` table.
+
+**Do not run this migration** - Migration 08 handles all audit logging needs.
 
 ---
 

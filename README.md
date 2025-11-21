@@ -1,6 +1,6 @@
 # ICJIA Accessibility Status
 
-> **Last Updated**: November 13, 2025
+> **Last Updated**: November 21, 2025
 
 A comprehensive web accessibility tracking system for the Illinois Criminal Justice Information Authority, designed to monitor progress toward April 2026 compliance goals across all ICJIA web properties.
 
@@ -8,9 +8,29 @@ A comprehensive web accessibility tracking system for the Illinois Criminal Just
 
 > 📚 **[Documentation](#-documentation)** | **[GitHub Repository](https://github.com/ICJIA/icjia-accessibility-status)**
 
+## ✨ Key Features
+
+- **Real-Time Accessibility Scanning** - Automated Axe and Lighthouse scans for comprehensive accessibility audits
+- **Multi-Page Site Support** - Scan entire websites by parsing sitemaps and crawling all pages
+- **Live Progress Tracking** - Monitor scan progress with real-time updates, estimated time remaining, and detailed statistics
+- **Compliance Countdown** - Visual countdown to April 24, 2026 compliance deadline
+- **Admin Dashboard** - Manage sites, run scans, view detailed reports, and track activity logs
+- **Data Export** - Export accessibility data in JSON, CSV, and Markdown formats (no authentication required)
+- **Activity Logging** - Comprehensive audit trail of all admin actions and scan events
+- **Dark Mode Support** - Full dark mode theme for comfortable viewing
+- **Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices
+- **Secure Authentication** - Cookie-based sessions with bcrypt password hashing
+- **Row-Level Security** - Database-level access control via Supabase RLS policies
+
 ## 📸 Screenshots
 
+### Landing Page - Public Dashboard
+
 ![ICJIA Accessibility Status Portal Landing Page](screenshots/landing-page.png)
+
+### Admin Dashboard - Site Management & Monitoring
+
+![ICJIA Accessibility Status Admin Dashboard](screenshots/admin-dashboard.png)
 
 ## 📥 Export Data
 
@@ -61,14 +81,31 @@ cp .env.sample .env
 #   supabase/migrations/05_final_setup_and_cleanup.sql
 #   supabase/migrations/06_add_key_rotation_columns.sql
 
-# 4. Start development server (frontend + backend)
+# 4. Start development server (builds + starts everything)
 yarn dev
 
 # 5. Access the application
-# Frontend: http://localhost:5173
+# Frontend: http://localhost:5173 (or 5174 if port is in use)
 # Backend API: http://localhost:3001/api
 # Admin Panel: http://localhost:5173/admin (default: admin / no password)
 ```
+
+### What `yarn dev` Does
+
+The `yarn dev` command is your one-line way to start everything in development:
+
+```bash
+yarn dev
+```
+
+This automatically:
+
+1. ✅ **Builds the project** - Compiles all TypeScript/React code to `dist/`
+2. ✅ **Starts Vite dev server** - Frontend on port 5173 with hot module replacement
+3. ✅ **Starts Express backend** - Backend on port 3001 with auto-restart on file changes
+4. ✅ **Watches for changes** - Both servers automatically reload when you edit files
+
+**Result**: Both frontend and backend are running and ready to use!
 
 ### Available Yarn Scripts
 
@@ -122,6 +159,25 @@ Nginx (Reverse Proxy)
 **Backend**: Express server on port 3001, managed by PM2
 **Database**: Supabase PostgreSQL (cloud-hosted)
 
+### Starting the Production Server
+
+To start the production server with PM2:
+
+```bash
+# Build frontend + start backend with PM2
+yarn start
+
+# This automatically:
+# 1. Builds the project (yarn build)
+# 2. Starts PM2 with ecosystem.config.cjs
+# 3. Manages both frontend and backend processes
+```
+
+**Access the application:**
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3001/api
+
 ### Deployment Options
 
 #### Option 1: Laravel Forge (Recommended)
@@ -139,7 +195,7 @@ For detailed Laravel Forge deployment instructions, see **[docs/deployment/larav
 **Deployment command:**
 
 ```bash
-yarn production:pm2  # Build frontend + start backend with PM2
+yarn start  # Build frontend + start backend with PM2
 ```
 
 #### Option 2: Ubuntu Server with PM2 + Nginx
@@ -162,7 +218,7 @@ cp .env.sample .env
 # 3. Run database migrations in Supabase
 
 # 4. Start services with PM2
-yarn production:pm2
+yarn start
 
 # 5. Setup auto-start on reboot
 pm2 startup

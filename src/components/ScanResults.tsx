@@ -9,13 +9,21 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Scan } from "../types";
 import { ScoreBadge } from "./ScoreBadge";
-import { AlertCircle, CheckCircle, Clock, FileText } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle,
+  Clock,
+  FileText,
+  RotateCcw,
+  Play,
+} from "lucide-react";
 import { api } from "../lib/api";
 
 interface ScanResultsProps {
   scans: Scan[];
   loading?: boolean;
   siteId?: string;
+  onResume?: (scan: Scan, action: "resume" | "restart") => void;
 }
 
 /**
@@ -37,13 +45,18 @@ export function ScanResults({
   scans,
   loading = false,
   siteId,
+  onResume,
 }: ScanResultsProps) {
   const [progress, setProgress] = useState<Record<string, string[]>>({});
 
   // Poll for progress updates on running scans
+  // Note: This is a fallback for progress display. The main polling happens in SiteDetail.tsx
   useEffect(() => {
     const runningScans = scans.filter(
-      (s) => s.status === "running" || s.status === "pending"
+      (s) =>
+        s.status === "running" ||
+        s.status === "pending" ||
+        s.status === "in_progress"
     );
 
     if (runningScans.length === 0) return;
@@ -57,10 +70,10 @@ export function ScanResults({
             [scan.id]: response.progress || [],
           }));
         } catch (error) {
-          console.error("Failed to fetch progress:", error);
+          // Silently fail - this is just for progress display
         }
       }
-    }, 1000); // Poll every second
+    }, 2000); // Poll every 2 seconds (same as SiteDetail)
 
     return () => clearInterval(interval);
   }, [scans]);
@@ -91,11 +104,16 @@ export function ScanResults({
       case "completed":
         return "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800";
       case "running":
+      case "in_progress":
         return "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800";
       case "pending":
         return "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800";
+      case "paused":
+        return "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800";
       case "failed":
         return "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800";
+      case "cancelled":
+        return "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800";
       default:
         return "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800";
     }
@@ -112,13 +130,20 @@ export function ScanResults({
           <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
         );
       case "running":
+      case "in_progress":
         return (
           <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400 animate-spin" />
         );
-      default:
+      case "paused":
+        return (
+          <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+        );
+      case "pending":
         return (
           <Clock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
         );
+      default:
+        return <Clock className="h-5 w-5 text-gray-600 dark:text-gray-400" />;
     }
   };
 
@@ -136,11 +161,77 @@ export function ScanResults({
               <span className="font-semibold text-gray-900 dark:text-white capitalize">
                 {scan.status}
               </span>
+              {scan.scan_type && (
+                <span className="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded capitalize">
+                  {scan.scan_type}
+                </span>
+              )}
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400">
               {new Date(scan.created_at).toLocaleString()}
             </span>
           </div>
+
+          {/* Multi-page progress display */}
+          {scan.pages_total && scan.pages_total > 0 && (
+            <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg border border-blue-200 dark:border-blue-700">
+              {/* Progress Header */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  📊 Scan Progress
+                </span>
+                {scan.pages_scanned && scan.pages_total && (
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    {Math.round((scan.pages_scanned / scan.pages_total) * 100)}%
+                  </span>
+                )}
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-300 dark:bg-gray-600 rounded-full h-3 mb-3 overflow-hidden shadow-sm">
+                <div
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-300 shadow-md"
+                  style={{
+                    width: `${
+                      scan.pages_scanned && scan.pages_total
+                        ? (scan.pages_scanned / scan.pages_total) * 100
+                        : 0
+                    }%`,
+                  }}
+                ></div>
+              </div>
+
+              {/* Pages Counter */}
+              <div className="flex items-center justify-between text-sm mb-3">
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  Pages Scanned:{" "}
+                  <span className="text-blue-600 dark:text-blue-400 font-bold">
+                    {scan.pages_scanned || 0}
+                  </span>{" "}
+                  /{" "}
+                  <span className="text-gray-600 dark:text-gray-400 font-bold">
+                    {scan.pages_total}
+                  </span>
+                </span>
+                {scan.pages_scanned && scan.pages_total && (
+                  <span className="text-xs text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 px-2 py-1 rounded font-medium">
+                    {scan.pages_total - (scan.pages_scanned || 0)} remaining
+                  </span>
+                )}
+              </div>
+              {scan.total_violations_sum !== null && (
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                  Total violations found: {scan.total_violations_sum}
+                </p>
+              )}
+              {scan.worst_page_url && (
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  Worst page: {scan.worst_page_url} (
+                  {scan.worst_page_violation_count} violations)
+                </p>
+              )}
+            </div>
+          )}
 
           {/* Error message if failed */}
           {scan.status === "failed" && scan.error_message && (
@@ -219,11 +310,13 @@ export function ScanResults({
             </div>
           )}
 
-          {/* Running/Pending state */}
-          {(scan.status === "running" || scan.status === "pending") && (
+          {/* Running/Pending/In Progress state */}
+          {(scan.status === "running" ||
+            scan.status === "pending" ||
+            scan.status === "in_progress") && (
             <div className="space-y-2">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {scan.status === "running"
+                {scan.status === "running" || scan.status === "in_progress"
                   ? "Scan is currently running..."
                   : "Scan is queued and will start soon..."}
               </p>
@@ -244,6 +337,48 @@ export function ScanResults({
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Paused state - show resume button */}
+          {scan.status === "paused" && (
+            <div className="space-y-3">
+              <p className="text-sm text-orange-700 dark:text-orange-300">
+                Scan paused at page {scan.pages_scanned} of {scan.pages_total}.
+                You can resume or restart the scan.
+              </p>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => onResume?.(scan, "resume")}
+                  className="inline-flex items-center space-x-2 px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors text-sm font-medium"
+                >
+                  <Play className="h-4 w-4" />
+                  <span>Resume</span>
+                </button>
+                <button
+                  onClick={() => onResume?.(scan, "restart")}
+                  className="inline-flex items-center space-x-2 px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm font-medium"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  <span>Restart</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Failed state - show restart button */}
+          {scan.status === "failed" && (
+            <div className="space-y-3">
+              <p className="text-sm text-red-700 dark:text-red-300">
+                Scan failed. You can try again.
+              </p>
+              <button
+                onClick={() => onResume?.(scan, "restart")}
+                className="inline-flex items-center space-x-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
+              >
+                <RotateCcw className="h-4 w-4" />
+                <span>Retry Scan</span>
+              </button>
             </div>
           )}
         </div>

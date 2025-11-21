@@ -67,11 +67,12 @@ RateLimit-Reset: 1731340800
 
 ### Logging
 
-All rate limit violations are logged to the `activity_log` table with:
-- Event type: `rate_limit_violation`
-- Severity: `warning`
-- IP address and user agent
-- Limit type (login, api_key, session, general)
+All rate limit violations are logged to the `audit_logs` table with:
+
+- Action: `rate_limit_violation`
+- Description: Details about the violation
+- Metadata: IP address, user agent, limit type
+- Timestamp: When the violation occurred
 
 ---
 
@@ -88,12 +89,14 @@ API key rotation allows secure key management with a grace period for old keys.
 **Authentication**: Required (admin only)
 
 **Request**:
+
 ```bash
 curl -X POST http://localhost:3001/api/api-keys/key-id-here/rotate \
   -H "Cookie: session_token=your-session-token"
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "message": "API key rotated successfully",
@@ -120,6 +123,7 @@ curl -X POST http://localhost:3001/api/api-keys/key-id-here/rotate \
 ### Grace Period
 
 After rotation:
+
 - **Old key**: Remains active for the grace period (default: 10 days)
 - **New key**: Immediately active
 - **After grace period**: Old key is automatically deactivated
@@ -145,6 +149,7 @@ The system automatically deactivates old keys after their grace period expires:
 ### Rotation History
 
 Each rotated key includes:
+
 - `rotated_from_key_id`: Reference to the previous key
 - `grace_period_expires_at`: When the old key will be deactivated
 - Activity log entries tracking the rotation
@@ -158,6 +163,7 @@ Each rotated key includes:
 **Authentication**: Required (admin only)
 
 **Response**:
+
 ```json
 {
   "stats": {
@@ -179,7 +185,7 @@ Each rotated key includes:
 
 1. **Regular Rotation**: Rotate API keys every 90 days
 2. **Monitor Usage**: Check `last_used_at` and `usage_count` regularly
-3. **Review Logs**: Monitor `activity_log` for unusual patterns
+3. **Review Logs**: Monitor `audit_logs` for unusual patterns
 4. **Grace Period**: Use the grace period to update client applications
 
 ### For API Consumers
@@ -226,28 +232,31 @@ async function makeApiRequest(url, options) {
 
 ## Monitoring and Alerts
 
-### Activity Log Queries
+### Audit Log Queries
 
 **Find rate limit violations**:
+
 ```sql
-SELECT * FROM activity_log
-WHERE event_type = 'rate_limit_violation'
+SELECT * FROM audit_logs
+WHERE action = 'rate_limit_violation'
 ORDER BY created_at DESC
 LIMIT 20;
 ```
 
 **Find API key rotations**:
+
 ```sql
-SELECT * FROM activity_log
-WHERE event_type = 'api_key_rotation'
+SELECT * FROM audit_logs
+WHERE action = 'api_key_rotation'
 ORDER BY created_at DESC
 LIMIT 20;
 ```
 
 **Find failed logins**:
+
 ```sql
-SELECT * FROM activity_log
-WHERE event_type = 'failed_login'
+SELECT * FROM audit_logs
+WHERE action = 'failed_login'
 ORDER BY created_at DESC
 LIMIT 20;
 ```
@@ -268,6 +277,7 @@ LIMIT 20;
 **Cause**: Exceeded login rate limit (5 attempts per 10 minutes)
 
 **Solution**:
+
 1. Wait 10 minutes before trying again
 2. Check your password
 3. Contact administrator if locked out
@@ -277,6 +287,7 @@ LIMIT 20;
 **Cause**: Exceeded API key rate limit (100 requests per hour)
 
 **Solution**:
+
 1. Implement exponential backoff in your client
 2. Batch requests when possible
 3. Contact administrator to increase limit if needed
@@ -286,6 +297,7 @@ LIMIT 20;
 **Cause**: Exceeded session creation rate limit (10 sessions per hour)
 
 **Solution**:
+
 1. Reuse existing sessions instead of creating new ones
 2. Wait 1 hour before creating more sessions
 3. Check for session leaks in your application
@@ -306,8 +318,7 @@ LIMIT 20;
 
 For questions or issues with rate limiting and key rotation:
 
-1. Check the activity log for detailed event information
+1. Check the audit logs for detailed event information
 2. Review this documentation
 3. Contact the development team
 4. Check the RLS Security Audit for additional security details
-

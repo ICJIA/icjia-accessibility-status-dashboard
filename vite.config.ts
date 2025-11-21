@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     port: 5173, // Explicitly set port to avoid confusion
     host: "0.0.0.0", // Listen on all interfaces
-    open: false, // Don't automatically open browser
+    open: true, // Don't automatically open browser
     proxy: {
       "/api": {
         target: "http://localhost:3001",

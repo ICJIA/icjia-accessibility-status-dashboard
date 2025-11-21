@@ -34,7 +34,42 @@ router.get("/", async (req, res) => {
       return res.status(500).json({ error: "Failed to fetch sites" });
     }
 
-    return res.json({ sites });
+    // Fetch the most recent scan for each site to get pages_total and pages_scanned
+    const sitesWithScans = await Promise.all(
+      sites.map(async (site) => {
+        try {
+          const { data: latestScan, error: scanError } = await supabase
+            .from("scans")
+            .select("pages_total, pages_scanned")
+            .eq("site_id", site.id)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .single();
+
+          if (!scanError && latestScan) {
+            return {
+              ...site,
+              pages_total: latestScan.pages_total || 0,
+              pages_scanned: latestScan.pages_scanned || 0,
+            };
+          }
+          return {
+            ...site,
+            pages_total: 0,
+            pages_scanned: 0,
+          };
+        } catch (err) {
+          console.error(`Error fetching scan for site ${site.id}:`, err);
+          return {
+            ...site,
+            pages_total: 0,
+            pages_scanned: 0,
+          };
+        }
+      })
+    );
+
+    return res.json({ sites: sitesWithScans });
   } catch (error) {
     console.error("Get sites error:", error);
     return res.status(500).json({ error: "Internal server error" });

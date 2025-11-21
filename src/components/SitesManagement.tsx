@@ -17,6 +17,7 @@ import {
 import { Site } from "../types";
 import { api } from "../lib/api";
 import { ScoreBadge } from "./ScoreBadge";
+import { ToolInfo } from "./ToolInfo";
 
 interface SitesManagementProps {
   onEdit: (site: Site) => void;
@@ -37,6 +38,9 @@ export function SitesManagement({
   const [clearingData, setClearingData] = useState(false);
   const [scanningSites, setScanningSites] = useState<Set<string>>(new Set());
   const [scanMessages, setScanMessages] = useState<Record<string, string>>({});
+  const [scanProgress, setScanProgress] = useState<
+    Record<string, { pages_scanned: number; pages_total: number }>
+  >({});
   const pollIntervalsRef = useRef<Record<string, NodeJS.Timeout>>({});
 
   useEffect(() => {
@@ -121,11 +125,34 @@ export function SitesManagement({
 
           if (!scan) return;
 
+          // Update progress if pages_total is available
+          if (scan.pages_total && scan.pages_total > 0) {
+            setScanProgress((prev) => ({
+              ...prev,
+              [site.id]: {
+                pages_scanned: scan.pages_scanned || 0,
+                pages_total: scan.pages_total,
+              },
+            }));
+          }
+
           // Update status message based on scan status
-          if (scan.status === "pending" || scan.status === "running") {
+          if (
+            scan.status === "pending" ||
+            scan.status === "running" ||
+            scan.status === "in_progress"
+          ) {
             pollCount++;
-            // Show "Running scan..." after first poll to indicate it's actively running
-            if (pollCount > 1) {
+            // Show progress message with page count
+            if (scan.pages_total && scan.pages_total > 0) {
+              const percentage = Math.round(
+                (scan.pages_scanned / scan.pages_total) * 100
+              );
+              setScanMessages((prev) => ({
+                ...prev,
+                [site.id]: `📊 Scanning: ${scan.pages_scanned}/${scan.pages_total} pages (${percentage}%)`,
+              }));
+            } else if (pollCount > 1) {
               setScanMessages((prev) => ({
                 ...prev,
                 [site.id]: "Running scan...",
@@ -139,6 +166,12 @@ export function SitesManagement({
             setScanningSites((prev) => {
               const next = new Set(prev);
               next.delete(site.id);
+              return next;
+            });
+            // Clear progress
+            setScanProgress((prev) => {
+              const next = { ...prev };
+              delete next[site.id];
               return next;
             });
             setScanMessages((prev) => ({
@@ -178,6 +211,12 @@ export function SitesManagement({
             setScanningSites((prev) => {
               const next = new Set(prev);
               next.delete(site.id);
+              return next;
+            });
+            // Clear progress
+            setScanProgress((prev) => {
+              const next = { ...prev };
+              delete next[site.id];
               return next;
             });
             setScanMessages((prev) => ({
@@ -286,10 +325,16 @@ export function SitesManagement({
                 URL
               </th>
               <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300">
-                Axe Score
+                <div className="flex items-center justify-center gap-1">
+                  <span>Axe Score</span>
+                  <ToolInfo tool="axe" />
+                </div>
               </th>
               <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300">
-                Lighthouse Score
+                <div className="flex items-center justify-center gap-1">
+                  <span>Lighthouse Score</span>
+                  <ToolInfo tool="lighthouse" />
+                </div>
               </th>
               <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300">
                 Scans Run
@@ -371,22 +416,51 @@ export function SitesManagement({
         </table>
       </div>
 
-      {/* Scan Status Messages */}
-      <div className="space-y-2 mt-4">
-        {Object.entries(scanMessages).map(([siteId, message]) => (
-          <div
-            key={siteId}
-            className={`p-3 rounded-lg text-sm font-medium ${
-              message.includes("✅")
-                ? "bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800"
-                : message.includes("❌")
-                ? "bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800"
-                : "bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800"
-            }`}
-          >
-            {message}
-          </div>
-        ))}
+      {/* Scan Status Messages with Progress */}
+      <div className="space-y-3 mt-4">
+        {Object.entries(scanMessages).map(([siteId, message]) => {
+          const progress = scanProgress[siteId];
+          const percentage = progress
+            ? Math.round((progress.pages_scanned / progress.pages_total) * 100)
+            : 0;
+          const isScanning = message.includes("Scanning:");
+
+          return (
+            <div
+              key={siteId}
+              className={`p-4 rounded-lg text-sm font-medium ${
+                message.includes("✅")
+                  ? "bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800"
+                  : message.includes("❌")
+                  ? "bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800"
+                  : "bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span>{message}</span>
+                {isScanning && (
+                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                    {percentage}%
+                  </span>
+                )}
+              </div>
+              {isScanning && progress && (
+                <>
+                  <div className="w-full bg-gray-300 dark:bg-gray-600 rounded-full h-2 mb-2 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${percentage}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    {progress.pages_total - progress.pages_scanned} pages
+                    remaining
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Clear Data Confirmation Modal */}

@@ -74,7 +74,8 @@ export async function logScanCompleted(
   siteName: string,
   axeScore: number | null,
   lighthouseScore: number | null,
-  userId?: string | null
+  userId?: string | null,
+  additionalData?: Record<string, any>
 ): Promise<void> {
   await log({
     action: "scan_completed",
@@ -85,6 +86,7 @@ export async function logScanCompleted(
       site_name: siteName,
       axe_score: axeScore,
       lighthouse_score: lighthouseScore,
+      ...additionalData,
     },
   });
 }
@@ -100,6 +102,19 @@ export async function logScanFailed(
     description: `Scan failed for ${siteName}: ${error}`,
     userId,
     metadata: { scan_id: scanId, site_name: siteName, error },
+  });
+}
+
+export async function logScanCancelled(
+  scanId: string,
+  siteName: string,
+  userId?: string | null
+): Promise<void> {
+  await log({
+    action: "scan_cancelled",
+    description: `Scan manually stopped by user for ${siteName}`,
+    userId,
+    metadata: { scan_id: scanId, site_name: siteName },
   });
 }
 
@@ -176,5 +191,41 @@ export async function logLogout(
     description: `User logged out: ${username}`,
     userId,
     metadata: { username },
+  });
+}
+
+export async function logLighthouseReport(
+  scanId: string,
+  siteName: string,
+  lighthouseReport: Record<string, any>,
+  userId?: string | null
+): Promise<void> {
+  await log({
+    action: "lighthouse_report",
+    description: `Lighthouse report for ${siteName}`,
+    userId,
+    metadata: {
+      scan_id: scanId,
+      site_name: siteName,
+      report: lighthouseReport,
+    },
+  });
+}
+
+export async function logAxeReport(
+  scanId: string,
+  siteName: string,
+  axeReport: Record<string, any>,
+  userId?: string | null
+): Promise<void> {
+  await log({
+    action: "axe_report",
+    description: `Axe report for ${siteName}`,
+    userId,
+    metadata: {
+      scan_id: scanId,
+      site_name: siteName,
+      report: axeReport,
+    },
   });
 }

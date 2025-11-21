@@ -101,8 +101,8 @@ describe("Rate Limiting", () => {
   });
 
   describe("Rate Limit Logging", () => {
-    it("should log rate limit violations to activity log", async () => {
-      // This test requires admin access to check activity log
+    it("should log rate limit violations to audit logs", async () => {
+      // This test requires admin access to check audit logs
       // Make multiple failed login attempts to trigger rate limiting
       for (let i = 0; i < 6; i++) {
         await fetch(`${API_URL}/auth/login`, {
@@ -115,7 +115,7 @@ describe("Rate Limiting", () => {
         });
       }
 
-      // Note: Actual verification would require admin access to activity_log table
+      // Note: Actual verification would require admin access to audit_logs table
       // This test documents the expected behavior
       expect(true).toBe(true);
     });
@@ -159,4 +159,3 @@ describe("Session Rate Limiting", () => {
     expect(true).toBe(true);
   });
 });
-

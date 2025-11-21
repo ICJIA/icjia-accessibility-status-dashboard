@@ -74,38 +74,41 @@ You need to run **TWO required SQL scripts** in order:
 1. Go to your Supabase project dashboard
 2. Click **SQL Editor** in the left sidebar
 3. Click **New Query**
-4. Open `supabase/migrations/step_1_create_initial_schema.sql`
+4. Open `supabase/migrations/01_create_initial_schema.sql`
 5. Copy **ALL** contents and paste into SQL Editor
 6. Click **Run**
 
 This creates all tables: `admin_users`, `sessions`, `sites`, `score_history`, `app_documentation`, `api_payloads`
 
-### 5.2: STEP 2 - Add API Keys and Fix RLS Policies
+### 5.2: STEP 2 - Add API Keys and Scans Support
 
 1. In SQL Editor, click **New Query** again
-2. Open `supabase/migrations/step_2_api_keys_and_rls_fixes.sql`
+2. Open `supabase/migrations/02_add_api_keys_and_payloads.sql`
 3. Copy **ALL** contents and paste into SQL Editor
 4. Click **Run**
 
 This script:
 
 - ✅ Creates the `api_keys` table for API authentication
+- ✅ Adds support for API payloads
 - ✅ Fixes RLS policies to allow custom cookie-based authentication
 - ✅ Allows anonymous users to authenticate and create sessions
-- ✅ Fixes policies for API imports and audit trail
 
 **Why this is needed**: The initial schema uses RLS policies designed for Supabase Auth (`auth.uid()`), but this app uses custom cookie-based authentication. This script updates the policies to work with custom auth.
 
-### 5.3: (Optional) STEP 3 & 4 - Upgrade Migrations
+### 5.3: (Optional) Additional Migrations
 
-If you're upgrading from an older version:
+For additional features like scans and violations:
 
 1. In SQL Editor, click **New Query**
-2. Open `supabase/migrations/step_3_refactor_to_api_payloads.sql` (if needed)
+2. Open `supabase/migrations/03_add_scans_and_results.sql`
 3. Copy **ALL** contents and paste into SQL Editor
 4. Click **Run**
 
-Then repeat for `supabase/migrations/step_4_fix_score_history_rls.sql` if needed.
+Then optionally run:
+
+- `04_add_scan_violations.sql` - For scan violation tracking
+- `05_final_setup_and_cleanup.sql` - Final setup and cleanup
 
 See `/supabase/migrations/README.md` for complete migration documentation.
 
@@ -201,11 +204,11 @@ Check that:
 
 ### Database Setup Files
 
-- `supabase/migrations/20251109151433_create_initial_schema.sql` - Creates all tables and initial RLS policies
-- `COMPLETE_FIX.sql` - Creates admin user + fixes RLS for custom auth (REQUIRED!)
-- `FIX_SESSIONS_SIMPLE.sql` - Alternative fix for just sessions table
-- `FIX_ALL_RLS_FOR_CUSTOM_AUTH.sql` - Alternative comprehensive RLS fix
-- `supabase/migrations/20251109154254_seed_sample_data.sql` - Optional sample data
+- `supabase/migrations/01_create_initial_schema.sql` - Creates all tables and initial RLS policies
+- `supabase/migrations/02_add_api_keys_and_payloads.sql` - Adds API keys and payload support
+- `supabase/migrations/03_add_scans_and_results.sql` - Adds scan and result tables
+- `supabase/migrations/04_add_scan_violations.sql` - Adds scan violation tracking
+- `supabase/migrations/05_final_setup_and_cleanup.sql` - Final setup and cleanup
 
 ### Diagnostic Tools
 

@@ -34,21 +34,21 @@ async function testWorkflow() {
     );
   }
 
-  // Check activity log
-  console.log("\n📋 Checking activity log...");
+  // Check audit logs
+  console.log("\n📋 Checking audit logs...");
   const { data: activities, error: actError } = await supabase
-    .from("activity_log")
-    .select("id, event_type, created_at")
+    .from("audit_logs")
+    .select("id, action, created_at")
     .order("created_at", { ascending: false })
     .limit(5);
 
   if (actError) {
-    console.error("❌ Error fetching activity log:", actError);
+    console.error("❌ Error fetching audit logs:", actError);
   } else {
-    console.log(`✅ Found ${activities?.length || 0} activity log entries`);
+    console.log(`✅ Found ${activities?.length || 0} audit log entries`);
     activities?.forEach((act) => {
       console.log(
-        `   - ${act.event_type} (${new Date(act.created_at).toLocaleString()})`
+        `   - ${act.action} (${new Date(act.created_at).toLocaleString()})`
       );
     });
   }

@@ -13,9 +13,7 @@ import { Navigation } from "./components/Navigation";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { SetupCheck } from "./components/SetupCheck";
 import { Dashboard } from "./pages/Dashboard";
-import { SiteDetail } from "./pages/SiteDetail";
 import { AddSite } from "./pages/AddSite";
-import { ScanReport } from "./pages/ScanReport";
 import { Login } from "./pages/Login";
 import { ChangePassword } from "./pages/ChangePassword";
 import { InitialSetup } from "./pages/InitialSetup";
@@ -34,9 +32,8 @@ import Health from "./pages/Health";
  * - Route definitions with access control
  *
  * Route structure:
- * - Public routes: /login, /setup, /health
- * - Protected routes: /dashboard, /sites/:id, /change-password
- * - Admin routes: /admin/api-keys, /admin/users, /admin/dashboard, /admin/payloads
+ * - Public routes: /, /login, /setup, /health
+ * - Protected routes: /admin, /admin/sites/new, /admin/users, /change-password
  *
  * @component
  * @returns {React.ReactElement} The main application
@@ -54,11 +51,6 @@ function App() {
               <Navigation />
               <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/sites/:id" element={<SiteDetail />} />
-                <Route
-                  path="/sites/:siteId/scans/:scanId/report"
-                  element={<ScanReport />}
-                />
                 <Route
                   path="/admin/sites/new"
                   element={

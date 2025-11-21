@@ -126,15 +126,15 @@ describe("API Key Rotation", () => {
       // Actual implementation would verify:
       // 1. Automatic deactivation job runs
       // 2. Old key is_active = false after grace period
-      // 3. Activity log entry created for deactivation
+      // 3. Audit log entry created for deactivation
       expect(true).toBe(true);
     });
 
     it("should log grace period expiration", async () => {
       // This test documents expected behavior
       // Actual implementation would verify:
-      // 1. activity_log entry with event_type = 'api_key_deactivation'
-      // 2. Reason = 'Grace period expired after rotation'
+      // 1. audit_logs entry with action = 'api_key_deactivation'
+      // 2. Description includes 'Grace period expired after rotation'
       // 3. Timestamp is accurate
       expect(true).toBe(true);
     });
@@ -180,12 +180,12 @@ describe("API Key Rotation", () => {
   });
 
   describe("Rotation Logging", () => {
-    it("should log key rotation to activity log", async () => {
+    it("should log key rotation to audit logs", async () => {
       // This test documents expected behavior
       // Actual implementation would verify:
-      // 1. activity_log entry with event_type = 'api_key_rotation'
+      // 1. audit_logs entry with action = 'api_key_rotation'
       // 2. Metadata includes old_key_id and new_key_id
-      // 3. Severity = 'info'
+      // 3. Description includes rotation details
       expect(true).toBe(true);
     });
 
@@ -225,4 +225,3 @@ describe("API Key Rotation", () => {
     });
   });
 });
-

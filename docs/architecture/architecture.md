@@ -129,7 +129,7 @@ server/
 - `sites` - Monitored websites
 - `score_history` - Historical scores
 - `api_keys` - API keys for programmatic access
-- `activity_log` - Audit trail
+- `audit_logs` - Audit trail
 - `api_payloads` - API request payloads
 
 ### Security
@@ -194,7 +194,7 @@ Ubuntu Server
    ↓
 4. Backend stores in database
    ↓
-5. Backend logs action in activity_log
+5. Backend logs action in audit_logs
    ↓
 6. Frontend updates UI
 ```

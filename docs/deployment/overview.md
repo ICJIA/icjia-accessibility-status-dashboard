@@ -127,10 +127,10 @@ yarn build
 
 ```bash
 # Full production deployment (recommended)
-yarn production:pm2
+yarn start
 
 # Or manually manage with PM2:
-pm2 start ecosystem.config.js --env production
+pm2 start ecosystem.config.cjs --env production
 
 # View status
 pm2 status

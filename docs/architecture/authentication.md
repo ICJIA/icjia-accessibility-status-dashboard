@@ -7,12 +7,14 @@ The ICJIA Accessibility Portal uses a **custom cookie-based authentication syste
 **Authentication Method**: Cookie-based sessions with bcrypt password hashing
 
 **NOT using:**
+
 - ❌ JWT tokens in localStorage
 - ❌ Supabase Auth
 - ❌ Bearer tokens
 - ❌ OAuth providers
 
 **Using:**
+
 - ✅ HttpOnly cookies for session tokens
 - ✅ Custom `admin_users` table for user accounts
 - ✅ Custom `sessions` table for session management
@@ -91,11 +93,13 @@ After initial setup, users can change their password:
 ## Security Features
 
 ### Password Security
+
 - ✅ **bcrypt hashing** with 10 salt rounds
 - ✅ Passwords never stored in plain text
 - ✅ Hashes cannot be reversed
 
 ### Session Security
+
 - ✅ **Cryptographically random tokens** (32 bytes = 256 bits)
 - ✅ **HttpOnly cookies** - JavaScript cannot access (XSS protection)
 - ✅ **Secure flag** in production - HTTPS only
@@ -104,6 +108,7 @@ After initial setup, users can change their password:
 - ✅ **Server-side validation** - Every request validates against database
 
 ### Database Security
+
 - ✅ **Row Level Security (RLS)** enabled on all tables
 - ✅ **Prepared statements** via Supabase client (SQL injection protection)
 - ✅ **Anon key** has limited permissions
@@ -142,7 +147,7 @@ API keys are separate from user authentication:
 ### "Failed to create session" error
 
 - Database migration may not have completed successfully
-- Re-run `supabase/migrations/step_1_create_initial_schema.sql`
+- Re-run `supabase/migrations/01_create_initial_schema.sql`
 - RLS policies are pre-configured in the migration file
 
 ### Session not persisting across page refreshes
@@ -170,4 +175,3 @@ API keys are separate from user authentication:
 - [Setup Guide](./setup-guide) - How to set up the system
 - [Reset Scripts](./reset-scripts) - How to reset admin users
 - [Troubleshooting](./troubleshooting/common-issues) - Common issues and solutions
-
