@@ -1,4 +1,4 @@
-# ICJIA Accessibility Status
+# ICJIA Accessibility Status Dashboard
 
 > **Last Updated**: November 21, 2025
 
